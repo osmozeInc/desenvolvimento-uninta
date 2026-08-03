@@ -1,0 +1,745 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sala do ENADE - Preparação</title>
+    
+    <style>
+        /* ==========================================
+           VARIÁVEIS DE CORES E ESTILOS GERAIS
+           ========================================== */
+        :root {
+            --uninta-red: #B3171C;
+            --uninta-dark-red: #8a1014;
+            --uninta-blue: #003366;
+            --text-dark: #333333;
+            --text-light: #555555;
+            --bg-page: #f8f9fa;
+            --bg-card: #ffffff;
+            --border-radius: 8px;
+            --transition: all 0.3s ease;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+        }
+
+        body {
+            background-color: var(--bg-page);
+            color: var(--text-dark);
+            line-height: 1.6;
+        }
+
+        /* Container principal simulando a área de conteúdo do LMS */
+        .enade-container {
+            max-width: 1000px;
+            margin: 2rem auto;
+            background-color: var(--bg-card);
+            border-radius: var(--border-radius);
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05);
+            padding: 2rem;
+            overflow: hidden;
+        }
+
+        /* ==========================================
+           1. BANNER E BOAS VINDAS
+           ========================================== */
+        .enade-banner {
+            width: 100%;
+            border-radius: var(--border-radius);
+            margin-bottom: 2rem;
+            object-fit: cover;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+        }
+
+        .welcome-header {
+            text-align: center;
+            margin-bottom: 2rem;
+        }
+
+        .welcome-title {
+            color: var(--uninta-blue);
+            font-size: 1.8rem;
+            font-weight: 800;
+            text-transform: uppercase;
+            margin-bottom: 1.5rem;
+        }
+
+        .welcome-text {
+            color: var(--text-light);
+            font-size: 1.05rem;
+            text-align: justify;
+            margin-bottom: 1rem;
+        }
+
+        .welcome-text strong {
+            color: var(--text-dark);
+        }
+
+        /* ==========================================
+           2. BOTÕES DE EDITAL
+           ========================================== */
+        .edital-buttons {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1rem;
+            margin: 2rem 0;
+        }
+
+        .btn-edital {
+            background-color: var(--uninta-red);
+            color: #ffffff;
+            border: none;
+            padding: 0.8rem 1.5rem;
+            border-radius: var(--border-radius);
+            font-weight: 600;
+            font-size: 1rem;
+            cursor: pointer;
+            transition: var(--transition);
+            text-align: center;
+            text-decoration: none;
+            display: inline-block;
+        }
+
+        .btn-edital:hover {
+            background-color: var(--uninta-dark-red);
+            transform: translateY(-2px);
+            box-shadow: 0 4px 8px rgba(179, 23, 28, 0.3);
+        }
+
+        /* ==========================================
+           3. VÍDEO
+           ========================================== */
+        .video-section {
+            margin: 3rem 0;
+            border-radius: var(--border-radius);
+            overflow: hidden;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+            background-color: #000;
+        }
+
+        .video-container {
+            position: relative;
+            padding-bottom: 56.25%; /* Proporção 16:9 */
+            height: 0;
+        }
+
+        .video-container iframe, .video-container video {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            border: none;
+        }
+
+        /* ==========================================
+           4. OBSERVAÇÕES IMPORTANTES
+           ========================================== */
+        .notes-section {
+            margin: 3rem 0;
+        }
+
+        .section-title {
+            color: var(--uninta-blue);
+            font-size: 1.5rem;
+            font-weight: 800;
+            text-transform: uppercase;
+            text-align: center;
+            margin-bottom: 2rem;
+        }
+
+        .info-card {
+            background-color: var(--uninta-red);
+            color: #ffffff;
+            padding: 2rem;
+            border-radius: 12px;
+            margin-bottom: 1.5rem;
+            box-shadow: 0 4px 12px rgba(179, 23, 28, 0.2);
+        }
+
+        .info-card h3 {
+            font-size: 1.2rem;
+            margin-bottom: 1rem;
+            font-weight: 700;
+        }
+
+        .info-card ul {
+            list-style-position: inside;
+            margin-left: 0.5rem;
+        }
+
+        .info-card li {
+            margin-bottom: 0.8rem;
+            line-height: 1.5;
+        }
+
+        .info-card li strong {
+            font-weight: 700;
+        }
+
+        .info-card p {
+            line-height: 1.5;
+        }
+
+        /* ==========================================
+           5. CARROSSEL / TUTORIAL
+           ========================================== */
+        .tutorial-section {
+            margin: 4rem 0 2rem 0;
+            background-color: var(--bg-page);
+            padding: 2rem;
+            border-radius: 12px;
+            border: 1px solid #e9ecef;
+        }
+
+        .tutorial-title {
+            text-align: center;
+            font-size: 1.2rem;
+            font-weight: 700;
+            color: var(--text-dark);
+            margin-bottom: 1.5rem;
+        }
+
+        .tutorial-link {
+            display: block;
+            text-align: center;
+            color: var(--uninta-blue);
+            font-weight: 600;
+            margin-bottom: 1.5rem;
+            text-decoration: underline;
+        }
+
+        .carousel-container {
+            position: relative;
+            max-width: 800px;
+            margin: 0 auto;
+            overflow: hidden;
+            border-radius: var(--border-radius);
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+            background-color: #fff;
+        }
+
+        .carousel-track {
+            display: flex;
+            transition: transform 0.4s ease-in-out;
+        }
+
+        .carousel-slide {
+            min-width: 100%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .carousel-slide img {
+            width: 100%;
+            max-width: 100%;
+            display: block;
+        }
+
+        .carousel-controls {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 1.5rem;
+            margin-top: 1.5rem;
+        }
+
+        .btn-nav {
+            background-color: var(--uninta-red);
+            color: #fff;
+            border: none;
+            padding: 0.6rem 1.2rem;
+            border-radius: 6px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: var(--transition);
+        }
+
+        .btn-nav:disabled {
+            background-color: #e09ba0;
+            cursor: not-allowed;
+        }
+
+        .btn-nav:not(:disabled):hover {
+            background-color: var(--uninta-dark-red);
+        }
+
+        .slide-counter {
+            font-weight: 600;
+            color: var(--text-light);
+        }
+
+        .carousel-dots {
+            display: flex;
+            justify-content: center;
+            gap: 0.5rem;
+            margin-top: 1rem;
+        }
+
+        .dot {
+            width: 10px;
+            height: 10px;
+            border-radius: 50%;
+            background-color: #ccc;
+            cursor: pointer;
+            transition: var(--transition);
+        }
+
+        .dot.active {
+            background-color: var(--uninta-blue);
+            transform: scale(1.2);
+        }
+
+        /* Responsividade */
+        @media (max-width: 768px) {
+            .enade-container {
+                padding: 1.5rem;
+                margin: 1rem;
+            }
+            .info-card {
+                padding: 1.5rem;
+            }
+            .btn-nav {
+                padding: 0.5rem 1rem;
+                font-size: 0.9rem;
+            }
+        }
+
+        /* ==========================================
+           6. SEÇÕES GENÉRICAS E ALINHAMENTOS
+           ========================================== */
+        .content-section {
+            margin: 4rem 0;
+        }
+        
+        .text-center {
+            text-align: center;
+        }
+
+        .subtitle-blue {
+            color: var(--uninta-blue);
+            font-size: 1.2rem;
+            font-weight: 800;
+            text-transform: uppercase;
+            margin-bottom: 1.5rem;
+        }
+
+        /* ==========================================
+           7. CARDS DE ARQUIVOS / DOWNLOADS
+           ========================================== */
+        .files-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 1rem;
+            margin-top: 1rem;
+        }
+
+        .file-card {
+            display: flex;
+            align-items: center;
+            background-color: var(--bg-card);
+            border: 1px solid #e2e8f0;
+            padding: 1rem;
+            border-radius: var(--border-radius);
+            text-decoration: none;
+            color: var(--text-dark);
+            transition: var(--transition);
+            box-shadow: 0 2px 4px rgba(0,0,0,0.02);
+        }
+
+        .file-card:hover {
+            border-color: var(--uninta-red);
+            box-shadow: 0 4px 12px rgba(179, 23, 28, 0.1);
+            transform: translateY(-2px);
+        }
+
+        .file-icon {
+            background-color: #f1f5f9;
+            color: var(--uninta-blue);
+            width: 40px;
+            height: 40px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 8px;
+            margin-right: 1rem;
+            flex-shrink: 0;
+        }
+
+        .file-icon svg {
+            width: 20px;
+            height: 20px;
+        }
+
+        .file-name {
+            font-size: 0.9rem;
+            font-weight: 600;
+            line-height: 1.3;
+        }
+
+        /* ==========================================
+           8. TABELAS RESPONSIVAS
+           ========================================== */
+        .table-responsive {
+            width: 100%;
+            overflow-x: auto;
+            margin-top: 1.5rem;
+            border-radius: var(--border-radius);
+            box-shadow: 0 4px 15px rgba(0,0,0,0.05);
+            border: 1px solid #e2e8f0;
+        }
+
+        .enade-table {
+            width: 100%;
+            border-collapse: collapse;
+            background-color: var(--bg-card);
+            min-width: 600px; /* Garante que não esmague em telas pequenas */
+        }
+
+        .enade-table th {
+            background-color: var(--uninta-red);
+            color: #ffffff;
+            text-align: left;
+            padding: 1rem;
+            font-weight: 600;
+            font-size: 0.95rem;
+        }
+
+        .enade-table td {
+            padding: 1rem;
+            border-bottom: 1px solid #e2e8f0;
+            font-size: 0.9rem;
+            vertical-align: middle;
+        }
+
+        /* Efeito Zebrado para facilitar a leitura */
+        .enade-table tbody tr:nth-child(even) {
+            background-color: #f8fafc;
+        }
+
+        .enade-table tbody tr:hover {
+            background-color: #f1f5f9;
+        }
+
+        .btn-table {
+            background-color: var(--uninta-red);
+            color: #fff;
+            text-decoration: none;
+            padding: 0.5rem 1rem;
+            border-radius: 6px;
+            font-size: 0.85rem;
+            font-weight: 600;
+            display: inline-block;
+            transition: var(--transition);
+            text-align: center;
+        }
+
+        .btn-table:hover {
+            background-color: var(--uninta-dark-red);
+        }
+
+        /* Título com linha inferior para divisões de cursos */
+        .course-header {
+            font-size: 1.4rem;
+            color: var(--text-dark);
+            border-bottom: 3px solid var(--uninta-red);
+            padding-bottom: 0.5rem;
+            margin-bottom: 1.5rem;
+            display: flex;
+            align-items: center;
+        }
+    </style>
+</head>
+<body>
+
+    <main class="enade-container">
+        
+        <!-- BANNER E CABEÇALHO -->
+        <!-- Substitua o src pela imagem real do banner -->
+        <img src="https://via.placeholder.com/1000x300/B3171C/ffffff?text=ENADE+UNINTA" alt="Banner ENADE Uninta" class="enade-banner">
+
+        <section class="welcome-header">
+            <h1 class="welcome-title">ALÔ, ALUNOS ENADIANOS! 👩‍🎓</h1>
+            
+            <p class="welcome-text"><strong>Sejam bem-vindos à Sala do ENADE! 🤩</strong></p>
+            
+            <p class="welcome-text">
+                Este espaço foi criado especialmente para apoiar a preparação de vocês para o Exame Nacional de Desempenho dos Estudantes. Aqui, vocês encontrarão todos os recursos e informações necessários para uma preparação eficiente. Nosso objetivo é prepará-los não apenas para o ENADE, mas também para sua formação acadêmica e profissional. Aproveitem ao máximo os recursos disponíveis, participem ativamente das atividades e interajam com seus colegas e tutores.
+            </p>
+            
+            <p class="welcome-text">
+                Desejamos a todos um excelente período de preparação e muito sucesso na prova!
+            </p>
+
+            <!-- BOTÕES (Substitua o href pelos links reais) -->
+            <div class="edital-buttons">
+                <a href="#" class="btn-edital">Edital ENADE I</a>
+                <a href="#" class="btn-edital">Edital ENADE II</a>
+                <a href="#" class="btn-edital">Edital ENADE III</a>
+                <a href="#" class="btn-edital">ENADE EAD</a>
+            </div>
+        </section>
+
+        <!-- SESSÃO DE VÍDEO -->
+        <section class="video-section">
+            <div class="video-container">
+                <!-- Substitua por iframe do Youtube/Vimeo ou tag <video> -->
+                <img src="https://via.placeholder.com/1000x562/333333/ffffff?text=Player+de+Video+ENADE" alt="Vídeo ENADE" style="width: 100%; height: 100%; object-fit: cover;">
+            </div>
+        </section>
+
+        <!-- SESSÃO DE OBSERVAÇÕES -->
+        <section class="notes-section">
+            <h2 class="section-title">OBSERVAÇÕES IMPORTANTES ⚠️</h2>
+
+            <div class="info-card">
+                <h3>Estrutura da Prova:</h3>
+                <ul>
+                    <li><strong>Formação Geral:</strong> Avaliará competências e habilidades desenvolvidas ao longo do curso, com questões discursivas e objetivas que abordam temas transversais e de relevância social.</li>
+                    <li><strong>Formação Específica:</strong> Focará nos conteúdos programáticos específicos de cada área de conhecimento, com questões discursivas e objetivas.</li>
+                    <li><strong>Duração da prova:</strong> A duração total da prova será de quatro horas.</li>
+                    <li><strong>Data da Prova para os Cursos de Licenciaturas:</strong> 26 de outubro de [Ano], abrangendo tanto a formação geral quanto a específica.</li>
+                    <li><strong>Preenchimento do Questionário do Estudante:</strong> Até um dia antes da aplicação da prova, de acordo com a área do seu curso.</li>
+                </ul>
+            </div>
+
+            <div class="info-card">
+                <h3>Competências Avaliadas:</h3>
+                <p>
+                    Além dos conhecimentos teóricos, a prova prática avaliará as competências e habilidades desenvolvidas durante os estágios supervisionados obrigatórios.
+                </p>
+            </div>
+        </section>
+
+        <!-- SESSÃO DE TUTORIAL (CARROSSEL) -->
+        <section class="tutorial-section">
+            <h2 class="tutorial-title">TUTORIAL DE CADASTRO NA PROVA NACIONAL DOCENTE (PND)</h2>
+            <a href="https://pnd.inep.gov.br/pnd" target="_blank" class="tutorial-link">ACESSE O SITE DA PND: https://pnd.inep.gov.br/pnd</a>
+
+            <div class="carousel-container">
+                <div class="carousel-track" id="carouselTrack">
+                    <!-- Substitua as imagens reais dos slides aqui -->
+                    <div class="carousel-slide"><img src="https://via.placeholder.com/800x450/003366/ffffff?text=Slide+1+-+Tela+Inicial+do+PND" alt="Slide 1"></div>
+                    <div class="carousel-slide"><img src="https://via.placeholder.com/800x450/B3171C/ffffff?text=Slide+2+-+Preenchimento+de+Dados" alt="Slide 2"></div>
+                    <div class="carousel-slide"><img src="https://via.placeholder.com/800x450/333333/ffffff?text=Slide+3+-+Confirmação" alt="Slide 3"></div>
+                </div>
+            </div>
+
+            <div class="carousel-controls">
+                <button class="btn-nav" id="btnPrev" disabled>&larr; Anterior</button>
+                <span class="slide-counter" id="slideCounter">Slide 1 de 3</span>
+                <button class="btn-nav" id="btnNext">Próximo &rarr;</button>
+            </div>
+
+            <div class="carousel-dots" id="carouselDots">
+                <!-- Bolinhas serão geradas pelo JS -->
+            </div>
+        </section>
+
+        <!-- SESSÃO: TUTORIA ENADE -->
+        <section class="content-section text-center">
+            <h2 class="section-title">TUTORIA ENADE</h2>
+            
+            <!-- Substitua pelo Banner Real da Tutoria -->
+            <img src="https://via.placeholder.com/1000x300/B3171C/ffffff?text=Tutoria+ENADE+-+Comunicação+Pedagógica" alt="Tutoria ENADE" class="enade-banner" style="margin-bottom: 1rem;">
+            
+            <a href="#" class="btn-edital">Tutora Nivalda</a>
+        </section>
+
+        <!-- SESSÃO: ATUALIDADES EM FOCO (VÍDEO) -->
+        <section class="content-section">
+            <h2 class="section-title">ATUALIDADES EM FOCO</h2>
+            <div class="video-section" style="margin-top: 0;">
+                <div class="video-container">
+                    <!-- Substitua por iframe ou player -->
+                    <img src="https://via.placeholder.com/1000x562/333333/ffffff?text=Player+Atualidades+em+Foco" alt="Vídeo Atualidades" style="width: 100%; height: 100%; object-fit: cover;">
+                </div>
+            </div>
+        </section>
+
+        <!-- SESSÃO: LABORATÓRIO DE ESCRITA -->
+        <section class="content-section text-center">
+            <h3 class="subtitle-blue">APROFUNDE CONHECIMENTOS ACESSANDO O LABORATÓRIO DE ESCRITA:</h3>
+            <a href="#" class="btn-edital">Laboratório de Leitura e Escrita</a>
+        </section>
+
+        <!-- SESSÃO: MANUAIS E PARTICIPANTES (ARQUIVOS) -->
+        <section class="content-section">
+            <h3 class="subtitle-blue text-center">CONSULTE OS PARTICIPANTES E OS MANUAIS DE FUNCIONALIDADES:</h3>
+            
+            <div class="files-grid">
+                <!-- Arquivo 1 -->
+                <a href="#" class="file-card" target="_blank">
+                    <div class="file-icon">
+                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" /></svg>
+                    </div>
+                    <div class="file-name">Lista dos estudantes inscritos na Avaliação Teórica (AT) - LICENCIATURAS</div>
+                </a>
+
+                <!-- Arquivo 2 -->
+                <a href="#" class="file-card" target="_blank">
+                    <div class="file-icon">
+                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" /></svg>
+                    </div>
+                    <div class="file-name">Lista dos estudantes inscritos na Avaliação Teórica (AT) - BACHARELADOS E SUPERIORES DE TECNOLOGIA</div>
+                </a>
+
+                <!-- Arquivo 3 -->
+                <a href="#" class="file-card" target="_blank">
+                    <div class="file-icon">
+                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" /></svg>
+                    </div>
+                    <div class="file-name">Lista dos estudantes inscritos na Avaliação Prática (AP) - LICENCIATURAS</div>
+                </a>
+
+                <!-- Arquivo 4 -->
+                <a href="#" class="file-card" target="_blank">
+                    <div class="file-icon">
+                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" /></svg>
+                    </div>
+                    <div class="file-name">Manual de Funcionalidades do Supervisor</div>
+                </a>
+
+                <!-- Arquivo 5 -->
+                <a href="#" class="file-card" target="_blank">
+                    <div class="file-icon">
+                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" /></svg>
+                    </div>
+                    <div class="file-name">Manual de Funcionalidades do Estudante</div>
+                </a>
+            </div>
+        </section>
+
+        <!-- SESSÃO: PREPARAÇÃO POR CURSO (TABELA) -->
+        <section class="content-section">
+            <h2 class="course-header">
+                <!-- O SVG adiciona um charme visual de "Seção expansível/Item de curso" -->
+                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="margin-right: 10px; color: var(--uninta-red);"><polyline points="6 9 12 15 18 9"></polyline></svg>
+                Preparação para o ENADE - LETRAS
+            </h2>
+
+            <div class="table-responsive">
+                <table class="enade-table">
+                    <thead>
+                        <tr>
+                            <th style="width: 10%;">Nº da questão</th>
+                            <th style="width: 40%;">Objeto de conhecimento</th>
+                            <th style="width: 25%;">Disciplina</th>
+                            <th style="width: 25%;">Link do vídeo ou material</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>1</td>
+                            <td>VIII — Políticas públicas, organização, financiamento e avaliação da educação brasileira</td>
+                            <td>Política e Legislação da Educação</td>
+                            <td><a href="#" class="btn-table">Acessar Material Didático</a></td>
+                        </tr>
+                        <tr>
+                            <td>2</td>
+                            <td>VI — Didática e metodologias de ensino</td>
+                            <td>Didática Geral</td>
+                            <td><a href="#" class="btn-table">Acessar Material Didático</a></td>
+                        </tr>
+                        <tr>
+                            <td>3</td>
+                            <td>IV — Psicologia da educação</td>
+                            <td>Psicologia da Aprendizagem</td>
+                            <td><a href="#" class="btn-table">Acessar Material Didático</a></td>
+                        </tr>
+                        <tr>
+                            <td>10</td>
+                            <td>XVI — Práticas educativas para o processo de aprendizagem de crianças, adolescentes, jovens e adultos</td>
+                            <td>Metodologia da Educação de Jovens e Adultos</td>
+                            <td style="font-size: 0.85rem; color: var(--text-light);">
+                                FERREYRA, Erasmo Norberto. A linguagem oral na educação de adultos. Porto Alegre: Artmed, 2007. Cap. 4, p. 90 – 123
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <!-- Arquivo complementar abaixo da tabela -->
+            <div class="files-grid" style="margin-top: 1.5rem;">
+                <a href="#" class="file-card" target="_blank">
+                    <div class="file-icon" style="background-color: #e0f2fe; color: #0284c7;">
+                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" /></svg>
+                    </div>
+                    <div class="file-name">Gabarito Comentado Questões 31-80</div>
+                </a>
+            </div>
+        </section>
+
+    </main>
+
+    <!-- ==========================================
+         JAVASCRIPT DO CARROSSEL
+         ========================================== -->
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const track = document.getElementById('carouselTrack');
+            const slides = document.querySelectorAll('.carousel-slide');
+            const btnPrev = document.getElementById('btnPrev');
+            const btnNext = document.getElementById('btnNext');
+            const slideCounter = document.getElementById('slideCounter');
+            const dotsContainer = document.getElementById('carouselDots');
+            
+            let currentIndex = 0;
+            const totalSlides = slides.length;
+
+            // Gera as bolinhas dinamicamente baseado na quantidade de slides
+            slides.forEach((_, index) => {
+                const dot = document.createElement('div');
+                dot.classList.add('dot');
+                if (index === 0) dot.classList.add('active');
+                dot.addEventListener('click', () => goToSlide(index));
+                dotsContainer.appendChild(dot);
+            });
+
+            const dots = document.querySelectorAll('.dot');
+
+            function updateCarousel() {
+                // Move o track
+                track.style.transform = `translateX(-${currentIndex * 100}%)`;
+                
+                // Atualiza o texto do contador
+                slideCounter.textContent = `Slide ${currentIndex + 1} de ${totalSlides}`;
+                
+                // Atualiza estado dos botões
+                btnPrev.disabled = currentIndex === 0;
+                btnNext.disabled = currentIndex === totalSlides - 1;
+
+                // Atualiza bolinhas
+                dots.forEach((dot, index) => {
+                    dot.classList.toggle('active', index === currentIndex);
+                });
+            }
+
+            function goToSlide(index) {
+                currentIndex = index;
+                updateCarousel();
+            }
+
+            btnPrev.addEventListener('click', () => {
+                if (currentIndex > 0) {
+                    currentIndex--;
+                    updateCarousel();
+                }
+            });
+
+            btnNext.addEventListener('click', () => {
+                if (currentIndex < totalSlides - 1) {
+                    currentIndex++;
+                    updateCarousel();
+                }
+            });
+        });
+    </script>
+</body>
+</html>

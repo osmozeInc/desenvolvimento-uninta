@@ -29,7 +29,6 @@
         }
 
         body {
-            background-color: var(--bg-page);
             color: var(--text-dark);
             line-height: 1.6;
         }
@@ -462,7 +461,7 @@
         
         <!-- BANNER E CABEÇALHO -->
         <!-- Substitua o src pela imagem real do banner -->
-        <img src="https://via.placeholder.com/1000x300/B3171C/ffffff?text=ENADE+UNINTA" alt="Banner ENADE Uninta" class="enade-banner">
+        <img src="https://dirin.s3.us-east-1.amazonaws.com/ENADE2026/ENADE-BANNER-Grande-1536x592.jpg" alt="Banner ENADE Uninta" class="enade-banner">
 
         <section class="welcome-header">
             <h1 class="welcome-title">ALÔ, ALUNOS ENADIANOS! 👩‍🎓</h1>
@@ -490,7 +489,14 @@
         <section class="video-section">
             <div class="video-container">
                 <!-- Substitua por iframe do Youtube/Vimeo ou tag <video> -->
-                <img src="https://via.placeholder.com/1000x562/333333/ffffff?text=Player+de+Video+ENADE" alt="Vídeo ENADE" style="width: 100%; height: 100%; object-fit: cover;">
+                <iframe 
+                    src="https://centralmultimidia.aiamis.com.br/api/material/10996/video" 
+                    title="Vídeo ENADE" 
+                    frameborder="0" 
+                    scrolling="no" 
+                    allowfullscreen 
+                    style="position: absolute; top: -8px; left: -8px; width: calc(100% + 16px); height: calc(100% + 16px); border: none;">
+                </iframe>
             </div>
         </section>
 
@@ -517,14 +523,13 @@
             </div>
         </section>
 
-        <!-- SESSÃO DE TUTORIAL (CARROSSEL) -->
+        <!-- SESSÃO DE TUTORIAL (CARROSSEL) --
         <section class="tutorial-section">
             <h2 class="tutorial-title">TUTORIAL DE CADASTRO NA PROVA NACIONAL DOCENTE (PND)</h2>
             <a href="https://pnd.inep.gov.br/pnd" target="_blank" class="tutorial-link">ACESSE O SITE DA PND: https://pnd.inep.gov.br/pnd</a>
 
             <div class="carousel-container">
                 <div class="carousel-track" id="carouselTrack">
-                    <!-- Substitua as imagens reais dos slides aqui -->
                     <div class="carousel-slide"><img src="https://via.placeholder.com/800x450/003366/ffffff?text=Slide+1+-+Tela+Inicial+do+PND" alt="Slide 1"></div>
                     <div class="carousel-slide"><img src="https://via.placeholder.com/800x450/B3171C/ffffff?text=Slide+2+-+Preenchimento+de+Dados" alt="Slide 2"></div>
                     <div class="carousel-slide"><img src="https://via.placeholder.com/800x450/333333/ffffff?text=Slide+3+-+Confirmação" alt="Slide 3"></div>
@@ -538,16 +543,16 @@
             </div>
 
             <div class="carousel-dots" id="carouselDots">
-                <!-- Bolinhas serão geradas pelo JS -->
             </div>
         </section>
+        -->
 
         <!-- SESSÃO: TUTORIA ENADE -->
         <section class="content-section text-center">
             <h2 class="section-title">TUTORIA ENADE</h2>
             
             <!-- Substitua pelo Banner Real da Tutoria -->
-            <img src="https://via.placeholder.com/1000x300/B3171C/ffffff?text=Tutoria+ENADE+-+Comunicação+Pedagógica" alt="Tutoria ENADE" class="enade-banner" style="margin-bottom: 1rem;">
+            <img src="https://dirin.s3.us-east-1.amazonaws.com/ENADE2026/BANNER-TUTORIA.jpeg" alt="Tutoria ENADE" class="enade-banner" style="margin-bottom: 1rem;">
             
             <a href="#" class="btn-edital">Tutora Nivalda</a>
         </section>
@@ -558,7 +563,14 @@
             <div class="video-section" style="margin-top: 0;">
                 <div class="video-container">
                     <!-- Substitua por iframe ou player -->
-                    <img src="https://via.placeholder.com/1000x562/333333/ffffff?text=Player+Atualidades+em+Foco" alt="Vídeo Atualidades" style="width: 100%; height: 100%; object-fit: cover;">
+                    <iframe 
+                        src="https://centralmultimidia.aiamis.com.br/api/material/11056/video" 
+                        title="Vídeo ENADE" 
+                        frameborder="0" 
+                        scrolling="no" 
+                        allowfullscreen 
+                        style="position: absolute; top: -8px; left: -8px; width: calc(100% + 16px); height: calc(100% + 16px); border: none;">
+                    </iframe>
                 </div>
             </div>
         </section>

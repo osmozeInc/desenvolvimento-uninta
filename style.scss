@@ -200,6 +200,7 @@ body {
   &:hover, &--active {
     background-color: var(--color-brand-red-dark);
     box-shadow: var(--shadow-card);
+    transform: translateY(4px);
 
     .card__title, .card__desc { color: var(--color-text-on-white); }
     .card__header .badge { background-color: var(--color-text-on-white); color: var(--color-brand-white); font-weight: 900; }
@@ -318,6 +319,7 @@ body {
 }
 
 .sub-card {
+  min-width: max-content;
   display: flex;
   align-items: center;
   gap: var(--space-sm);

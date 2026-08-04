@@ -163,6 +163,7 @@ body {
 .card:hover, .card--active {
   background-color: var(--color-brand-red-dark);
   box-shadow: var(--shadow-card);
+  transform: translateY(4px);
 }
 .card:hover .card__title, .card:hover .card__desc, .card--active .card__title, .card--active .card__desc {
   color: var(--color-text-on-white);
@@ -278,6 +279,8 @@ body {
 }
 
 .sub-card {
+  min-width: -moz-max-content;
+  min-width: max-content;
   display: flex;
   align-items: center;
   gap: var(--space-sm);

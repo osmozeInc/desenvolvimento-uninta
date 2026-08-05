@@ -274,7 +274,7 @@ body {
 
 .sub-cards-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+  grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
   gap: var(--space-md);
 }
 
@@ -297,6 +297,9 @@ body {
   width: -moz-max-content;
   width: max-content;
   flex-grow: 1;
+}
+.sub-card__message {
+  font-size: var(--text-xs);
 }
 .sub-card__arrow {
   color: var(--color-brand-red);

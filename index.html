@@ -54,10 +54,16 @@
                     data-type="project" 
                     data-title="Dashboard Administrativo"
                     data-pages='[
-                        {"name": "Pag. Genérica", "url": "./enade2026/generica.html"}, 
-                        {"name": "Tabela Letras", "url": "./enade2026/tabela-letras.html"},
-                        {"name": "Tabela Matemática", "url": "./enade2026/tabela-matematica.html"},
-                        {"name": "Tabela História", "url": "./enade2026/tabela-historia.html"}
+                        {"name": "Pag. Genérica", "url": "./enade2026/generica.html", "message": "Não faz parte do projeto"}, 
+                        {"name": "ADS + GETI", "url": "./enade2026/tabela-ads-geti.html", "message": "Não Produzido"}, 
+                        {"name": "Arq. e Urbanismo", "url": "./enade2026/tabela-arq-urbanismo.html", "message": "Não Produzido"}, 
+                        {"name": "Educação Física", "url": "./enade2026/tabela-ed-fisica.html", "message": ""}, 
+                        {"name": "Eng. Civíl", "url": "./enade2026/tabela-eng-civil.html", "message": "Não Produzido"}, 
+                        {"name": "Eng. da Computação", "url": "./enade2026/tabela-eng-computacao.html", "message": "Não Produzido"}, 
+                        {"name": "Pedagogia", "url": "./enade2026/tabela-pedagogia.html", "message": "Não Produzido"}, 
+                        {"name": "Letras", "url": "./enade2026/tabela-letras.html", "message": "Aguardando 3 Materiais"},
+                        {"name": "Matemática", "url": "./enade2026/tabela-matematica.html", "message": "Não Produzido"},
+                        {"name": "História", "url": "./enade2026/tabela-historia.html", "message": "Aguardando 1 Material"}
                     ]'>
                     <div class="card__header">
                         <span class="badge">Projeto Completo</span>
@@ -113,7 +119,10 @@
                     let subCardsHTML = pages.map(page => `
                         <a href="${page.url}" class="sub-card">
                             <span class="sub-card__icon">📄</span>
-                            <span class="sub-card__name">${page.name}</span>
+                            <span class="sub-card__name">
+                                ${page.name}<br>
+                                <span class="sub-card__message">${page.message}</span>
+                            </span>
                         </a>
                     `).join('');
 

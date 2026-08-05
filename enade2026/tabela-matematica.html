@@ -36,7 +36,7 @@
         /* Container principal */
         .enade-container {
             max-width: 1000px;
-            margin: 2rem auto;
+            margin: 0 auto 2rem auto;
             border-radius: var(--border-radius);
             box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05);
             padding: 2rem;
@@ -48,6 +48,11 @@
            ========================================== */
         .content-section {
             margin: 2rem 0;
+        }
+
+        .sem-material {
+            background-color: #bbb !important;
+            cursor: not-allowed;
         }
 
         /* ==========================================
@@ -94,11 +99,7 @@
         
         /* Efeito Zebrado para facilitar a leitura */
         .enade-table tbody tr:nth-child(even) {
-            background-color: #eaedf0;
-        }
-
-        .enade-table tbody tr:hover {
-            background-color: #e6e9ec;
+            background-color: #eee;
         }
 
         .btn-table {
@@ -118,9 +119,9 @@
         }
 
         .btn-table:hover {
-            color: #fff;
             background-color: var(--uninta-dark-red);
             text-decoration: none;
+            color: #fff;
         }
 
         /* Título com linha inferior para divisões de cursos */
@@ -134,10 +135,36 @@
             align-items: center;
         }
 
+        /* ==========================================
+           ESTILO DOS ITENS INTERNOS (FLEXBOX)
+           ========================================== */
+        .enade-sub-list {
+            display: grid;
+            grid-auto-rows: 1fr;
+            height: 100%;
+        }
+
+        .sub-item {
+            display: flex;
+            align-items: center; 
+            padding: 1rem;
+            border-bottom: 1px solid #e2e8f0;
+            font-size: 0.9rem;
+        }
+
+        .sub-item.links {
+            flex-direction: column;
+            gap: 1rem;
+        }
+
+        /* Remove a borda do último item automaticamente, sem precisar de style inline */
+        .sub-item:last-child {
+            border-bottom: none;
+        }
         /* Grid de arquivos */
         .files-grid {
             display: grid;
-            grid-template-columns: 1fr 1fr 1fr;
+            grid-template-columns: 1fr;
             gap: 1rem;
             margin-top: 1rem;
         }
@@ -192,28 +219,23 @@
                 padding: 1.5rem;
                 margin: 1rem;
             }
-            .files-grid {
-                grid-template-columns: 1fr;
-            }
         }
     </style>
 </head>
 <body>
 
-    <h1 style="display: none;">Letras</h1>
+    <h1 style="display: none;">Educação Física</h1>
 
     <main class="enade-container">
         
-        <!-- SESSÃO: PREPARAÇÃO POR CURSO (TABELA) -->
         <section class="content-section">
             <h2 class="course-header">
-                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="margin-right: 10px; color: var(--uninta-red);"><polyline points="6 9 12 15 18 9"></polyline></svg>
-                Preparação para o ENADE
+                Preparação para o ENADE - Educação Física
             </h2>
 
             <div class="files-grid">
                 <!-- Arquivo 1 -->
-                <a href="https://drive.google.com/file/d/1iodsH3_n90TO62Lubjx8H0EDOXUaZHXS/view?usp=drive_link" class="file-card" target="_blank">
+                <a href="https://drive.google.com/file/d/1yUPoDPeL0MGobKUhDX6w9LDXerhG1uEk/view?usp=drive_link" class="file-card" target="_blank">
                     <div class="file-icon">
                         <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" /></svg>
                     </div>
@@ -221,349 +243,235 @@
                 </a>
 
                 <!-- Arquivo 2 -->
-                <a href="https://drive.google.com/file/d/1OaVVZGkytcvzUjN0ys9BLCMcoj_b6O6c/view?usp=drive_link" class="file-card" target="_blank">
+                <a href="https://drive.google.com/file/d/1p3giZN9mRb4fYJWQJWPV_TFWiOsQ32Io/view?usp=drive_link" class="file-card" target="_blank">
                     <div class="file-icon">
                         <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" /></svg>
                     </div>
                     <div class="file-name">Gabarito Enade 2025</div>
                 </a>
 
-                <!-- Arquivo 3 -->
-                <a href="https://drive.google.com/file/d/1ahvl4OLPHZNJNIzcjGZL2_F3VdASNQfK/view?usp=drive_link" class="file-card" target="_blank">
-                    <div class="file-icon">
-                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" /></svg>
-                    </div>
-                    <div class="file-name">Gabarito Comentado Enade 2025</div>
-                </a>
             </div>
-
-            <h3 class="subtitle-blue" style="margin-top: 2.5rem; font-size: 1.1rem;">FORMAÇÃO GERAL (QUESTÕES 01 A 30)</h3>
+            
+            <h3 class="subtitle-blue" style="margin-top: 2.5rem; font-size: 1.1rem;">FORMAÇÃO GERAL</h3>
             <div class="table-responsive">
                 <table class="enade-table">
                     <thead>
                         <tr>
-                            <th style="width: 10%;">Nº da questão</th>
-                            <th style="width: 40%;">Objeto de conhecimento</th>
-                            <th style="width: 25%;">Disciplina</th>
-                            <th style="width: 25%;">Link do vídeo ou material</th>
+                            <th style="width: 45%;">Temática ENADE</th>
+                            <th style="width: 35%;">Disciplina</th>
+                            <th style="width: 20%;">Link do Vídeo ou Material</th>
                         </tr>
                     </thead>
                     <tbody>
                         <tr>
-                            <td>1</td>
-                            <td>VIII - Políticas públicas, organização, financiamento e avaliação da educação brasileira</td>
-                            <td>Política e Legislação da Educação</td>
-                            <td><a href="https://materialdidatico.aiamis.com.br/d46b5d953d" target="_blank" class="btn-table">Acessar Material Didático</a></td>
-                        </tr>
-                        <tr>
-                            <td>2</td>
-                            <td>VI - Didática e metodologias de ensino</td>
-                            <td>Didática Geral</td>
-                            <td><a href="https://materialdidatico.aiamis.com.br/d64d9a2774" target="_blank" class="btn-table">Acessar Material Didático</a></td>
-                        </tr>
-                        <tr>
-                            <td>3</td>
-                            <td>IV - Psicologia da educação</td>
-                            <td>Psicologia da Aprendizagem</td>
-                            <td><a href="https://materialdidatico.aiamis.com.br/7e31f82abf" target="_blank" class="btn-table">Acessar Material Didático</a></td>
-                        </tr>
-                        <tr>
-                            <td>4</td> <!-- duplicado -->
-                            <td>XXIII - Educação para as relações de gênero e sexualidade</td>
-                            <td>Cidadania e Direitos Humanos</td>
-                            <td><a href="https://materialdidatico.aiamis.com.br/" target="_blank" class="btn-table">Acessar Material Didático</a></td>
-                        </tr>
-                        <tr>
-                            <td>5</td>
-                            <td>XXII - Educação socioambiental</td>
-                            <td>Meio Ambiente e Sustentabilidade</td>
-                            <td><a href="https://materialdidatico.aiamis.com.br/66686149a5" target="_blank" class="btn-table">Acessar Material Didático</a></td>
-                        </tr>
-                        <tr>
-                            <td>6</td>
-                            <td>V - Teorias pedagógicas</td>
-                            <td>Didática Geral</td>
-                            <td><a href="https://materialdidatico.aiamis.com.br/d64d9a2774" target="_blank" class="btn-table">Acessar Material Didático</a></td>
-                        </tr>
-                        <tr>
-                            <td>7</td>
-                            <td>X - Tecnologias da comunicação e informação nas práticas educativas</td>
-                            <td>Mídias Digitais e Metodologias Ativas</td>
-                            <td><a href="https://materialdidatico.aiamis.com.br/10d4401499" target="_blank" class="btn-table">Acessar Material Didático</a></td>
-                        </tr>
-                        <tr>
-                            <td>8</td> <!-- duplicado -->
-                            <td>III - Sociologia da educação</td>
-                            <td>Sociologia</td>
-                            <td><a href="https://materialdidatico.aiamis.com.br/" target="_blank" class="btn-table">Acessar Material Didático</a></td>
-                        </tr>
-                        <tr>
-                            <td>9</td>
-                            <td>II - História da educação</td>
-                            <td>História da Educação</td>
-                            <td><a href="https://materialdidatico.aiamis.com.br/4353d5dc95" target="_blank" class="btn-table">Acessar Material Didático</a></td>
-                        </tr>
-                        <tr>
-                            <td>10</td>
-                            <td>XVI - Práticas educativas para o processo de aprendizagem de crianças, adolescentes, jovens e adultos</td>
-                            <td>Metodologia da Educação de Jovens e Adultos</td>
-                            <td style="font-size: 0.85rem; color: var(--text-light);">FERREYRA, Erasmo Norberto. A linguagem oral na educação de adultos. Porto Alegre: Artmed, 2007. Cap. 4, p. 90 - 123</td>
-                        </tr>
-                        <tr>
-                            <td>11</td> <!-- sem material -->
-                            <td>XIV - Identidade e especificidades do trabalho docente</td>
-                            <td>Estágio Supervisionado III - Ação Educativa de Estudos Literários e Linguísticos</td>
-                            <td><a href="https://materialdidatico.aiamis.com.br/" target="_blank" class="btn-table">Acessar Material Didático</a></td>
-                        </tr>
-                        <tr>
-                            <td>12</td> <!-- sem material -->
-                            <td>XXII - Educação socioambiental</td>
-                            <td>Projeto Integrador Extensionista VII - Questões Ambientais</td>
-                            <td><a href="https://virtual.uninta.edu.br/mod/book/view.php?id=1103026" target="_blank" class="btn-table">Acessar E-Book</a></td>
-                        </tr>
-                        <tr>
-                            <td>13</td>
-                            <td>XV - Planejamento e avaliação do ensino e da aprendizagem</td>
-                            <td>Didática Geral</td>
-                            <td><a href="https://materialdidatico.aiamis.com.br/d64d9a2774" target="_blank" class="btn-table">Acessar Material Didático</a></td>
-                        </tr>
-                        <tr>
-                            <td>14</td>
-                            <td>XIX - Práticas de articulação entre escola, família, comunidade e movimentos sociais</td>
-                            <td>História da Cultura Afro-Brasileira e Indígena</td>
-                            <td><a href="https://materialdidatico.aiamis.com.br/7e86ca1b44" target="_blank" class="btn-table">Acessar Material Didático</a></td>
-                        </tr>
-                        <tr>
-                            <td>15</td>
-                            <td>XXII - Educação socioambiental</td>
-                            <td>Meio Ambiente e Sustentabilidade</td>
-                            <td><a href="https://materialdidatico.aiamis.com.br/66686149a5" target="_blank" class="btn-table">Acessar Material Didático</a></td>
-                        </tr>
-                        <tr>
-                            <td>16</td>
-                            <td>XIX - Práticas de articulação entre escola, família, comunidade e movimentos sociais</td>
-                            <td>História da Cultura Afro-Brasileira e Indígena</td>
-                            <td><a href="https://materialdidatico.aiamis.com.br/7e86ca1b44" target="_blank" class="btn-table">Acessar Material Didático</a></td>
-                        </tr>
-                        <tr>
-                            <td>17</td>
-                            <td>VII - Teorias e práticas de currículo</td>
-                            <td>Currículo e Programas</td>
-                            <td><a href="https://materialdidatico.aiamis.com.br/b7870ddc9a" target="_blank" class="btn-table">Acessar Material Didático</a></td>
-                        </tr>
-                        <tr>
-                            <td>18</td>
-                            <td>VII - Teorias e práticas de currículo</td>
-                            <td>Currículo e Programas</td>
-                            <td><a href="https://materialdidatico.aiamis.com.br/b7870ddc9a" target="_blank" class="btn-table">Acessar Material Didático</a></td>
-                        </tr>
-                        <tr>
-                            <td>19</td>
-                            <td>XX - Histórias e culturas africanas, afro-brasileiras e indígenas</td>
-                            <td>Literatura Negra e Indígena Brasileira</td>
-                            <td style="font-size: 0.85rem; color: var(--text-light);">SANTOS, JR de O. Crítica literária negra: o estado da questão. Estudos de Literatura Brasileira Contemporânea, n. 61, pág. 125-142, 2024. Disponível em: https://www.scielo.br/j/elbc/a/Qc84qqLrKhTQB9Y6ZRpWtyD/?format=pdf&lang=pt . Acesso em: 5 nov. 2025.</td>
-                        </tr>
-                        <tr>
-                            <td>20</td>
-                            <td>XX - Histórias e culturas africanas, afro-brasileiras e indígenas</td>
-                            <td>História da Cultura Afro-Brasileira e Indígena</td>
-                            <td><a href="https://materialdidatico.aiamis.com.br/7e86ca1b44" target="_blank" class="btn-table">Acessar Material Didático</a></td>
-                        </tr>
-                        <tr>
-                            <td>21</td>
-                            <td>XVII - Planejamento, organização e gestão democrática educacional em espaço escolar e não escolar</td>
-                            <td>Estágio Supervisionado II - Observação da Gestão Escolar</td>
-                            <td style="font-size: 0.85rem; color: var(--text-light);">SCALABRIN, Izabel Cristina; MOLINARI, Adriana Maria Corder. A importância da prática do estágio supervisionado nas licenciaturas. Revista unar, v. 7, n. 1, p. 1-12, 2013.</td>
-                        </tr>
-                        <tr>
-                            <td>22</td>
-                            <td>XVI - Práticas educativas para o processo de aprendizagem de crianças, adolescentes, jovens e adultos</td>
-                            <td>Metodologia da Educação de Jovens e Adultos</td>
-                            <td style="font-size: 0.85rem; color: var(--text-light);">FERREYRA, Erasmo Norberto. A linguagem oral na educação de adultos. Porto Alegre: Artmed, 2007. Cap. 4, p. 90 - 123</td>
-                        </tr>
-                        <tr>
-                            <td>23</td>
-                            <td>XI - Letramento científico</td>
-                            <td>Metodologia da Pesquisa Científica</td>
-                            <td style="display: flex; flex-direction: column; gap: 1rem;">
-                                <a href="https://materialdidatico.aiamis.com.br/52b90bc0e6" target="_blank" class="btn-table">Acessar Material Didático</a>
-                                <a href="https://www.youtube.com/watch?v=5AQFXxzq8jo" target="_blank" class="btn-table">Acessar Vídeo Aula</a>
+                            <td>Diversidade, Relações Étnico-Raciais e Inclusão</td>
+                            <td style="padding: 0; height: 1px;">
+                                <div class="enade-sub-list">
+                                    <div class="sub-item">Educação nas Relações Étnico-Raciais</div>
+                                    <div class="sub-item">Sociologia da Educação</div>
+                                    <div class="sub-item">Filosofia da Educação</div>
+                                    <div class="sub-item">Direitos Humanos e Cidadania</div>
+                                    <div class="sub-item">LIBRAS (Língua Brasileira de Sinais).</div>
+                                </div>
+                            </td>
+                            <td style="padding: 0; height: 1px;">
+                                <div class="enade-sub-list">
+                                    <div class="sub-item"><a href="https://eventos.aiamis.com.br/uninta/evento/NTU5MA==" target="_blank" class="btn-table">Acessar Material Didático</a></div>
+                                    <div class="sub-item"><a href="https://eventos.aiamis.com.br/uninta/evento/NTYyNQ=" target="_blank" class="btn-table">Acessar Material Didático</a></div>
+                                    <div class="sub-item"><a href="https://eventos.aiamis.com.br/uninta/evento/NTYzNw==" target="_blank" class="btn-table">Acessar Material Didático</a></div>
+                                    <div class="sub-item"><a href="https://eventos.aiamis.com.br/uninta/evento/NTY2NQ==" target="_blank" class="btn-table">Acessar Material Didático</a></div>
+                                    <div class="sub-item"><a href="https://eventos.aiamis.com.br/uninta/evento/NTYzNw==" target="_blank" class="btn-table">Acessar Material Didático</a></div>
+                                </div>
                             </td>
                         </tr>
                         <tr>
-                            <td>24</td>
-                            <td>XV - Planejamento e avaliação do ensino e da aprendizagem</td>
-                            <td>Didática Geral</td>
-                            <td><a href="https://materialdidatico.aiamis.com.br/d64d9a2774" target="_blank" class="btn-table">Acessar Material Didático</a></td>
-                        </tr>
-                        <tr>
-                            <td>25</td>
-                            <td>VIII - Políticas públicas, organização, financiamento e avaliação da educação brasileira</td>
-                            <td>Política e Legislação da Educação</td>
-                            <td><a href="https://materialdidatico.aiamis.com.br/d46b5d953d" target="_blank" class="btn-table">Acessar Material Didático</a></td>
-                        </tr>
-                        <tr>
-                            <td>26</td>
-                            <td>XIII - Libras, cultura e identidade surda</td>
-                            <td>Língua Brasileira de Sinais</td>
-                            <td style="display: flex; flex-direction: column; gap: 1rem;">
-                                <a href="https://materialdidatico.aiamis.com.br/3330c6dd0d" target="_blank" class="btn-table">Acessar Material Didático</a>
-                                <a href="https://virtual.uninta.edu.br/course/view.php?id=38591" target="_blank" class="btn-table">Acessar Vídeo Aula</a>
+                            <td>Teorias de Currículo, Planejamento e BNCC</td>
+                            <td style="padding: 0; height: 1px;">
+                                <div class="enade-sub-list">
+                                    <div class="sub-item">Currículo e Planejamento da Educação Básica</div>
+                                    <div class="sub-item">Didática Geral</div>
+                                    <div class="sub-item">Organização e Estrutura da Educação Básica.</div>
+                                </div>
+                            </td>
+                            <td style="padding: 0; height: 1px;">
+                                <div class="enade-sub-list">
+                                    <div class="sub-item"><a href="https://eventos.aiamis.com.br/uninta/evento/NTYwNQ==" target="_blank" class="btn-table">Acessar Material Didático</a></div>
+                                    <div class="sub-item"><a href="https://eventos.aiamis.com.br/uninta/evento/NTYxMA==" target="_blank" class="btn-table">Acessar Material Didático</a></div>
+                                    <div class="sub-item"><a href="https://eventos.aiamis.com.br/uninta/evento/NTY3MA==" target="_blank" class="btn-table">Acessar Material Didático</a></div>
+                                </div>
                             </td>
                         </tr>
                         <tr>
-                            <td>27</td>
-                            <td>XI - Letramento científico</td>
-                            <td>Metodologia da Pesquisa Científica</td>
-                            <td style="display: flex; flex-direction: column; gap: 1rem;">
-                                <a href="https://materialdidatico.aiamis.com.br/52b90bc0e6" target="_blank" class="btn-table">Acessar Material Didático</a>
-                                <a href="https://www.youtube.com/watch?v=5AQFXxzq8jo" target="_blank" class="btn-table">Acessar Vídeo Aula</a>
+                            <td>Avaliação Escolar (Formativa, Diagnóstica e Somativa)</td>
+                            <td style="padding: 0; height: 1px;">
+                                <div class="enade-sub-list">
+                                    <div class="sub-item">Avaliação da Aprendizagem</div>
+                                    <div class="sub-item">Didática Geral.</div>
+                                </div>
+                            </td>
+                            <td style="padding: 0; height: 1px;">
+                                <div class="enade-sub-list">
+                                    <div class="sub-item"><a href="https://eventos.aiamis.com.br/uninta/evento/NTYyNg==" target="_blank" class="btn-table">Acessar Material Didático</a></div>
+                                    <div class="sub-item"><a href="https://eventos.aiamis.com.br/uninta/evento/NTYyNg==" target="_blank" class="btn-table">Acessar Material Didático</a></div>
+                                </div>
                             </td>
                         </tr>
                         <tr>
-                            <td>28</td> <!-- duplicado -->
-                            <td>XXIII - Educação para as relações de gênero e sexualidade</td>
-                            <td>Cidadania e Direitos Humanos</td>
-                            <td><a href="https://materialdidatico.aiamis.com.br/" target="_blank" class="btn-table">Acessar Material Didático</a></td>
+                            <td>Metodologias Ativas e Tecnologias Digitais (TDICs)</td>
+                            <td style="padding: 0; height: 1px;">
+                                <div class="enade-sub-list">
+                                    <div class="sub-item">Tecnologias Aplicadas à Educação</div>
+                                    <div class="sub-item">Metodologias de Ensino.</div>
+                                </div>
+                            </td>
+                            <td style="padding: 0; height: 1px;">
+                                <div class="enade-sub-list">
+                                    <div class="sub-item"><a href="https://eventos.aiamis.com.br/uninta/evento/NTU5Mw==" target="_blank" class="btn-table">Acessar Material Didático</a></div>
+                                    <div class="sub-item"><a href="https://eventos.aiamis.com.br/uninta/evento/NTU5Mw==" target="_blank" class="btn-table">Acessar Material Didático</a></div>
+                                </div>
+                            </td>
                         </tr>
                         <tr>
-                            <td>29</td> <!-- duplicado -->
-                            <td>XXIV - Educação para as relações étnico-raciais</td>
-                            <td>Cidadania e Direitos Humanos</td>
-                            <td><a href="https://materialdidatico.aiamis.com.br/" target="_blank" class="btn-table">Acessar Material Didático</a></td>
+                            <td>Educação de Jovens e Adultos (EJA) e Educação do Campo</td>
+                            <td style="padding: 0; height: 1px;">
+                                <div class="enade-sub-list">
+                                    <div class="sub-item">Fundamentos da Educação de Jovens e Adultos (EJA)</div>
+                                    <div class="sub-item">Educação do Campo.</div>
+                                </div>
+                            </td>
+                            <td style="padding: 0; height: 1px;">
+                                <div class="enade-sub-list">
+                                    <div class="sub-item"><a href="https://eventos.aiamis.com.br/uninta/evento/NTY1Ng==" target="_blank" class="btn-table">Acessar Material Didático</a></div>
+                                    <div class="sub-item"><a href="https://eventos.aiamis.com.br/uninta/evento/NTY1Ng==" target="_blank" class="btn-table">Acessar Material Didático</a></div>
+                                </div>
+                            </td>
                         </tr>
                         <tr>
-                            <td>30</td>
-                            <td>XXIV - Educação para as relações étnico-raciais</td>
-                            <td>História da Cultura Afro-Brasileira e Indígena</td>
-                            <td><a href="https://materialdidatico.aiamis.com.br/7e86ca1b44" target="_blank" class="btn-table">Acessar Material Didático</a></td>
-                        </tr>
-                        <tr>
-                            <td colspan="4" style="font-size: 0.85rem; color: var(--text-light); text-align: center;">Observação: a vinculação indica o foco predominante de cada item. Algumas questões articulam mais de um objeto de conhecimento.</td>
-                        </tr>
-                        <tr>
-                            <td colspan="4" style="font-size: 0.85rem; color: var(--text-light); text-align: center;">Fontes: Caderno ENADE/PND 2025 - Letras-Português; Matriz Curricular 2026 - Licenciatura em Letras-Língua Portuguesa (UNINTA).</td>
+                            <td colspan="3" style="font-size: 0.85rem; color: var(--text-light); text-align: center;">Observação: as associações são temáticas e indicativas; um mesmo objeto de conhecimento pode ser desenvolvido em mais de uma disciplina.</td>
                         </tr>
                     </tbody>
                 </table>
             </div>
 
-            <h3 class="subtitle-blue" style="margin-top: 3rem; font-size: 1.1rem;">COMPONENTE ESPECÍFICO - LETRAS LÍNGUA PORTUGUESA</h3>
+            <h3 class="subtitle-blue" style="margin-top: 3rem; font-size: 1.1rem;">COMPONENTE ESPECÍFICO - EDUCAÇÃO FÍSICA</h3>
             <div class="table-responsive">
                 <table class="enade-table">
                     <thead>
                         <tr>
-                            <th style="width: 45%;">Objeto de conhecimento</th>
-                            <th style="width: 35%;">Disciplinas relacionadas da matriz curricular</th>
-                            <th style="width: 20%;">Link do vídeo ou material</th>
+                            <th style="width: 45%;">Temática ENADE</th>
+                            <th style="width: 35%;">Disciplina</th>
+                            <th style="width: 20%;">Link do Vídeo ou Material</th>
                         </tr>
                     </thead>
                     <tbody>
                         <tr>
-                            <td>I - Concepções de língua (ou de linguagem) e suas implicações no ensino</td>
-                            <td>Metodologia do Ensino de Língua Portuguesa no Ensino Médio; Sociolinguística; Estágio Supervisionado VI - Regência nos Anos Finais do Ensino Fundamental; Estágio Supervisionado VIII - Regência no Ensino Médio</td>
-                            <td><a href="https://virtual.uninta.edu.br/course/view.php?id=43862" target="_blank" class="btn-table">Acessar Material Didático</a></td>
+                            <td>Inclusão e Esporte Adaptado/Paralímpico</td>
+                            <td style="padding: 0; height: 1px;">
+                                <div class="enade-sub-list">
+                                    <div class="sub-item">Educação Física Adaptada</div>
+                                    <div class="sub-item">Esportes Adaptados</div>
+                                    <div class="sub-item">Atividade Física para Populações Especiais.</div>
+                                </div>
+                            </td>
+                            <td style="padding: 0; height: 1px;">
+                                <div class="enade-sub-list">
+                                    <div class="sub-item"><a href="https://eventos.aiamis.com.br/uninta/evento/NTY2Mw==" target="_blank" class="btn-table">Acessar Material Didático</a></div>
+                                    <div class="sub-item"><a href="https://eventos.aiamis.com.br/uninta/evento/NTYzNw==" target="_blank" class="btn-table">Acessar Material Didático</a></div>
+                                    <div class="sub-item"><a href="https://eventos.aiamis.com.br/uninta/evento/NTY2Mw==" target="_blank" class="btn-table">Acessar Material Didático</a></div>
+                                </div>
+                            </td>
                         </tr>
                         <tr>
-                            <td>II - Níveis de análise da língua</td>
-                            <td>Fonética e Fonologia; Morfologia; Sintaxe; Morfossintaxe; Semântica; Estudos Gramaticais</td>
-                            <td><a href="https://www.youtube.com/watch?v=9wkvXu4adGU&t=1s" target="_blank" class="btn-table">Acessar Material Didático</a></td>
+                            <td>Dimensões do Conhecimento da BNCC e Práticas da Cultura Corporal</td>
+                            <td style="padding: 0; height: 1px;">
+                                <div class="enade-sub-list">
+                                    <div class="sub-item">Metodologia do Ensino das Lutas</div>
+                                    <div class="sub-item">Metodologia do Ensino da Dança</div>
+                                    <div class="sub-item">Metodologia do Ensino dos Esportes (Coletivos e Individuais)</div>
+                                    <div class="sub-item">Fundamentos das Atividades Circenses</div>
+                                    <div class="sub-item">Práticas Corporais de Aventura.</div>
+                                </div>
+                            </td>
+                            <td style="padding: 0; height: 1px;">
+                                <div class="enade-sub-list">
+                                    <div class="sub-item"><a href="https://eventos.aiamis.com.br/uninta/evento/NDI1NA==" target="_blank" class="btn-table">Acessar Material Didático</a></div>
+                                    <div class="sub-item"><a href="https://eventos.aiamis.com.br/uninta/evento/NTIzMQ==" target="_blank" class="btn-table">Acessar Material Didático</a></div>
+                                    <div class="sub-item"><a href="https://eventos.aiamis.com.br/uninta/evento/NDI1NA==" target="_blank" class="btn-table">Acessar Material Didático</a></div>
+                                    <div class="sub-item"><a href="https://eventos.aiamis.com.br/uninta/evento/NDI1NA==" target="_blank" class="btn-table">Acessar Material Didático</a></div>
+                                    <div class="sub-item"><a href="https://eventos.aiamis.com.br/uninta/evento/NDI1NA==" target="_blank" class="btn-table">Acessar Material Didático</a></div>
+                                </div>
+                            </td>
                         </tr>
                         <tr>
-                            <td>III - Formação histórica da língua portuguesa</td>
-                            <td>Língua Latina; Sociolinguística; Fonética e Fonologia</td>
-                            <td><a href="https://www.youtube.com/watch?v=FsetD_Cd-ac" target="_blank" class="btn-table">Acessar Material Didático</a></td>
+                            <td>Abordagens Pedagógicas da Educação Física</td>
+                            <td style="padding: 0; height: 1px;">
+                                <div class="enade-sub-list">
+                                    <div class="sub-item">Fundamentos Históricos e Filosóficos da Educação Física</div>
+                                    <div class="sub-item">Prática Pedagógica em Educação Física.</div>
+                                </div>
+                            </td>
+                            <td style="padding: 0; height: 1px;">
+                                <div class="enade-sub-list">
+                                    <div class="sub-item"><a href="https://eventos.aiamis.com.br/uninta/evento/NTYwNQ==" target="_blank" class="btn-table">Acessar Material Didático</a></div>
+                                    <div class="sub-item"><a href="https://eventos.aiamis.com.br/uninta/evento/NTYyNg==" target="_blank" class="btn-table">Acessar Material Didático</a></div>
+                                </div>
+                            </td>
                         </tr>
                         <tr>
-                            <td>IV - Discurso, interdiscurso e gêneros do discurso</td>
-                            <td>Português II - Gêneros Textuais; Teoria da Comunicação; Semântica</td>
-                            <td><a href="https://virtual.uninta.edu.br/course/view.php?id=104540" target="_blank" class="btn-table">Acessar Material Didático</a></td>
+                            <td>Desenvolvimento e Aprendizagem Motora</td>
+                            <td style="padding: 0; height: 1px;">
+                                <div class="enade-sub-list">
+                                    <div class="sub-item">Crescimento e Desenvolvimento Motor</div>
+                                    <div class="sub-item">Aprendizagem Motora.</div>
+                                </div>
+                            </td>
+                            <td style="padding: 0; height: 1px;">
+                                <div class="enade-sub-list">
+                                    <div class="sub-item"><a href="https://eventos.aiamis.com.br/uninta/evento/NTY3Mw==" target="_blank" class="btn-table">Acessar Material Didático</a></div>
+                                    <div class="sub-item"><a href="https://eventos.aiamis.com.br/uninta/evento/NTY3Mw==" target="_blank" class="btn-table">Acessar Material Didático</a></div>
+                                </div>
+                            </td>
                         </tr>
                         <tr>
-                            <td>V - Texto, tipologias e fatores de textualidade</td>
-                            <td>Leitura, Interpretação e Produção Textual; Português I - Produção Textual; Português II - Gêneros Textuais; Prática de Revisão de Texto</td>
-                            <td><a href="https://virtual.uninta.edu.br/course/view.php?id=104540" target="_blank" class="btn-table">Acessar Material Didático</a></td>
+                            <td>Saúde, Corporeidade e Mídias Sociais</td>
+                            <td style="padding: 0; height: 1px;">
+                                <div class="enade-sub-list">
+                                    <div class="sub-item">Atividade Física</div>
+                                    <div class="sub-item">Saúde e Qualidade de Vida</div>
+                                    <div class="sub-item">Cultura Corporal e Corporeidade</div>
+                                    <div class="sub-item">Fisiologia do Exercício</div>
+                                </div>
+                            </td>
+                            <td style="padding: 0; height: 1px;">
+                                <div class="enade-sub-list">
+                                    <div class="sub-item"><a href="https://eventos.aiamis.com.br/uninta/evento/NTY4Ng==" target="_blank" class="btn-table">Acessar Material Didático</a></div>
+                                    <div class="sub-item"><a href="https://eventos.aiamis.com.br/uninta/evento/NTIzMQ==" target="_blank" class="btn-table">Acessar Material Didático</a></div>
+                                    <div class="sub-item"><a href="https://eventos.aiamis.com.br/uninta/evento/NTY2MA==" target="_blank" class="btn-table">Acessar Material Didático</a></div>
+                                    <div class="sub-item"><a href="https://eventos.aiamis.com.br/uninta/evento/NTY4Ng==" target="_blank" class="btn-table">Acessar Material Didático</a></div>
+                                </div>
+                            </td>
                         </tr>
                         <tr>
-                            <td>VI - Língua oral (produção, circulação e compreensão)</td>
-                            <td>Teoria da Comunicação; Português II - Gêneros Textuais; Códigos de Linguagem; Metodologia do Ensino de Língua Portuguesa no Ensino Médio</td>
-                            <td><a href="https://virtual.uninta.edu.br/course/view.php?id=104540" target="_blank" class="btn-table">Acessar Material Didático</a></td>
-                        </tr>
-                        <tr>
-                            <td>VII - Língua escrita (produção, circulação e compreensão)</td>
-                            <td>Leitura, Interpretação e Produção Textual; Português I - Produção Textual; Prática de Revisão de Texto; Metodologia do Ensino de Língua Portuguesa no Ensino Médio</td>
-                            <td><a href="https://virtual.uninta.edu.br/course/view.php?id=39656" target="_blank" class="btn-table">Acessar Material Didático</a></td>
-                        </tr>
-                        <tr>
-                            <td>VIII - Variação, mudança e preconceito linguístico</td>
-                            <td>Sociolinguística</td>
-                            <td><a href="https://virtual.uninta.edu.br/course/view.php?id=43862" target="_blank" class="btn-table">Acessar Material Didático</a></td>
-                        </tr>
-                        <tr>
-                            <td>IX - Processos de letramento e de multiletramento</td>
-                            <td>Metodologia da Alfabetização e do Letramento; Projeto Integrador Extensionista VI - Alfabetização, Leitura e Escrita; Mídias Digitais e Metodologias Ativas; Mídias Sociais e Recursos Audiovisuais no Ensino da Língua Portuguesa</td>
-                            <td><a href="https://virtual.uninta.edu.br/course/view.php?id=39656" target="_blank" class="btn-table">Acessar Material Didático</a></td>
-                        </tr>
-                        <tr>
-                            <td>X - Concepções de literatura e de cultura</td>
-                            <td>Teoria da Literatura I; Teoria da Literatura II; História da Arte; Literatura Local e Práticas Escolares</td>
-                            <td><a href="https://www.youtube.com/watch?v=tNpyAXyDt-c" target="_blank" class="btn-table">Acessar Material Didático</a></td>
-                        </tr>
-                        <tr>
-                            <td>XI - Especificidades da linguagem literária</td>
-                            <td>Teoria da Literatura I; Teoria da Literatura II; Estilística</td>
-                            <td><a href="https://www.youtube.com/watch?v=tNpyAXyDt-c" target="_blank" class="btn-table">Acessar Material Didático</a></td>
-                        </tr>
-                        <tr>
-                            <td>XII - Teorias críticas da literatura</td>
-                            <td>Teoria da Literatura I; Teoria da Literatura II</td>
-                            <td><a href="https://www.youtube.com/watch?v=tNpyAXyDt-c" target="_blank" class="btn-table">Acessar Material Didático</a></td>
-                        </tr>
-                        <tr>
-                            <td>XIII - Gêneros literários (tradição e inovação)</td>
-                            <td>Teoria da Literatura I; Teoria da Literatura II; Literatura Infantojuvenil; Literatura Local e Práticas Escolares</td>
-                            <td><a href="https://virtual.uninta.edu.br/course/view.php?id=34205" target="_blank" class="btn-table">Acessar Material Didático</a></td>
-                        </tr>
-                        <tr>
-                            <td>XIV - Movimentos literários no Brasil e suas articulações interculturais</td>
-                            <td>Literatura Brasileira I; Literatura Brasileira II; Literatura Portuguesa I; Literatura Portuguesa II; Literatura Africana; Literatura Negra e Indígena Brasileira</td>
-                            <td><a href="https://virtual.uninta.edu.br/course/view.php?id=34205" target="_blank" class="btn-table">Acessar Material Didático</a></td>
-                        </tr>
-                        <tr>
-                            <td>XV - Letramento literário (aspectos teóricos e metodológicos)</td>
-                            <td>Estágio Supervisionado III - Ação Educativa de Estudos Literários e Linguísticos; Literatura Local e Práticas Escolares; Literatura Infantojuvenil; Metodologia do Ensino de Língua Portuguesa no Ensino Médio</td>
-                            <td><a href="https://virtual.uninta.edu.br/course/view.php?id=34205" target="_blank" class="btn-table">Acessar Material Didático</a></td>
-                        </tr>
-                        <tr>
-                            <td>XVI - Literatura canônica e não canônica na formação do leitor</td>
-                            <td>Literatura Brasileira I; Literatura Brasileira II; Literatura Portuguesa I; Literatura Portuguesa II; Literatura Africana; Literatura Negra e Indígena Brasileira; Literatura Infantojuvenil; Literatura Local e Práticas Escolares</td>
-                            <td><a href="https://virtual.uninta.edu.br/course/view.php?id=34205" target="_blank" class="btn-table">Acessar Material Didático</a></td>
-                        </tr>
-                        <tr>
-                            <td>XVII - Oralidade, performance e fruição no ensino de literatura</td>
-                            <td>Estágio Supervisionado IV - Ação Educativa das Manifestações Culturais e Artísticas em Espaços Não Escolares; Códigos de Linguagem; Teoria da Comunicação; História da Arte</td>
-                            <td><a href="https://virtual.uninta.edu.br/course/view.php?id=18654" target="_blank" class="btn-table">Acessar Material Didático</a></td>
-                        </tr>
-                        <tr>
-                            <td>XVIII - Inter-relações da língua e da literatura com outras semioses</td>
-                            <td>Códigos de Linguagem; Mídias Sociais e Recursos Audiovisuais no Ensino da Língua Portuguesa; Teoria da Comunicação; História da Arte</td>
-                            <td><a href="https://www.youtube.com/watch?v=25FZkQEsdEw" target="_blank" class="btn-table">Acessar Material Didático</a></td>
-                        </tr>
-                        <tr>
-                            <td>XIX - Novas tecnologias no ensino de língua e de literatura</td>
-                            <td>Novas Tecnologias na Educação; Mídias Sociais e Recursos Audiovisuais no Ensino da Língua Portuguesa; Mídias Digitais e Metodologias Ativas</td>
-                            <td><a href="https://www.youtube.com/watch?v=25FZkQEsdEw" target="_blank" class="btn-table">Acessar Material Didático</a></td>
-                        </tr>
-                        <tr>
-                            <td>XX - Processos argumentativos e formação do leitor crítico</td>
-                            <td>Leitura, Interpretação e Produção Textual; Português I - Produção Textual; Português II - Gêneros Textuais; Prática de Revisão de Texto; Metodologia do Ensino de Língua Portuguesa no Ensino Médio</td>
-                            <td><a href="https://virtual.uninta.edu.br/course/view.php?id=39656" target="_blank" class="btn-table">Acessar Material Didático</a></td>
+                            <td>Pesquisa Científica e Estágio Supervisionado</td>
+                            <td style="padding: 0; height: 1px;">
+                                <div class="enade-sub-list">
+                                    <div class="sub-item">Metodologia da Pesquisa Científica</div>
+                                    <div class="sub-item">Estágio Curricular Supervisionado em Educação Física (I</div>
+                                    <div class="sub-item">II</div>
+                                    <div class="sub-item">III e IV).</div>
+                                </div>
+                            </td>
+                            <td style="padding: 0; height: 1px;">
+                                <div class="enade-sub-list">
+                                    <div class="sub-item"><a href="https://eventos.aiamis.com.br/uninta/evento/NDY2MA==" target="_blank" class="btn-table">Acessar Material Didático</a></div>
+                                    <div class="sub-item"><a href="https://eventos.aiamis.com.br/uninta/evento/NTU0Nw==" target="_blank" class="btn-table">Acessar Material Didático</a></div>
+                                    <div class="sub-item"><a href="https://eventos.aiamis.com.br/uninta/evento/NTU0NA==" target="_blank" class="btn-table">Acessar Material Didático</a></div>
+                                    <div class="sub-item"><a href="https://eventos.aiamis.com.br/uninta/evento/NTU2OQ==" target="_blank" class="btn-table">Acessar Material Didático</a></div>
+                                </div>
+                            </td>
                         </tr>
                         <tr>
                             <td colspan="3" style="font-size: 0.85rem; color: var(--text-light); text-align: center;">Observação: as associações são temáticas e indicativas; um mesmo objeto de conhecimento pode ser desenvolvido em mais de uma disciplina.</td>
-                        </tr>
-                        <tr>
-                            <td colspan="3" style="font-size: 0.85rem; color: var(--text-light); text-align: center;">Fonte da matriz: Curso de Licenciatura em Letras-Língua Portuguesa - Centro Universitário INTA (UNINTA), Matriz Curricular 2026.</td>
                         </tr>
                     </tbody>
                 </table>

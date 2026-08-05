@@ -1,0 +1,446 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sala do ENADE - Preparação (Tabela)</title>
+    
+    <style>
+        /* ==========================================
+           VARIÁVEIS DE CORES E ESTILOS GERAIS
+           ========================================== */
+        :root {
+            --uninta-red: #B3171C;
+            --uninta-dark-red: #8a1014;
+            --uninta-blue: #003366;
+            --text-dark: #333333;
+            --text-light: #555555;
+            --bg-page: #f8f9fa;
+            --bg-card: #ffffff;
+            --border-radius: 8px;
+            --transition: all 0.3s ease;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+        }
+
+        body {
+            color: var(--text-dark);
+            line-height: 1.6;
+        }
+
+        /* Container principal */
+        .enade-container {
+            max-width: 1000px;
+            margin: 0 auto 2rem auto;
+            border-radius: var(--border-radius);
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05);
+            padding: 2rem;
+            overflow: hidden;
+        }
+
+        /* ==========================================
+           SEÇÕES GENÉRICAS E ALINHAMENTOS
+           ========================================== */
+        .content-section {
+            margin: 2rem 0;
+        }
+
+        .sem-material {
+            background-color: #bbb !important;
+            cursor: not-allowed;
+        }
+
+        /* ==========================================
+           TABELAS RESPONSIVAS
+           ========================================== */
+        .table-responsive {
+            width: 100%;
+            overflow-x: auto;
+            margin-top: 1.5rem;
+            border-radius: var(--border-radius);
+            box-shadow: 0 4px 15px rgba(0,0,0,0.05);
+            border: 1px solid #e2e8f0;
+        }
+
+        .enade-table {
+            width: 100%;
+            border-collapse: collapse;
+            background-color: var(--bg-card);
+            min-width: 600px; /* Garante que não esmague em telas pequenas */
+        }
+
+        .enade-table th {
+            background-color: var(--uninta-red);
+            color: #ffffff;
+            text-align: left;
+            padding: 1rem;
+            font-weight: 600;
+            font-size: 0.95rem;
+            border: 1px solid rgba(255, 255, 255, 0.8);
+        }
+
+        .enade-table td {
+            padding: 1rem;
+            border: 1px solid #ced2d8;
+            font-size: 0.9rem;
+            vertical-align: middle;
+        }
+
+        .enade-table td a {
+            min-width: 200px;
+            flex: 1;
+            /* text-decoration: none; */
+        }
+        
+        /* Efeito Zebrado para facilitar a leitura */
+        .enade-table tbody tr:nth-child(even) {
+            background-color: #eee;
+        }
+
+        .btn-table {
+            background-color: var(--uninta-red);
+            color: #fff;
+            text-decoration: none;
+            padding: 0.5rem 1rem;
+            border-radius: 6px;
+            font-size: 0.85rem;
+            font-weight: 600;
+            display: inline-block;
+            transition: var(--transition);
+            text-align: center;
+            display: block; 
+            width: fit-content; 
+            margin: 0 auto;
+        }
+
+        .btn-table:hover {
+            background-color: var(--uninta-dark-red);
+            text-decoration: none;
+            color: #fff;
+        }
+
+        /* Título com linha inferior para divisões de cursos */
+        .course-header {
+            font-size: 1.4rem;
+            color: var(--text-dark);
+            border-bottom: 3px solid var(--uninta-red);
+            padding-bottom: 0.5rem;
+            margin-bottom: 1.5rem;
+            display: flex;
+            align-items: center;
+        }
+
+        /* ==========================================
+           ESTILO DOS ITENS INTERNOS (FLEXBOX)
+           ========================================== */
+        .enade-sub-list {
+            display: grid;
+            grid-auto-rows: 1fr;
+            height: 100%;
+        }
+
+        .sub-item {
+            display: flex;
+            align-items: center; 
+            padding: 1rem;
+            border-bottom: 1px solid #e2e8f0;
+            font-size: 0.9rem;
+        }
+
+        .sub-item.links {
+            flex-direction: column;
+            gap: 1rem;
+        }
+
+        /* Remove a borda do último item automaticamente, sem precisar de style inline */
+        .sub-item:last-child {
+            border-bottom: none;
+        }
+        /* Grid de arquivos */
+        .files-grid {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 1rem;
+            margin-top: 1rem;
+        }
+
+        .file-card {
+            display: flex;
+            align-items: center;
+            background-color: var(--bg-card);
+            border: 1px solid #e2e8f0;
+            padding: 1rem;
+            border-radius: var(--border-radius);
+            text-decoration: none;
+            color: var(--text-dark);
+            transition: var(--transition);
+            box-shadow: 0 2px 4px rgba(0,0,0,0.02);
+        }
+
+        .file-card:hover {
+            border-color: var(--uninta-red);
+            box-shadow: 0 4px 12px rgba(179, 23, 28, 0.1);
+            transform: translateY(-2px);
+            text-decoration: none;
+        }
+
+        .file-icon {
+            background-color: #f1f5f9;
+            color: var(--uninta-blue);
+            width: 40px;
+            height: 40px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 8px;
+            margin-right: 1rem;
+            flex-shrink: 0;
+        }
+
+        .file-icon svg {
+            width: 20px;
+            height: 20px;
+        }
+
+        .file-name {
+            font-size: 0.9rem;
+            font-weight: 600;
+            line-height: 1.3;
+        }
+
+        /* Responsividade */
+        @media (max-width: 1000px) {
+            .enade-container {
+                padding: 1.5rem;
+                margin: 1rem;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <h1 style="display: none;">História</h1>
+
+    <main class="enade-container">
+        
+        <section class="content-section">
+            <h2 class="course-header">
+                Preparação para o ENADE - História
+            </h2>
+
+            <div class="files-grid">
+                <!-- Arquivo 1 -->
+                <a href="https://drive.google.com/file/d/188aVMZYxOHVC12rOtKMM0-oGNLlGT0Pb/view?usp=drive_link" class="file-card" target="_blank">
+                    <div class="file-icon">
+                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" /></svg>
+                    </div>
+                    <div class="file-name">Prova Enade 2025</div>
+                </a>
+
+                <!-- Arquivo 2 -->
+                <a href="https://drive.google.com/file/d/1SL9QY6WfJIf3-WIjZ1nTni7_lmJ0NJV4/view?usp=drive_link" class="file-card" target="_blank">
+                    <div class="file-icon">
+                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" /></svg>
+                    </div>
+                    <div class="file-name">Gabarito Enade 2025</div>
+                </a>
+
+            </div>
+            
+            <h3 class="subtitle-blue" style="margin-top: 2.5rem; font-size: 1.1rem;">FORMAÇÃO GERAL</h3>
+            <div class="table-responsive">
+                <table class="enade-table">
+                    <thead>
+                        <tr>
+                            <th style="width: 45%;">Temática ENADE</th>
+                            <th style="width: 35%;">Disciplina</th>
+                            <th style="width: 20%;">Link do Vídeo ou Material</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>Raízes africanas no Brasil: histórias e memórias do povo negro</td>
+                            <td>História da cultura afro-brasileira e indígena</td>
+                            <td style="display: flex; flex-direction: column; gap: 1rem; align-items: center;">
+                                <a href="https://materialdidatico.aiamis.com.br/7e86ca1b44" target="_blank" class="btn-table">Acessar Material Didático</a>
+                                <a href="https://eventos.aiamis.com.br/uninta/evento/NTYyNQ==" target="_blank" class="btn-table nomediaplugin">Acessar Evento</a>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>Nome social e identidade de gênero</td>
+                            <td>Cidadania e direitos humanos</td>
+                            <td><a href="https://materialdidatico.aiamis.com.br/678e6748c7" target="_blank" class="btn-table">Acessar Material Didático</a></td>
+                        </tr>
+                        <tr>
+                            <td>Cultura afro-brasileira e africana</td>
+                            <td style="padding: 0; height: 1px;">
+                                <div class="enade-sub-list">
+                                    <div class="sub-item">História da cultura afro-brasileira e indígena</div>
+                                    <div class="sub-item">História da África</div>
+                                </div>
+                            </td>
+                            <td style="padding: 0; height: 1px;">
+                                <div class="enade-sub-list">
+                                    <div class="sub-item"><a href="https://materialdidatico.aiamis.com.br/7e86ca1b44" target="_blank" class="btn-table">Acessar Material Didático</a></div>
+                                    <div class="sub-item"><a href="https://materialdidatico.aiamis.com.br/616effc264" target="_blank" class="btn-table">Acessar Material Didático</a></div>
+                                </div>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>Cultura Indígena</td>
+                            <td>História da cultura afro-brasileira e indígena</td>
+                            <td><a href="https://materialdidatico.aiamis.com.br/7e86ca1b44" target="_blank" class="btn-table">Acessar Material Didático</a></td>
+                        </tr>
+                        <tr>
+                            <td>Uso crítico de materiais didáticos : o papel do livro didático</td>
+                            <td>História da Educação</td>
+                            <td><a href="https://materialdidatico.aiamis.com.br/4353d5dc95" target="_blank" class="btn-table">Acessar Material Didático</a></td>
+                        </tr>
+                        <tr>
+                            <td>Papel social da escola e gestão</td>
+                            <td>Política e Legislação da Educação</td>
+                            <td><a href="https://materialdidatico.aiamis.com.br/d46b5d953d" target="_blank" class="btn-table">Acessar Material Didático</a></td>
+                        </tr>
+                        <tr>
+                            <td colspan="3" style="font-size: 0.85rem; color: var(--text-light); text-align: center;">Observação: as associações são temáticas e indicativas; um mesmo objeto de conhecimento pode ser desenvolvido em mais de uma disciplina.</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <h3 class="subtitle-blue" style="margin-top: 3rem; font-size: 1.1rem;">COMPONENTE ESPECÍFICO - HISTÓRIA</h3>
+            <div class="table-responsive">
+                <table class="enade-table">
+                    <thead>
+                        <tr>
+                            <th style="width: 45%;">Temática ENADE</th>
+                            <th style="width: 35%;">Disciplina</th>
+                            <th style="width: 20%;">Link do Vídeo ou Material</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>O Processo de Colonização Portuguesa e as Diferentes Formas de Dizimação dos Povos Indígenas</td>
+                            <td style="padding: 0; height: 1px;">
+                                <div class="enade-sub-list">
+                                    <div class="sub-item">História da América Portuguesa</div>
+                                    <div class="sub-item">História da América pré-colonial</div>
+                                    <div class="sub-item">História da América - colonial e independente</div>
+                                </div>
+                            </td>
+                            <td style="padding: 0; height: 1px;">
+                                <div class="enade-sub-list">
+                                    <div class="sub-item links" style="flex-direction: column; gap: 0.5rem;">
+                                        <a href="https://materialdidatico.aiamis.com.br/61e8899789" target="_blank" class="btn-table" style="margin: 0 auto;">Acessar Material Didático</a>
+                                        <a href="https://eventos.aiamis.com.br/uninta/evento/NTYwOA==" target="_blank" class="btn-table nomediaplugin" style="margin: 0 auto;">Acessar Evento</a>
+                                    </div>
+                                    <div class="sub-item links" style="flex-direction: column; gap: 0.5rem;">
+                                        <a href="https://materialdidatico.aiamis.com.br/dc608ebf76" target="_blank" class="btn-table" style="margin: 0 auto;">Acessar Material Didático</a>
+                                        <a href="https://eventos.aiamis.com.br/uninta/evento/NTYwOA==" target="_blank" class="btn-table nomediaplugin" style="margin: 0 auto;">Acessar Evento</a>
+                                    </div>
+                                    <div class="sub-item links" style="flex-direction: column; gap: 0.5rem;">
+                                        <a href="https://materialdidatico.aiamis.com.br/766d5d44c7" target="_blank" class="btn-table" style="margin: 0 auto;">Acessar Material Didático</a>
+                                        <a href="https://eventos.aiamis.com.br/uninta/evento/NTYwOA==" target="_blank" class="btn-table nomediaplugin" style="margin: 0 auto;">Acessar Evento</a>
+                                    </div>
+                                </div>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>A Construção do Conhecimento Histórico a partir das Fontes</td>
+                            <td>Ensino de História e Novas Linguagens</td>
+                            <td style="display: flex; flex-direction: column; gap: 1rem; align-items: center;">
+                                <a href="https://materialdidatico.aiamis.com.br/7ee98845d4" target="_blank" class="btn-table">Acessar Material Didático</a>
+                                <a href="https://eventos.aiamis.com.br/uninta/evento/NTYzMg==" target="_blank" class="btn-table nomediaplugin">Acessar Evento</a>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>Educação para as Relações  Étnico-Raciais</td>
+                            <td>História da cultura afro-brasileira e indígena</td>
+                            <td style="display: flex; flex-direction: column; gap: 1rem; align-items: center;">
+                                <a href="https://materialdidatico.aiamis.com.br/7e86ca1b44" target="_blank" class="btn-table">Acessar Material Didático</a>
+                                <a href="https://eventos.aiamis.com.br/uninta/evento/NTY2NQ==" target="_blank" class="btn-table nomediaplugin">Acessar Evento</a>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>História e Memória em Narradores de Javé: O confronto entre narrativas orais e escritas na construção do passado</td>
+                            <td style="padding: 0; height: 1px;">
+                                <div class="enade-sub-list">
+                                    <div class="sub-item">História Local</div>
+                                    <div class="sub-item">Ensino de História e novas linguagens</div>
+                                </div>
+                            </td>
+                            <td style="padding: 0; height: 1px;">
+                                <div class="enade-sub-list">
+                                    <div class="sub-item links" style="flex-direction: column; gap: 0.5rem;">
+                                        <a href="https://materialdidatico.aiamis.com.br/7ee98845d4" target="_blank" class="btn-table" style="margin: 0 auto;">Acessar Material Didático</a>
+                                        <a href="https://eventos.aiamis.com.br/uninta/evento/NTY3Nw==" target="_blank" class="btn-table nomediaplugin" style="margin: 0 auto;">Acessar Evento</a>
+                                    </div>
+                                    <div class="sub-item links" style="flex-direction: column; gap: 0.5rem;">
+                                        <a href="https://materialdidatico.aiamis.com.br/7ee98845d4" target="_blank" class="btn-table" style="margin: 0 auto;">Acessar Material Didático</a>
+                                        <a href="https://eventos.aiamis.com.br/uninta/evento/NTY3Nw==" target="_blank" class="btn-table nomediaplugin" style="margin: 0 auto;">Acessar Evento</a>
+                                    </div>
+                                </div>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>Pensamento histórico e uso de fontes</td>
+                            <td>Ensino de História e novas linguagens</td>
+                            <td><a href="https://materialdidatico.aiamis.com.br/7ee98845d4" target="_blank" class="btn-table">Acessar Material Didático</a></td>
+                        </tr>
+                        <tr>
+                            <td>Egito Antigo: relação entre religião, poder e ordem cósmica</td>
+                            <td>História Antiga I</td>
+                            <td><a href="https://materialdidatico.aiamis.com.br/51fed951b2" target="_blank" class="btn-table">Acessar Material Didático</a></td>
+                        </tr>
+                        <tr>
+                            <td>Reforma Protestante e conflitos religiosos</td>
+                            <td>História Moderna</td>
+                            <td><a href="https://materialdidatico.aiamis.com.br/cc596b6599" target="_blank" class="btn-table">Acessar Material Didático</a></td>
+                        </tr>
+                        <tr>
+                            <td>Nazifascismo e extrema direita (passado + presente) <br><br>Guerra da Coreia (Guerra Fria) <br><br>Guerra do Vietnã e resistência</td>
+                            <td>História Contemporânea</td>
+                            <td><a href="https://materialdidatico.aiamis.com.br/a14b5e5da1" target="_blank" class="btn-table">Acessar Material Didático</a></td>
+                        </tr>
+                        <tr>
+                            <td>Quilombos como resistência histórica e atual <br><br>Escravidão e diáspora africana (ex: Um defeito de cor) <br><br>Cultura e religião afro-brasileira <br><br>Povos indígenas e etnocídio</td>
+                            <td>História da Cultura afro-brasileira e indígena</td>
+                            <td><a href="https://materialdidatico.aiamis.com.br/7e86ca1b44" target="_blank" class="btn-table">Acessar Material Didático</a></td>
+                        </tr>
+                        <tr>
+                            <td>História cultural Marxismo <br><br>Decolonialidade <br><br>História do Cotidiano</td>
+                            <td>Teorias da História II</td>
+                            <td><a href="https://materialdidatico.aiamis.com.br/5b1edd0cdb" target="_blank" class="btn-table">Acessar Material Didático</a></td>
+                        </tr>
+                        <tr>
+                            <td>O trabalho nas cidades medievais</td>
+                            <td>História Medieval</td>
+                            <td><a href="https://materialdidatico.aiamis.com.br/a8d525b398" target="_blank" class="btn-table">Acessar Material Didático</a></td>
+                        </tr>
+                        <tr>
+                            <td>A  Cabanagem (1835-1840)</td>
+                            <td>História do Brasil Império</td>
+                            <td><a href="https://materialdidatico.aiamis.com.br/ad87c8098a" target="_blank" class="btn-table">Acessar Material Didático</a></td>
+                        </tr>
+                        <tr>
+                            <td>Ditadura Civil e Militar no Brasil</td>
+                            <td>História do Brasil República II</td>
+                            <td><a target="_blank" class="btn-table sem-material">Acessar Material Didático</a></div>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td colspan="3" style="font-size: 0.85rem; color: var(--text-light); text-align: center;">Observação: as associações são temáticas e indicativas; um mesmo objeto de conhecimento pode ser desenvolvido em mais de uma disciplina.</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </section>
+    </main>
+
+</body>
+</html>

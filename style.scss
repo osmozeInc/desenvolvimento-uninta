@@ -2,7 +2,7 @@
 :root {
   // Paleta de Cores
   --color-bg-main: #f0f0f0;
-  --color-brand-red: #ffffff;      // Vermelho principal
+  --color-brand-red: #ffffff;      // Vermelho principal (Nota: está com hex branco, mantive o seu)
   --color-brand-red-line: #dc2626;
   --color-brand-red-dark: #b91c1c; // Vermelho escuro para hover
   
@@ -55,38 +55,28 @@ body {
 
 // 3. Header com Clip-Path
 .header {
-  position: relative; // Necessário para os pseudo-elementos funcionarem
+  position: relative;
   color: var(--color-text-on-red);
   padding: var(--space-xl) var(--space-lg);
   padding-bottom: 4rem; 
   margin-bottom: var(--space-lg);
-  
-  // AQUI É O SEGREDO: 
-  // Nós removemos o background e o clip-path diretamente do header
-  // e colocamos nos pseudo-elementos abaixo.
 
-  // 1. Este ::before é o seu fundo VERMELHO
   &::before {
     content: "";
     position: absolute;
-    inset: 0; // O mesmo que top: 0, left: 0, right: 0, bottom: 0
+    inset: 0; 
     background-color: var(--color-brand-red);
     clip-path: polygon(0 0, 100% 0, 100% 80%, 50% 80%, 42% 100%, 0 100%);
-    z-index: -1; // Joga para o fundo
+    z-index: -1; 
   }
 
-  // 2. Este ::after é a sua LINHA / BORDA
   &::after {
     content: "";
     position: absolute;
     inset: 0;
-    // Cor da linha (ex: preto escuro)
     background-color: var(--color-brand-red-line); 
     clip-path: polygon(0 0, 100% 0, 100% 80%, 50% 80%, 42% 100%, 0 100%);
-    z-index: -2; // Fica atrás do fundo vermelho
-    
-    // É isso aqui que cria a borda na parte de baixo! 
-    // Aumente de 4px para mais se quiser uma linha mais grossa.
+    z-index: -2; 
     transform: translateY(6px); 
   }
 
@@ -97,16 +87,15 @@ body {
     align-items: center;
     gap: var(--space-xl);
     
-    // Responsividade do header
     @media (max-width: 768px) {
       flex-direction: column;
       align-items: flex-start;
-      clip-path: polygon(0 0, 100% 0, 100% 85%, 0 100%); // Ajuste para mobile
+      clip-path: polygon(0 0, 100% 0, 100% 85%, 0 100%);
     }
   }
 
   &__logo-box {
-    width: 50%; // Você pode aumentar ou diminuir esse valor para ajustar o tamanho da logo
+    width: 50%;
     display: flex;
     align-items: center;
     justify-content: start;
@@ -121,6 +110,7 @@ body {
     display: block;
     object-fit: contain;
   }
+  
   &__content {
     width: 40%;
     display: flex;
@@ -164,7 +154,6 @@ body {
     scroll-snap-type: x mandatory;
     margin: 1.5rem 0;
 
-    // Estilização da barra de rolagem (WebKit)
     &::-webkit-scrollbar {
       height: 8px;
     }
@@ -179,9 +168,9 @@ body {
   }
 }
 
-// 6. Cards Principais (Vermelhos)
+// 6. Cards Principais
 .card {
-  flex: 0 0 400px; // Tamanho fixo para o scroll horizontal
+  flex: 0 0 400px; 
   scroll-snap-align: start;
   background-color: var(--color-brand-red);
   color: var(--color-text-on-red);
@@ -234,7 +223,7 @@ body {
   border: 2px solid var(--color-brand-red-dark);
 }
 
-// 7. Área de View (Abaixo do Scroll)
+// 7. Área de View
 .view-area {
   background-color: var(--color-bg-main);
   border: 2px solid #f3f4f6;
@@ -297,7 +286,6 @@ body {
   }
 }
 
-// Layout da Imagem (Página Única)
 .image-wrapper {
   width: 100%;
   border-radius: var(--radius-md);
@@ -311,19 +299,24 @@ body {
   }
 }
 
-// Layout dos Sub-cards (Projeto)
 .sub-cards-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
   gap: var(--space-md);
 }
 
+.sub-card-wrapper {
+  display: flex;
+  align-items: stretch;
+  gap: var(--space-xs);
+}
+
 .sub-card {
-  min-width: max-content;
+  flex-grow: 1; 
   display: flex;
   align-items: center;
   gap: var(--space-sm);
-  padding: var(--space-md);
+  padding: var(--space-sm) var(--space-md);
   background-color: var(--color-bg-main);
   border: 3px solid var(--color-text-muted);
   color: var(--color-text-on-red);
@@ -333,12 +326,13 @@ body {
   transition: all var(--transition);
 
   &__name {
-    width: max-content;
     flex-grow: 1;
   }
 
   &__message {
     font-size: var(--text-xs);
+    display: block;
+    margin-top: 2px;
   }
 
   &__arrow {
@@ -350,6 +344,27 @@ body {
   &:hover {
     background-color: var(--color-brand-red-dark);
     color: var(--color-text-on-white);
-    border: 3px solid var(--color-brand-red-dark);
+    border-color: var(--color-brand-red-dark);
+  }
+}
+
+// Estilo do Botão de Download
+.sub-card__download {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0 var(--space-sm);
+  background-color: var(--color-bg-main);
+  border: 3px solid var(--color-text-muted); // Mesma borda para manter o padrão
+  color: var(--color-text-muted);
+  border-radius: var(--radius-md);
+  text-decoration: none;
+  transition: all var(--transition);
+  
+  &:hover {
+    background-color: var(--color-brand-red-dark);
+    border-color: var(--color-brand-red-dark);
+    color: var(--color-text-on-white);
+    transform: translateY(-2px); // Efeito sutil de levantar ao passar o mouse
   }
 }

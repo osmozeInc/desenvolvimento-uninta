@@ -49,7 +49,6 @@
                 </button>
 
                 <!-- Card: Projeto com Múltiplas Páginas -->
-                <!-- Usamos JSON no data-pages para gerar os sub-cards via JS -->
                 <button class="card" 
                     data-type="project" 
                     data-title="Dashboard Administrativo"
@@ -116,21 +115,32 @@
                     `;
                 } else if (type === 'project') {
                     const pages = JSON.parse(card.getAttribute('data-pages'));
+                    
+                    // Adicionado: .sub-card-wrapper envolvendo a página e o botão de download
                     let subCardsHTML = pages.map(page => `
-                        <a href="${page.url}" class="sub-card">
-                            <span class="sub-card__icon">📄</span>
-                            <span class="sub-card__name">
-                                ${page.name}<br>
-                                <span class="sub-card__message">${page.message}</span>
-                            </span>
-                        </a>
+                        <div class="sub-card-wrapper">
+                            <a href="${page.url}" class="sub-card">
+                                <span class="sub-card__icon">📄</span>
+                                <span class="sub-card__name">
+                                    ${page.name}<br>
+                                    <span class="sub-card__message">${page.message}</span>
+                                </span>
+                            </a>
+                            <a href="${page.url}" download="${page.name}.html" class="sub-card__download" title="Baixar documento HTML: ${page.name}">
+                                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                    <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
+                                    <polyline points="7 10 12 15 17 10"></polyline>
+                                    <line x1="12" y1="15" x2="12" y2="3"></line>
+                                </svg>
+                            </a>
+                        </div>
                     `).join('');
 
                     viewArea.innerHTML = `
                         <div class="view-project fade-in">
                             <div class="view-header">
                                 <h3>Projeto: ${title}</h3>
-                                <p>Selecione uma das páginas abaixo para acessar:</p>
+                                <p>Selecione uma das páginas abaixo para acessar ou clique no botão lateral para baixar:</p>
                             </div>
                             <div class="sub-cards-grid">
                                 ${subCardsHTML}

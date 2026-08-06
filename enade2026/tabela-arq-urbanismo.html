@@ -1,0 +1,1091 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sala do ENADE - Preparação (Tabela)</title>
+    
+    <style>
+        :root {
+            --uninta-red: #B3171C;
+            --uninta-dark-red: #8a1014;
+            --uninta-blue: #003366;
+            --text-dark: #333333;
+            --text-light: #555555;
+            --bg-page: #f8f9fa;
+            --bg-card: #ffffff;
+            --border-radius: 8px;
+            --transition: all 0.3s ease;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+        }
+
+        body {
+            color: var(--text-dark);
+            line-height: 1.6;
+        }
+
+        /* Container principal */
+        .enade-container {
+            max-width: 1000px;
+            margin: 0 auto 2rem auto;
+            border-radius: var(--border-radius);
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05);
+            padding: 2rem;
+            overflow: hidden;
+        }
+
+        .content-section {
+            margin: 2rem 0;
+        }
+
+        .sem-material {
+            background-color: #bbb !important;
+            cursor: not-allowed;
+        }
+
+        .table-responsive {
+            width: 100%;
+            overflow-x: auto;
+            margin-top: 1.5rem;
+            border-radius: var(--border-radius);
+            box-shadow: 0 4px 15px rgba(0,0,0,0.05);
+            border: 1px solid #e2e8f0;
+        }
+
+        .enade-table {
+            width: 100%;
+            border-collapse: collapse;
+            background-color: var(--bg-card);
+            min-width: 600px;
+        }
+
+        .enade-table th {
+            background-color: var(--uninta-red);
+            color: #ffffff;
+            text-align: left;
+            padding: 1rem;
+            font-weight: 600;
+            font-size: 0.95rem;
+            border: 1px solid rgba(255, 255, 255, 0.8);
+        }
+
+        .enade-table td {
+            padding: 1rem;
+            border: 1px solid #ced2d8;
+            font-size: 0.9rem;
+            vertical-align: middle;
+        }
+
+        .enade-table td a {
+            min-width: 200px;
+            flex: 1;
+        }
+        
+        .enade-table tbody tr:nth-child(even) {
+            background-color: #eee;
+        }
+
+        .btn-table {
+            background-color: var(--uninta-red);
+            color: #fff;
+            text-decoration: none;
+            padding: 0.5rem 1rem;
+            border-radius: 6px;
+            font-size: 0.85rem;
+            font-weight: 600;
+            display: inline-block;
+            transition: var(--transition);
+            text-align: center;
+            display: block; 
+            width: fit-content; 
+            margin: 0 auto;
+        }
+
+        .btn-table:hover {
+            background-color: var(--uninta-dark-red);
+            text-decoration: none;
+            color: #fff;
+        }
+
+        .course-header {
+            font-size: 1.4rem;
+            color: var(--text-dark);
+            border-bottom: 3px solid var(--uninta-red);
+            padding-bottom: 0.5rem;
+            margin-bottom: 1.5rem;
+            display: flex;
+            align-items: center;
+        }
+
+        .enade-sub-list {
+            display: grid;
+            grid-auto-rows: 1fr;
+            height: 100%;
+        }
+
+        .sub-item {
+            display: flex;
+            align-items: center; 
+            padding: 1rem;
+            border-bottom: 1px solid #e2e8f0;
+            font-size: 0.9rem;
+        }
+
+        .sub-item.links {
+            flex-direction: column;
+            gap: 1rem;
+        }
+
+        .sub-item:last-child {
+            border-bottom: none;
+        }
+
+        .files-grid {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 1rem;
+            margin-top: 1rem;
+        }
+
+        .file-card {
+            display: flex;
+            align-items: center;
+            background-color: var(--bg-card);
+            border: 1px solid #e2e8f0;
+            padding: 1rem;
+            border-radius: var(--border-radius);
+            text-decoration: none;
+            color: var(--text-dark);
+            transition: var(--transition);
+            box-shadow: 0 2px 4px rgba(0,0,0,0.02);
+        }
+
+        .file-card:hover {
+            border-color: var(--uninta-red);
+            box-shadow: 0 4px 12px rgba(179, 23, 28, 0.1);
+            transform: translateY(-2px);
+            text-decoration: none;
+        }
+
+        .file-icon {
+            background-color: #f1f5f9;
+            color: var(--uninta-blue);
+            width: 40px;
+            height: 40px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 8px;
+            margin-right: 1rem;
+            flex-shrink: 0;
+        }
+
+        .file-icon svg {
+            width: 20px;
+            height: 20px;
+        }
+
+        .file-name {
+            font-size: 0.9rem;
+            font-weight: 600;
+            line-height: 1.3;
+        }
+
+        /* ==========================================
+           PAGINAÇÃO (FOOTER DA TABELA)
+           ========================================== */
+        .pagination-container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1rem;
+            border-top: 1px solid #e2e8f0;
+            background-color: #f8fafc;
+            border-bottom-left-radius: var(--border-radius);
+            border-bottom-right-radius: var(--border-radius);
+            flex-wrap: wrap;
+            gap: 1rem;
+            
+            border-left: 1px solid #e2e8f0;
+            border-right: 1px solid #e2e8f0;
+            border-bottom: 1px solid #e2e8f0;
+            margin-top: -1px;
+        }
+
+        .pagination-info {
+            font-size: 0.9rem;
+            color: var(--text-light);
+        }
+
+        .pagination-controls {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .per-page-select {
+            padding: 0.4rem 0.5rem;
+            border-radius: 4px;
+            border: 1px solid var(--uninta-red);
+            color: var(--uninta-red);
+            background-color: transparent;
+            font-size: 0.9rem;
+            outline: none;
+            cursor: pointer;
+            font-weight: 500;
+        }
+
+        .pagination-buttons {
+            display: flex;
+            gap: 0.3rem;
+        }
+
+        .page-btn {
+            min-width: 32px;
+            height: 32px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border: 1px solid #e2e8f0;
+            background-color: #fff;
+            border-radius: 4px;
+            color: var(--text-dark);
+            cursor: pointer;
+            transition: var(--transition);
+            font-size: 0.9rem;
+        }
+
+        .page-btn:hover:not(:disabled) {
+            border-color: var(--uninta-red);
+            color: var(--uninta-red);
+        }
+
+        .page-btn.active {
+            background-color: var(--uninta-red);
+            color: #fff;
+            border-color: var(--uninta-red);
+        }
+
+        .page-btn:disabled {
+            cursor: not-allowed;
+            opacity: 0.5;
+        }
+        
+        .hidden-row {
+            display: none !important;
+        }
+
+        /* Responsividade */
+        @media (max-width: 1000px) {
+            .enade-container {
+                padding: 1.5rem;
+                margin: 1rem;
+            }
+            .pagination-container {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <h1 style="display: none;">Arquitetura e Urbanismo</h1>
+
+    <main class="enade-container">
+        
+        <section class="content-section">
+            <h2 class="course-header">
+                Preparação para o ENADE - Arquitetura e Urbanismo
+            </h2>
+
+            <div class="files-grid">
+                <!-- Arquivo 1 -->
+                <a href="https://drive.google.com/file/d/1_vhIQ3u9kZSIswwP6UAb74sVIDtYDiAi/view?usp=drive_link" class="file-card" target="_blank">
+                    <div class="file-icon">
+                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" /></svg>
+                    </div>
+                    <div class="file-name">Prova Enade 2023</div>
+                </a>
+
+                <!-- Arquivo 2 -->
+                <a href="https://drive.google.com/file/d/1WJiGznaBK0s3KThHLDcuqt_NjUdjRy_T/view?usp=drive_link" class="file-card" target="_blank">
+                    <div class="file-icon">
+                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" /></svg>
+                    </div>
+                    <div class="file-name">Gabarito Enade 2023</div>
+                </a>
+
+            </div>
+            
+            <h3 class="subtitle-blue" style="margin-top: 2.5rem; font-size: 1.1rem;">FORMAÇÃO GERAL</h3>
+            <div class="table-responsive">
+                <table class="enade-table">
+                    <thead>
+                        <tr>
+                            <th style="width: 45%;">Temática ENADE</th>
+                            <th style="width: 35%;">Disciplina</th>
+                            <th style="width: 20%;">Link do Vídeo ou Material</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>Desigualdade socioespacial e riscos socioambientais<br><span style='font-size: 0.85rem; color: var(--text-light);'>(Urbanização desigual; vulnerabilidade; periferização; infraestrutura urbana; participação social; políticas públicas.)</span></td>
+                            <td style="padding: 0; height: 1px;">
+                                <div class="enade-sub-list">
+                                    <div class="sub-item">Meio Ambiente e Sustentabilidade</div>
+                                    <div class="sub-item">Estudos Sociais e Econômicos</div>
+                                    <div class="sub-item">Infraestrutura Urbana</div>
+                                    <div class="sub-item">Urbanismo I – Parâmetros do Zoneamento</div>
+                                    <div class="sub-item">Projeto de Arquitetura VI – Planejamento Urbano e Regional</div>
+                                    <div class="sub-item">Projetos Integradores Extensionistas</div>
+                                </div>
+                            </td>
+                            <td style="padding: 0; height: 1px;">
+                                <div class="enade-sub-list">
+                                    <div class="sub-item links" style="flex-direction: column; gap: 0.5rem; justify-content: center;">
+                                        <a href="https://materialdidatico.aiamis.com.br/" target="_blank" class="btn-table" style="margin: 0 auto;">Acessar Material Didático</a>
+                                    </div>
+                                    <div class="sub-item links" style="flex-direction: column; gap: 0.5rem; justify-content: center;">
+                                        <a href="https://materialdidatico.aiamis.com.br/" target="_blank" class="btn-table" style="margin: 0 auto;">Acessar Material Didático</a>
+                                    </div>
+                                    <div class="sub-item links" style="flex-direction: column; gap: 0.5rem; justify-content: center;">
+                                        <a href="https://materialdidatico.aiamis.com.br/" target="_blank" class="btn-table" style="margin: 0 auto;">Acessar Material Didático</a>
+                                    </div>
+                                    <div class="sub-item links" style="flex-direction: column; gap: 0.5rem; justify-content: center;">
+                                        <a href="https://materialdidatico.aiamis.com.br/" target="_blank" class="btn-table" style="margin: 0 auto;">Acessar Material Didático</a>
+                                    </div>
+                                    <div class="sub-item links" style="flex-direction: column; gap: 0.5rem; justify-content: center;">
+                                        <a href="https://materialdidatico.aiamis.com.br/" target="_blank" class="btn-table" style="margin: 0 auto;">Acessar Material Didático</a>
+                                    </div>
+                                    <div class="sub-item links" style="flex-direction: column; gap: 0.5rem; justify-content: center;">
+                                        <a href="https://materialdidatico.aiamis.com.br/" target="_blank" class="btn-table" style="margin: 0 auto;">Acessar Material Didático</a>
+                                    </div>
+                                </div>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>Segurança alimentar<br><span style='font-size: 0.85rem; color: var(--text-light);'>(Fome; desigualdade; mudanças climáticas; conflitos internacionais; sustentabilidade.)</span></td>
+                            <td style="padding: 0; height: 1px;">
+                                <div class="enade-sub-list">
+                                    <div class="sub-item">Meio Ambiente e Sustentabilidade</div>
+                                    <div class="sub-item">Antropologia</div>
+                                    <div class="sub-item">Estudos Sociais e Econômicos</div>
+                                </div>
+                            </td>
+                            <td style="padding: 0; height: 1px;">
+                                <div class="enade-sub-list">
+                                    <div class="sub-item links" style="flex-direction: column; gap: 0.5rem; justify-content: center;">
+                                        <a href="https://materialdidatico.aiamis.com.br/" target="_blank" class="btn-table" style="margin: 0 auto;">Acessar Material Didático</a>
+                                    </div>
+                                    <div class="sub-item links" style="flex-direction: column; gap: 0.5rem; justify-content: center;">
+                                        <a href="https://materialdidatico.aiamis.com.br/" target="_blank" class="btn-table" style="margin: 0 auto;">Acessar Material Didático</a>
+                                    </div>
+                                    <div class="sub-item links" style="flex-direction: column; gap: 0.5rem; justify-content: center;">
+                                        <a href="https://materialdidatico.aiamis.com.br/" target="_blank" class="btn-table" style="margin: 0 auto;">Acessar Material Didático</a>
+                                    </div>
+                                </div>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>Saneamento básico<br><span style='font-size: 0.85rem; color: var(--text-light);'>(Abastecimento de água; esgotamento sanitário; drenagem; resíduos sólidos; saúde pública.)</span></td>
+                            <td style="padding: 0; height: 1px;">
+                                <div class="enade-sub-list">
+                                    <div class="sub-item">Meio Ambiente e Sustentabilidade</div>
+                                    <div class="sub-item">Infraestrutura Urbana</div>
+                                    <div class="sub-item">Urbanismo I</div>
+                                    <div class="sub-item">Instalações Hidrossanitárias</div>
+                                    <div class="sub-item">Projeto Integrador</div>
+                                </div>
+                            </td>
+                            <td style="padding: 0; height: 1px;">
+                                <div class="enade-sub-list">
+                                    <div class="sub-item links" style="flex-direction: column; gap: 0.5rem; justify-content: center;">
+                                        <a href="https://materialdidatico.aiamis.com.br/" target="_blank" class="btn-table" style="margin: 0 auto;">Acessar Material Didático</a>
+                                    </div>
+                                    <div class="sub-item links" style="flex-direction: column; gap: 0.5rem; justify-content: center;">
+                                        <a href="https://materialdidatico.aiamis.com.br/" target="_blank" class="btn-table" style="margin: 0 auto;">Acessar Material Didático</a>
+                                    </div>
+                                    <div class="sub-item links" style="flex-direction: column; gap: 0.5rem; justify-content: center;">
+                                        <a href="https://materialdidatico.aiamis.com.br/" target="_blank" class="btn-table" style="margin: 0 auto;">Acessar Material Didático</a>
+                                    </div>
+                                    <div class="sub-item links" style="flex-direction: column; gap: 0.5rem; justify-content: center;">
+                                        <a href="https://materialdidatico.aiamis.com.br/" target="_blank" class="btn-table" style="margin: 0 auto;">Acessar Material Didático</a>
+                                    </div>
+                                    <div class="sub-item links" style="flex-direction: column; gap: 0.5rem; justify-content: center;">
+                                        <a href="https://materialdidatico.aiamis.com.br/" target="_blank" class="btn-table" style="margin: 0 auto;">Acessar Material Didático</a>
+                                    </div>
+                                </div>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>Saúde pública<br><span style='font-size: 0.85rem; color: var(--text-light);'>(Vacinação; indicadores estatísticos; leitura de gráficos; políticas públicas.)</span></td>
+                            <td style="padding: 0; height: 1px;">
+                                <div class="enade-sub-list">
+                                    <div class="sub-item">Metodologia da Pesquisa Científica</div>
+                                    <div class="sub-item">Leitura e Interpretação Textual</div>
+                                    <div class="sub-item">Estudos Sociais e Econômicos</div>
+                                </div>
+                            </td>
+                            <td style="padding: 0; height: 1px;">
+                                <div class="enade-sub-list">
+                                    <div class="sub-item links" style="flex-direction: column; gap: 0.5rem; justify-content: center;">
+                                        <a href="https://materialdidatico.aiamis.com.br/" target="_blank" class="btn-table" style="margin: 0 auto;">Acessar Material Didático</a>
+                                    </div>
+                                    <div class="sub-item links" style="flex-direction: column; gap: 0.5rem; justify-content: center;">
+                                        <a href="https://materialdidatico.aiamis.com.br/" target="_blank" class="btn-table" style="margin: 0 auto;">Acessar Material Didático</a>
+                                    </div>
+                                    <div class="sub-item links" style="flex-direction: column; gap: 0.5rem; justify-content: center;">
+                                        <a href="https://materialdidatico.aiamis.com.br/" target="_blank" class="btn-table" style="margin: 0 auto;">Acessar Material Didático</a>
+                                    </div>
+                                </div>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>Inteligência Artificial<br><span style='font-size: 0.85rem; color: var(--text-light);'>(Ética; inovação; transformação digital; impactos sociais; tecnologia.)</span></td>
+                            <td style="padding: 0; height: 1px;">
+                                <div class="enade-sub-list">
+                                    <div class="sub-item">Empreendedorismo e Inovação</div>
+                                    <div class="sub-item">Metodologia da Pesquisa Científica</div>
+                                    <div class="sub-item">CAD</div>
+                                    <div class="sub-item">Modelagem 3D</div>
+                                    <div class="sub-item">Compatibilização de Projetos em BIM</div>
+                                </div>
+                            </td>
+                            <td style="padding: 0; height: 1px;">
+                                <div class="enade-sub-list">
+                                    <div class="sub-item links" style="flex-direction: column; gap: 0.5rem; justify-content: center;">
+                                        <a href="https://materialdidatico.aiamis.com.br/" target="_blank" class="btn-table" style="margin: 0 auto;">Acessar Material Didático</a>
+                                    </div>
+                                    <div class="sub-item links" style="flex-direction: column; gap: 0.5rem; justify-content: center;">
+                                        <a href="https://materialdidatico.aiamis.com.br/" target="_blank" class="btn-table" style="margin: 0 auto;">Acessar Material Didático</a>
+                                    </div>
+                                    <div class="sub-item links" style="flex-direction: column; gap: 0.5rem; justify-content: center;">
+                                        <a href="https://materialdidatico.aiamis.com.br/" target="_blank" class="btn-table" style="margin: 0 auto;">Acessar Material Didático</a>
+                                    </div>
+                                    <div class="sub-item links" style="flex-direction: column; gap: 0.5rem; justify-content: center;">
+                                        <a href="https://materialdidatico.aiamis.com.br/" target="_blank" class="btn-table" style="margin: 0 auto;">Acessar Material Didático</a>
+                                    </div>
+                                    <div class="sub-item links" style="flex-direction: column; gap: 0.5rem; justify-content: center;">
+                                        <a href="https://materialdidatico.aiamis.com.br/" target="_blank" class="btn-table" style="margin: 0 auto;">Acessar Material Didático</a>
+                                    </div>
+                                </div>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>Mobilidade urbana e gênero<br><span style='font-size: 0.85rem; color: var(--text-light);'>(Direito à cidade; segurança urbana; caminhabilidade; mobilidade; inclusão.)</span></td>
+                            <td style="padding: 0; height: 1px;">
+                                <div class="enade-sub-list">
+                                    <div class="sub-item">Urbanismo I</div>
+                                    <div class="sub-item">Projeto de Arquitetura VI</div>
+                                    <div class="sub-item">Legislação Urbana</div>
+                                    <div class="sub-item">Estudos Sociais e Econômicos</div>
+                                    <div class="sub-item">Projetos Integradores</div>
+                                </div>
+                            </td>
+                            <td style="padding: 0; height: 1px;">
+                                <div class="enade-sub-list">
+                                    <div class="sub-item links" style="flex-direction: column; gap: 0.5rem; justify-content: center;">
+                                        <a href="https://materialdidatico.aiamis.com.br/" target="_blank" class="btn-table" style="margin: 0 auto;">Acessar Material Didático</a>
+                                    </div>
+                                    <div class="sub-item links" style="flex-direction: column; gap: 0.5rem; justify-content: center;">
+                                        <a href="https://materialdidatico.aiamis.com.br/" target="_blank" class="btn-table" style="margin: 0 auto;">Acessar Material Didático</a>
+                                    </div>
+                                    <div class="sub-item links" style="flex-direction: column; gap: 0.5rem; justify-content: center;">
+                                        <a href="https://materialdidatico.aiamis.com.br/" target="_blank" class="btn-table" style="margin: 0 auto;">Acessar Material Didático</a>
+                                    </div>
+                                    <div class="sub-item links" style="flex-direction: column; gap: 0.5rem; justify-content: center;">
+                                        <a href="https://materialdidatico.aiamis.com.br/" target="_blank" class="btn-table" style="margin: 0 auto;">Acessar Material Didático</a>
+                                    </div>
+                                    <div class="sub-item links" style="flex-direction: column; gap: 0.5rem; justify-content: center;">
+                                        <a href="https://materialdidatico.aiamis.com.br/" target="_blank" class="btn-table" style="margin: 0 auto;">Acessar Material Didático</a>
+                                    </div>
+                                </div>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>Cultura e identidade<br><span style='font-size: 0.85rem; color: var(--text-light);'>(Relações étnico-raciais; patrimônio cultural; memória; representatividade.)</span></td>
+                            <td style="padding: 0; height: 1px;">
+                                <div class="enade-sub-list">
+                                    <div class="sub-item">Antropologia</div>
+                                    <div class="sub-item">Estética e História da Arte</div>
+                                    <div class="sub-item">Teoria e História da Arquitetura e Urbanismo I</div>
+                                    <div class="sub-item">Optativa – História da Cultura Afro-brasileira e Indígena</div>
+                                </div>
+                            </td>
+                            <td style="padding: 0; height: 1px;">
+                                <div class="enade-sub-list">
+                                    <div class="sub-item links" style="flex-direction: column; gap: 0.5rem; justify-content: center;">
+                                        <a href="https://materialdidatico.aiamis.com.br/" target="_blank" class="btn-table" style="margin: 0 auto;">Acessar Material Didático</a>
+                                    </div>
+                                    <div class="sub-item links" style="flex-direction: column; gap: 0.5rem; justify-content: center;">
+                                        <a href="https://materialdidatico.aiamis.com.br/" target="_blank" class="btn-table" style="margin: 0 auto;">Acessar Material Didático</a>
+                                    </div>
+                                    <div class="sub-item links" style="flex-direction: column; gap: 0.5rem; justify-content: center;">
+                                        <a href="https://materialdidatico.aiamis.com.br/" target="_blank" class="btn-table" style="margin: 0 auto;">Acessar Material Didático</a>
+                                    </div>
+                                    <div class="sub-item links" style="flex-direction: column; gap: 0.5rem; justify-content: center;">
+                                        <a href="https://materialdidatico.aiamis.com.br/" target="_blank" class="btn-table" style="margin: 0 auto;">Acessar Material Didático</a>
+                                    </div>
+                                </div>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>Envelhecimento<br><span style='font-size: 0.85rem; color: var(--text-light);'>(Mercado de trabalho; etarismo; previdência; qualidade de vida.)</span></td>
+                            <td style="padding: 0; height: 1px;">
+                                <div class="enade-sub-list">
+                                    <div class="sub-item">Antropologia</div>
+                                    <div class="sub-item">Estudos Sociais e Econômicos</div>
+                                    <div class="sub-item">Legislação e Ética Profissional</div>
+                                </div>
+                            </td>
+                            <td style="padding: 0; height: 1px;">
+                                <div class="enade-sub-list">
+                                    <div class="sub-item links" style="flex-direction: column; gap: 0.5rem; justify-content: center;">
+                                        <a href="https://materialdidatico.aiamis.com.br/" target="_blank" class="btn-table" style="margin: 0 auto;">Acessar Material Didático</a>
+                                    </div>
+                                    <div class="sub-item links" style="flex-direction: column; gap: 0.5rem; justify-content: center;">
+                                        <a href="https://materialdidatico.aiamis.com.br/" target="_blank" class="btn-table" style="margin: 0 auto;">Acessar Material Didático</a>
+                                    </div>
+                                    <div class="sub-item links" style="flex-direction: column; gap: 0.5rem; justify-content: center;">
+                                        <a href="https://materialdidatico.aiamis.com.br/" target="_blank" class="btn-table" style="margin: 0 auto;">Acessar Material Didático</a>
+                                    </div>
+                                </div>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>Gênero e sistema prisional<br><span style='font-size: 0.85rem; color: var(--text-light);'>(Direitos humanos; desigualdade; violência institucional; vulnerabilidade social.)</span></td>
+                            <td style="padding: 0; height: 1px;">
+                                <div class="enade-sub-list">
+                                    <div class="sub-item">Antropologia</div>
+                                    <div class="sub-item">Estudos Sociais e Econômicos</div>
+                                    <div class="sub-item">Optativa – Cidadania e Direitos Humanos</div>
+                                </div>
+                            </td>
+                            <td style="padding: 0; height: 1px;">
+                                <div class="enade-sub-list">
+                                    <div class="sub-item links" style="flex-direction: column; gap: 0.5rem; justify-content: center;">
+                                        <a href="https://materialdidatico.aiamis.com.br/" target="_blank" class="btn-table" style="margin: 0 auto;">Acessar Material Didático</a>
+                                    </div>
+                                    <div class="sub-item links" style="flex-direction: column; gap: 0.5rem; justify-content: center;">
+                                        <a href="https://materialdidatico.aiamis.com.br/" target="_blank" class="btn-table" style="margin: 0 auto;">Acessar Material Didático</a>
+                                    </div>
+                                    <div class="sub-item links" style="flex-direction: column; gap: 0.5rem; justify-content: center;">
+                                        <a href="https://materialdidatico.aiamis.com.br/" target="_blank" class="btn-table" style="margin: 0 auto;">Acessar Material Didático</a>
+                                    </div>
+                                </div>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>Sociedade contemporânea<br><span style='font-size: 0.85rem; color: var(--text-light);'>(Saúde mental; produtividade; tecnologias digitais; relações de trabalho.)</span></td>
+                            <td style="padding: 0; height: 1px;">
+                                <div class="enade-sub-list">
+                                    <div class="sub-item">Empreendedorismo e Inovação</div>
+                                    <div class="sub-item">Legislação e Ética Profissional.</div>
+                                </div>
+                            </td>
+                            <td style="padding: 0; height: 1px;">
+                                <div class="enade-sub-list">
+                                    <div class="sub-item links" style="flex-direction: column; gap: 0.5rem; justify-content: center;">
+                                        <a href="https://materialdidatico.aiamis.com.br/" target="_blank" class="btn-table" style="margin: 0 auto;">Acessar Material Didático</a>
+                                    </div>
+                                    <div class="sub-item links" style="flex-direction: column; gap: 0.5rem; justify-content: center;">
+                                        <a href="https://materialdidatico.aiamis.com.br/" target="_blank" class="btn-table" style="margin: 0 auto;">Acessar Material Didático</a>
+                                    </div>
+                                </div>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td colspan="3" style="font-size: 0.85rem; color: var(--text-light); text-align: center;">Observação: as associações são temáticas e indicativas; um mesmo objeto de conhecimento pode ser desenvolvido em mais de uma disciplina.</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <h3 class="subtitle-blue" style="margin-top: 3rem; font-size: 1.1rem;">COMPONENTE ESPECÍFICO - ARQUITETURA E URBANISMO</h3>
+            <div class="table-responsive">
+                <table class="enade-table">
+                    <thead>
+                        <tr>
+                            <th style="width: 45%;">Temática ENADE</th>
+                            <th style="width: 35%;">Disciplina</th>
+                            <th style="width: 20%;">Link do Vídeo ou Material</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>Intervenção em patrimônio arquitetônico e continuidade da arquitetura<br><span style='font-size: 0.85rem; color: var(--text-light);'>(Patrimônio cultural; restauração; conservação; intervenção contemporânea em conjuntos históricos; continuidade arquitetônica; valorização da preexistência; requalificação urbana; espaços públicos; circulação de pedestres; projeto urbano)</span></td>
+                            <td style="padding: 0; height: 1px;">
+                                <div class="enade-sub-list">
+                                    <div class="sub-item">Patrimônio e Técnicas Retrospectivas I</div>
+                                    <div class="sub-item">Patrimônio e Técnicas Retrospectivas II</div>
+                                    <div class="sub-item">Teoria e História da Arquitetura e Urbanismo III</div>
+                                    <div class="sub-item">Teoria e História da Arquitetura e Urbanismo IV</div>
+                                    <div class="sub-item">Projeto de Arquitetura V</div>
+                                    <div class="sub-item">Projeto de Arquitetura VI</div>
+                                </div>
+                            </td>
+                            <td style="padding: 0; height: 1px;">
+                                <div class="enade-sub-list">
+                                    <div class="sub-item links" style="flex-direction: column; gap: 0.5rem; justify-content: center;">
+                                        <a href="https://materialdidatico.aiamis.com.br/" target="_blank" class="btn-table" style="margin: 0 auto;">Acessar Material Didático</a>
+                                    </div>
+                                    <div class="sub-item links" style="flex-direction: column; gap: 0.5rem; justify-content: center;">
+                                        <a href="https://materialdidatico.aiamis.com.br/" target="_blank" class="btn-table" style="margin: 0 auto;">Acessar Material Didático</a>
+                                    </div>
+                                    <div class="sub-item links" style="flex-direction: column; gap: 0.5rem; justify-content: center;">
+                                        <a href="https://materialdidatico.aiamis.com.br/" target="_blank" class="btn-table" style="margin: 0 auto;">Acessar Material Didático</a>
+                                    </div>
+                                    <div class="sub-item links" style="flex-direction: column; gap: 0.5rem; justify-content: center;">
+                                        <a href="https://materialdidatico.aiamis.com.br/" target="_blank" class="btn-table" style="margin: 0 auto;">Acessar Material Didático</a>
+                                    </div>
+                                    <div class="sub-item links" style="flex-direction: column; gap: 0.5rem; justify-content: center;">
+                                        <a href="https://materialdidatico.aiamis.com.br/" target="_blank" class="btn-table" style="margin: 0 auto;">Acessar Material Didático</a>
+                                    </div>
+                                    <div class="sub-item links" style="flex-direction: column; gap: 0.5rem; justify-content: center;">
+                                        <a href="https://materialdidatico.aiamis.com.br/" target="_blank" class="btn-table" style="margin: 0 auto;">Acessar Material Didático</a>
+                                    </div>
+                                </div>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>Arquitetura Colonial Brasileira<br><span style='font-size: 0.85rem; color: var(--text-light);'>(Barroco Mineiro; Aleijadinho; composição arquitetônica; linguagem formal; patrimônio histórico; estilos arquitetônicos; leitura crítica da arquitetura brasileira; tombamento; análise morfológica)</span></td>
+                            <td style="padding: 0; height: 1px;">
+                                <div class="enade-sub-list">
+                                    <div class="sub-item">Teoria e História da Arquitetura e Urbanismo I</div>
+                                    <div class="sub-item">Teoria e História da Arquitetura e Urbanismo II</div>
+                                    <div class="sub-item">Patrimônio e Técnicas Retrospectivas I</div>
+                                    <div class="sub-item">Patrimônio e Técnicas Retrospectivas II</div>
+                                    <div class="sub-item">Estética e História da Arte</div>
+                                </div>
+                            </td>
+                            <td style="padding: 0; height: 1px;">
+                                <div class="enade-sub-list">
+                                    <div class="sub-item links" style="flex-direction: column; gap: 0.5rem; justify-content: center;">
+                                        <a href="https://materialdidatico.aiamis.com.br/" target="_blank" class="btn-table" style="margin: 0 auto;">Acessar Material Didático</a>
+                                    </div>
+                                    <div class="sub-item links" style="flex-direction: column; gap: 0.5rem; justify-content: center;">
+                                        <a href="https://materialdidatico.aiamis.com.br/" target="_blank" class="btn-table" style="margin: 0 auto;">Acessar Material Didático</a>
+                                    </div>
+                                    <div class="sub-item links" style="flex-direction: column; gap: 0.5rem; justify-content: center;">
+                                        <a href="https://materialdidatico.aiamis.com.br/" target="_blank" class="btn-table" style="margin: 0 auto;">Acessar Material Didático</a>
+                                    </div>
+                                    <div class="sub-item links" style="flex-direction: column; gap: 0.5rem; justify-content: center;">
+                                        <a href="https://materialdidatico.aiamis.com.br/" target="_blank" class="btn-table" style="margin: 0 auto;">Acessar Material Didático</a>
+                                    </div>
+                                    <div class="sub-item links" style="flex-direction: column; gap: 0.5rem; justify-content: center;">
+                                        <a href="https://materialdidatico.aiamis.com.br/" target="_blank" class="btn-table" style="margin: 0 auto;">Acessar Material Didático</a>
+                                    </div>
+                                </div>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>Representação gráfica arquitetônica<br><span style='font-size: 0.85rem; color: var(--text-light);'>(Planta de cobertura; telhados; projeções ortográficas; vistas; leitura e interpretação gráfica; desenho técnico; representação arquitetônica; geometria aplicada)</span></td>
+                            <td style="padding: 0; height: 1px;">
+                                <div class="enade-sub-list">
+                                    <div class="sub-item">Introdução ao Desenho de Arquitetura</div>
+                                    <div class="sub-item">Desenho de Arquitetura</div>
+                                    <div class="sub-item">Geometria Descritiva</div>
+                                    <div class="sub-item">Análise e Composição da Forma</div>
+                                    <div class="sub-item">Desenho Executivo</div>
+                                </div>
+                            </td>
+                            <td style="padding: 0; height: 1px;">
+                                <div class="enade-sub-list">
+                                    <div class="sub-item links" style="flex-direction: column; gap: 0.5rem; justify-content: center;">
+                                        <a href="https://materialdidatico.aiamis.com.br/" target="_blank" class="btn-table" style="margin: 0 auto;">Acessar Material Didático</a>
+                                    </div>
+                                    <div class="sub-item links" style="flex-direction: column; gap: 0.5rem; justify-content: center;">
+                                        <a href="https://materialdidatico.aiamis.com.br/" target="_blank" class="btn-table" style="margin: 0 auto;">Acessar Material Didático</a>
+                                    </div>
+                                    <div class="sub-item links" style="flex-direction: column; gap: 0.5rem; justify-content: center;">
+                                        <a href="https://materialdidatico.aiamis.com.br/" target="_blank" class="btn-table" style="margin: 0 auto;">Acessar Material Didático</a>
+                                    </div>
+                                    <div class="sub-item links" style="flex-direction: column; gap: 0.5rem; justify-content: center;">
+                                        <a href="https://materialdidatico.aiamis.com.br/" target="_blank" class="btn-table" style="margin: 0 auto;">Acessar Material Didático</a>
+                                    </div>
+                                    <div class="sub-item links" style="flex-direction: column; gap: 0.5rem; justify-content: center;">
+                                        <a href="https://materialdidatico.aiamis.com.br/" target="_blank" class="btn-table" style="margin: 0 auto;">Acessar Material Didático</a>
+                                    </div>
+                                </div>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>Infraestrutura verde e drenagem urbana sustentável<br><span style='font-size: 0.85rem; color: var(--text-light);'>(Renaturalização de rios; parques lineares; infraestrutura verde; drenagem urbana; jardins de chuva; áreas de várzea; pisos drenantes; sustentabilidade urbana; planejamento ambiental; biodiversidade)</span></td>
+                            <td style="padding: 0; height: 1px;">
+                                <div class="enade-sub-list">
+                                    <div class="sub-item">Meio Ambiente e Sustentabilidade</div>
+                                    <div class="sub-item">Infraestrutura Urbana</div>
+                                    <div class="sub-item">Urbanismo I – Parâmetros do Zoneamento</div>
+                                    <div class="sub-item">Projeto Paisagístico I</div>
+                                    <div class="sub-item">Projeto Paisagístico II</div>
+                                    <div class="sub-item">Projeto de Arquitetura VI – Planejamento Urbano e Regional</div>
+                                    <div class="sub-item">Tecnologias e Materiais de Construção II</div>
+                                </div>
+                            </td>
+                            <td style="padding: 0; height: 1px;">
+                                <div class="enade-sub-list">
+                                    <div class="sub-item links" style="flex-direction: column; gap: 0.5rem; justify-content: center;">
+                                        <a href="https://materialdidatico.aiamis.com.br/" target="_blank" class="btn-table" style="margin: 0 auto;">Acessar Material Didático</a>
+                                    </div>
+                                    <div class="sub-item links" style="flex-direction: column; gap: 0.5rem; justify-content: center;">
+                                        <a href="https://materialdidatico.aiamis.com.br/" target="_blank" class="btn-table" style="margin: 0 auto;">Acessar Material Didático</a>
+                                    </div>
+                                    <div class="sub-item links" style="flex-direction: column; gap: 0.5rem; justify-content: center;">
+                                        <a href="https://materialdidatico.aiamis.com.br/" target="_blank" class="btn-table" style="margin: 0 auto;">Acessar Material Didático</a>
+                                    </div>
+                                    <div class="sub-item links" style="flex-direction: column; gap: 0.5rem; justify-content: center;">
+                                        <a href="https://materialdidatico.aiamis.com.br/" target="_blank" class="btn-table" style="margin: 0 auto;">Acessar Material Didático</a>
+                                    </div>
+                                    <div class="sub-item links" style="flex-direction: column; gap: 0.5rem; justify-content: center;">
+                                        <a href="https://materialdidatico.aiamis.com.br/" target="_blank" class="btn-table" style="margin: 0 auto;">Acessar Material Didático</a>
+                                    </div>
+                                    <div class="sub-item links" style="flex-direction: column; gap: 0.5rem; justify-content: center;">
+                                        <a href="https://materialdidatico.aiamis.com.br/" target="_blank" class="btn-table" style="margin: 0 auto;">Acessar Material Didático</a>
+                                    </div>
+                                    <div class="sub-item links" style="flex-direction: column; gap: 0.5rem; justify-content: center;">
+                                        <a href="https://materialdidatico.aiamis.com.br/" target="_blank" class="btn-table" style="margin: 0 auto;">Acessar Material Didático</a>
+                                    </div>
+                                </div>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>Sustentabilidade no projeto arquitetônico<br><span style='font-size: 0.85rem; color: var(--text-light);'>(Desenvolvimento sustentável; Objetivos de Desenvolvimento Sustentável (ODS); eficiência energética; iluminação natural; conforto ambiental; estratégias bioclimáticas; redução do consumo de energia; arquitetura sustentável; desempenho ambiental das edificações; qualidade de vida; responsabilidade socioambiental)</span></td>
+                            <td style="padding: 0; height: 1px;">
+                                <div class="enade-sub-list">
+                                    <div class="sub-item">Meio Ambiente e Sustentabilidade</div>
+                                    <div class="sub-item">Conforto Lumínico</div>
+                                    <div class="sub-item">Conforto Térmico</div>
+                                    <div class="sub-item">Projeto de Arquitetura III</div>
+                                    <div class="sub-item">Projeto de Arquitetura IV</div>
+                                    <div class="sub-item">Tecnologias e Materiais de Construção II</div>
+                                </div>
+                            </td>
+                            <td style="padding: 0; height: 1px;">
+                                <div class="enade-sub-list">
+                                    <div class="sub-item links" style="flex-direction: column; gap: 0.5rem; justify-content: center;">
+                                        <a href="https://materialdidatico.aiamis.com.br/" target="_blank" class="btn-table" style="margin: 0 auto;">Acessar Material Didático</a>
+                                    </div>
+                                    <div class="sub-item links" style="flex-direction: column; gap: 0.5rem; justify-content: center;">
+                                        <a href="https://materialdidatico.aiamis.com.br/" target="_blank" class="btn-table" style="margin: 0 auto;">Acessar Material Didático</a>
+                                    </div>
+                                    <div class="sub-item links" style="flex-direction: column; gap: 0.5rem; justify-content: center;">
+                                        <a href="https://materialdidatico.aiamis.com.br/" target="_blank" class="btn-table" style="margin: 0 auto;">Acessar Material Didático</a>
+                                    </div>
+                                    <div class="sub-item links" style="flex-direction: column; gap: 0.5rem; justify-content: center;">
+                                        <a href="https://materialdidatico.aiamis.com.br/" target="_blank" class="btn-table" style="margin: 0 auto;">Acessar Material Didático</a>
+                                    </div>
+                                    <div class="sub-item links" style="flex-direction: column; gap: 0.5rem; justify-content: center;">
+                                        <a href="https://materialdidatico.aiamis.com.br/" target="_blank" class="btn-table" style="margin: 0 auto;">Acessar Material Didático</a>
+                                    </div>
+                                    <div class="sub-item links" style="flex-direction: column; gap: 0.5rem; justify-content: center;">
+                                        <a href="https://materialdidatico.aiamis.com.br/" target="_blank" class="btn-table" style="margin: 0 auto;">Acessar Material Didático</a>
+                                    </div>
+                                </div>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>Políticas habitacionais e reabilitação urbana<br><span style='font-size: 0.85rem; color: var(--text-light);'>(Habitação de Interesse Social (HIS); reabilitação de edifícios; requalificação urbana; áreas centrais; desenvolvimento urbano; função social da cidade; segregação socioespacial; adensamento urbano; acesso à infraestrutura e aos equipamentos urbanos; políticas públicas urbanas; direito à cidade; inclusão social)</span></td>
+                            <td style="padding: 0; height: 1px;">
+                                <div class="enade-sub-list">
+                                    <div class="sub-item">Urbanismo I – Parâmetros do Zoneamento</div>
+                                    <div class="sub-item">Projeto de Arquitetura VI – Planejamento Urbano e Regional</div>
+                                    <div class="sub-item">Estudos Sociais e Econômicos</div>
+                                    <div class="sub-item">Infraestrutura Urbana</div>
+                                    <div class="sub-item">Legislação Urbana</div>
+                                </div>
+                            </td>
+                            <td style="padding: 0; height: 1px;">
+                                <div class="enade-sub-list">
+                                    <div class="sub-item links" style="flex-direction: column; gap: 0.5rem; justify-content: center;">
+                                        <a href="https://materialdidatico.aiamis.com.br/" target="_blank" class="btn-table" style="margin: 0 auto;">Acessar Material Didático</a>
+                                    </div>
+                                    <div class="sub-item links" style="flex-direction: column; gap: 0.5rem; justify-content: center;">
+                                        <a href="https://materialdidatico.aiamis.com.br/" target="_blank" class="btn-table" style="margin: 0 auto;">Acessar Material Didático</a>
+                                    </div>
+                                    <div class="sub-item links" style="flex-direction: column; gap: 0.5rem; justify-content: center;">
+                                        <a href="https://materialdidatico.aiamis.com.br/" target="_blank" class="btn-table" style="margin: 0 auto;">Acessar Material Didático</a>
+                                    </div>
+                                    <div class="sub-item links" style="flex-direction: column; gap: 0.5rem; justify-content: center;">
+                                        <a href="https://materialdidatico.aiamis.com.br/" target="_blank" class="btn-table" style="margin: 0 auto;">Acessar Material Didático</a>
+                                    </div>
+                                    <div class="sub-item links" style="flex-direction: column; gap: 0.5rem; justify-content: center;">
+                                        <a href="https://materialdidatico.aiamis.com.br/" target="_blank" class="btn-table" style="margin: 0 auto;">Acessar Material Didático</a>
+                                    </div>
+                                </div>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>Planejamento Urbano<br><span style='font-size: 0.85rem; color: var(--text-light);'>(Plano de Desenvolvimento Urbano Integrado (PDUI), Estatuto da Metrópole, governança metropolitana, desenvolvimento regional sustentável)</span></td>
+                            <td style="padding: 0; height: 1px;">
+                                <div class="enade-sub-list">
+                                    <div class="sub-item">Urbanismo I – Parâmetros do Zoneamento</div>
+                                    <div class="sub-item">Projeto de Arquitetura VI – Planejamento Urbano e Regional</div>
+                                    <div class="sub-item">Infraestrutura Urbana</div>
+                                    <div class="sub-item">Legislação Urbana</div>
+                                </div>
+                            </td>
+                            <td style="padding: 0; height: 1px;">
+                                <div class="enade-sub-list">
+                                    <div class="sub-item links" style="flex-direction: column; gap: 0.5rem; justify-content: center;">
+                                        <a href="https://materialdidatico.aiamis.com.br/" target="_blank" class="btn-table" style="margin: 0 auto;">Acessar Material Didático</a>
+                                    </div>
+                                    <div class="sub-item links" style="flex-direction: column; gap: 0.5rem; justify-content: center;">
+                                        <a href="https://materialdidatico.aiamis.com.br/" target="_blank" class="btn-table" style="margin: 0 auto;">Acessar Material Didático</a>
+                                    </div>
+                                    <div class="sub-item links" style="flex-direction: column; gap: 0.5rem; justify-content: center;">
+                                        <a href="https://materialdidatico.aiamis.com.br/" target="_blank" class="btn-table" style="margin: 0 auto;">Acessar Material Didático</a>
+                                    </div>
+                                    <div class="sub-item links" style="flex-direction: column; gap: 0.5rem; justify-content: center;">
+                                        <a href="https://materialdidatico.aiamis.com.br/" target="_blank" class="btn-table" style="margin: 0 auto;">Acessar Material Didático</a>
+                                    </div>
+                                </div>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>Projeto Urbano<br><span style='font-size: 0.85rem; color: var(--text-light);'>(Quadra aberta, desenho urbano, relação edifício-espaço público, permeabilidade urbana)</span></td>
+                            <td style="padding: 0; height: 1px;">
+                                <div class="enade-sub-list">
+                                    <div class="sub-item">Urbanismo I – Parâmetros do Zoneamento</div>
+                                    <div class="sub-item">Projeto de Arquitetura II, III e VI</div>
+                                    <div class="sub-item">Análise e Composição da Forma</div>
+                                </div>
+                            </td>
+                            <td style="padding: 0; height: 1px;">
+                                <div class="enade-sub-list">
+                                    <div class="sub-item links" style="flex-direction: column; gap: 0.5rem; justify-content: center;">
+                                        <a href="https://materialdidatico.aiamis.com.br/" target="_blank" class="btn-table" style="margin: 0 auto;">Acessar Material Didático</a>
+                                        <a href="https://eventos.aiamis.com.br/" target="_blank" class="btn-table nomediaplugin" style="margin: 0 auto;">Acessar Evento</a>
+                                    </div>
+                                    <div class="sub-item links" style="flex-direction: column; gap: 0.5rem; justify-content: center;">
+                                        <a href="https://materialdidatico.aiamis.com.br/" target="_blank" class="btn-table" style="margin: 0 auto;">Acessar Material Didático</a>
+                                        <a href="https://eventos.aiamis.com.br/" target="_blank" class="btn-table nomediaplugin" style="margin: 0 auto;">Acessar Evento</a>
+                                    </div>
+                                    <div class="sub-item links" style="flex-direction: column; gap: 0.5rem; justify-content: center;">
+                                        <a href="https://materialdidatico.aiamis.com.br/" target="_blank" class="btn-table" style="margin: 0 auto;">Acessar Material Didático</a>
+                                        <a href="https://eventos.aiamis.com.br/" target="_blank" class="btn-table nomediaplugin" style="margin: 0 auto;">Acessar Evento</a>
+                                    </div>
+                                </div>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>Sistemas estruturais<br><span style='font-size: 0.85rem; color: var(--text-light);'>(Estruturas metálicas, implantação em terrenos inclinados, racionalização construtiva)</span></td>
+                            <td style="padding: 0; height: 1px;">
+                                <div class="enade-sub-list">
+                                    <div class="sub-item">Resistência dos Materiais</div>
+                                    <div class="sub-item">Sistemas Estruturais I</div>
+                                    <div class="sub-item">Sistemas Estruturais II</div>
+                                    <div class="sub-item">Tecnologias e Materiais de Construção I</div>
+                                </div>
+                            </td>
+                            <td style="padding: 0; height: 1px;">
+                                <div class="enade-sub-list">
+                                    <div class="sub-item links" style="flex-direction: column; gap: 0.5rem; justify-content: center;">
+                                        <a href="https://materialdidatico.aiamis.com.br/" target="_blank" class="btn-table" style="margin: 0 auto;">Acessar Material Didático</a>
+                                    </div>
+                                    <div class="sub-item links" style="flex-direction: column; gap: 0.5rem; justify-content: center;">
+                                        <a href="https://materialdidatico.aiamis.com.br/" target="_blank" class="btn-table" style="margin: 0 auto;">Acessar Material Didático</a>
+                                    </div>
+                                    <div class="sub-item links" style="flex-direction: column; gap: 0.5rem; justify-content: center;">
+                                        <a href="https://materialdidatico.aiamis.com.br/" target="_blank" class="btn-table" style="margin: 0 auto;">Acessar Material Didático</a>
+                                    </div>
+                                    <div class="sub-item links" style="flex-direction: column; gap: 0.5rem; justify-content: center;">
+                                        <a href="https://materialdidatico.aiamis.com.br/" target="_blank" class="btn-table" style="margin: 0 auto;">Acessar Material Didático</a>
+                                    </div>
+                                </div>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>Arquitetura Sustentável<br><span style='font-size: 0.85rem; color: var(--text-light);'>(Arquitetura social, sustentabilidade, uso de materiais locais, conforto ambiental passivo, arquitetura de Francis Kéré)</span></td>
+                            <td style="padding: 0; height: 1px;">
+                                <div class="enade-sub-list">
+                                    <div class="sub-item">Projeto de Arquitetura I a VI</div>
+                                    <div class="sub-item">Meio Ambiente e Sustentabilidade</div>
+                                    <div class="sub-item">Conforto Térmico</div>
+                                    <div class="sub-item">Tecnologias e Materiais de Construção I e II</div>
+                                </div>
+                            </td>
+                            <td style="padding: 0; height: 1px;">
+                                <div class="enade-sub-list">
+                                    <div class="sub-item links" style="flex-direction: column; gap: 0.5rem; justify-content: center;">
+                                        <a href="https://materialdidatico.aiamis.com.br/" target="_blank" class="btn-table" style="margin: 0 auto;">Acessar Material Didático</a>
+                                    </div>
+                                    <div class="sub-item links" style="flex-direction: column; gap: 0.5rem; justify-content: center;">
+                                        <a href="https://materialdidatico.aiamis.com.br/" target="_blank" class="btn-table" style="margin: 0 auto;">Acessar Material Didático</a>
+                                    </div>
+                                    <div class="sub-item links" style="flex-direction: column; gap: 0.5rem; justify-content: center;">
+                                        <a href="https://materialdidatico.aiamis.com.br/" target="_blank" class="btn-table" style="margin: 0 auto;">Acessar Material Didático</a>
+                                    </div>
+                                    <div class="sub-item links" style="flex-direction: column; gap: 0.5rem; justify-content: center;">
+                                        <a href="https://materialdidatico.aiamis.com.br/" target="_blank" class="btn-table" style="margin: 0 auto;">Acessar Material Didático</a>
+                                    </div>
+                                </div>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td colspan="3" style="font-size: 0.85rem; color: var(--text-light); text-align: center;">Observação: as associações são temáticas e indicativas; um mesmo objeto de conhecimento pode ser desenvolvido em mais de uma disciplina.</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </section>
+    </main>
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    function initPagination(table) {
+        var tbody = table.querySelector('tbody');
+        if (!tbody) return;
+
+        var rows = Array.prototype.slice.call(tbody.querySelectorAll('tr'));
+        var dataRows = rows.filter(function(row) {
+            return !row.querySelector('td[colspan]');
+        });
+        var obsRows = rows.filter(function(row) {
+            return row.querySelector('td[colspan]');
+        });
+        
+        if (dataRows.length <= 5) return; 
+
+        var wrapper = table.parentElement;
+        wrapper.style.borderBottomLeftRadius = '0';
+        wrapper.style.borderBottomRightRadius = '0';
+
+        var paginationContainer = document.createElement('div');
+        paginationContainer.className = 'pagination-container';
+
+        var infoDiv = document.createElement('div');
+        infoDiv.className = 'pagination-info';
+        
+        var startSpan = document.createElement('span');
+        startSpan.className = 'start-idx';
+        var endSpan = document.createElement('span');
+        endSpan.className = 'end-idx';
+        var totalSpan = document.createElement('span');
+        totalSpan.className = 'total-idx';
+        totalSpan.textContent = dataRows.length;
+
+        infoDiv.appendChild(document.createTextNode('Exibindo '));
+        infoDiv.appendChild(startSpan);
+        infoDiv.appendChild(document.createTextNode(' a '));
+        infoDiv.appendChild(endSpan);
+        infoDiv.appendChild(document.createTextNode(' de '));
+        infoDiv.appendChild(totalSpan);
+        infoDiv.appendChild(document.createTextNode(' resultados'));
+
+        var controlsDiv = document.createElement('div');
+        controlsDiv.className = 'pagination-controls';
+
+        var selectWrapper = document.createElement('div');
+        var select = document.createElement('select');
+        select.className = 'per-page-select';
+        
+        var opt5 = document.createElement('option'); opt5.value = '5'; opt5.textContent = 'por página 5'; opt5.selected = true;
+        var opt10 = document.createElement('option'); opt10.value = '10'; opt10.textContent = 'por página 10';
+        var opt15 = document.createElement('option'); opt15.value = '15'; opt15.textContent = 'por página 15';
+        var optAll = document.createElement('option'); optAll.value = 'all'; optAll.textContent = 'Todas';
+        
+        select.appendChild(opt5);
+        select.appendChild(opt10);
+        select.appendChild(opt15);
+        select.appendChild(optAll);
+        selectWrapper.appendChild(select);
+
+        var buttonsContainer = document.createElement('div');
+        buttonsContainer.className = 'pagination-buttons';
+
+        controlsDiv.appendChild(selectWrapper);
+        controlsDiv.appendChild(buttonsContainer);
+
+        paginationContainer.appendChild(infoDiv);
+        paginationContainer.appendChild(controlsDiv);
+
+        wrapper.parentNode.insertBefore(paginationContainer, wrapper.nextSibling);
+
+        var currentPage = 1;
+        var rowsPerPage = 5;
+
+        function renderTable() {
+            var totalRows = dataRows.length;
+            var totalPages = rowsPerPage === 'all' ? 1 : Math.ceil(totalRows / rowsPerPage);
+            
+            if (currentPage > totalPages) currentPage = totalPages;
+            if (currentPage < 1) currentPage = 1;
+
+            var startIndex = rowsPerPage === 'all' ? 0 : (currentPage - 1) * rowsPerPage;
+            var endIndex = rowsPerPage === 'all' ? totalRows : Math.min(startIndex + rowsPerPage, totalRows);
+
+            dataRows.forEach(function(row, index) {
+                if (index >= startIndex && index < endIndex) {
+                    row.style.display = '';
+                } else {
+                    row.style.display = 'none';
+                }
+            });
+
+            obsRows.forEach(function(row) {
+                row.style.display = '';
+            });
+
+            startSpan.textContent = totalRows === 0 ? 0 : startIndex + 1;
+            endSpan.textContent = endIndex;
+
+            renderButtons(totalPages);
+        }
+
+        function renderButtons(totalPages) {
+            buttonsContainer.innerHTML = '';
+            
+            if (totalPages <= 1) return;
+
+            var prevBtn = document.createElement('button');
+            prevBtn.className = 'page-btn';
+            prevBtn.innerHTML = '&lsaquo;';
+            prevBtn.disabled = currentPage === 1;
+            prevBtn.onclick = function() { currentPage--; renderTable(); };
+            buttonsContainer.appendChild(prevBtn);
+
+            for (var i = 1; i <= totalPages; i++) {
+                var btn = document.createElement('button');
+                btn.className = 'page-btn ' + (i === currentPage ? 'active' : '');
+                btn.textContent = i;
+                
+                (function(pageIndex) {
+                    btn.onclick = function() { currentPage = pageIndex; renderTable(); };
+                })(i);
+                
+                buttonsContainer.appendChild(btn);
+            }
+
+            var nextBtn = document.createElement('button');
+            nextBtn.className = 'page-btn';
+            nextBtn.innerHTML = '&rsaquo;';
+            nextBtn.disabled = currentPage === totalPages;
+            nextBtn.onclick = function() { currentPage++; renderTable(); };
+            buttonsContainer.appendChild(nextBtn);
+        }
+
+        select.addEventListener('change', function(e) {
+            var val = e.target.value;
+            rowsPerPage = val === 'all' ? 'all' : parseInt(val, 10);
+            currentPage = 1; 
+            renderTable();
+        });
+
+        renderTable();
+    }
+
+    var tables = document.querySelectorAll('.enade-table');
+    for (var j = 0; j < tables.length; j++) {
+        initPagination(tables[j]);
+    }
+});
+</script>
+</body>
+</html>

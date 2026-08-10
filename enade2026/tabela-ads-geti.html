@@ -1,0 +1,1118 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sala do ENADE - Preparação (Tabela)</title>
+    
+    <style>
+        :root {
+            --uninta-red: #B3171C;
+            --uninta-dark-red: #8a1014;
+            --uninta-blue: #003366;
+            --text-dark: #333333;
+            --text-light: #555555;
+            --bg-page: #f8f9fa;
+            --bg-card: #ffffff;
+            --border-radius: 8px;
+            --transition: all 0.3s ease;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+        }
+
+        body {
+            color: var(--text-dark);
+            line-height: 1.6;
+        }
+
+        /* Container principal */
+        .enade-container {
+            max-width: 1000px;
+            margin: 0 auto 2rem auto;
+            border-radius: var(--border-radius);
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05);
+            padding: 2rem;
+            overflow: hidden;
+        }
+
+        .content-section {
+            margin: 2rem 0;
+        }
+
+        .sem-material {
+            background-color: #bbb !important;
+            cursor: not-allowed;
+        }
+
+        .table-responsive {
+            width: 100%;
+            overflow-x: auto;
+            margin-top: 1.5rem;
+            border-radius: var(--border-radius);
+            box-shadow: 0 4px 15px rgba(0,0,0,0.05);
+            border: 1px solid #e2e8f0;
+        }
+
+        .enade-table {
+            width: 100%;
+            border-collapse: collapse;
+            background-color: var(--bg-card);
+            min-width: 600px;
+        }
+
+        .enade-table th {
+            background-color: var(--uninta-red);
+            color: #ffffff;
+            text-align: left;
+            padding: 1rem;
+            font-weight: 600;
+            font-size: 0.95rem;
+            border: 1px solid rgba(255, 255, 255, 0.8);
+        }
+
+        .enade-table td {
+            padding: 1rem;
+            border: 1px solid #ced2d8;
+            font-size: 0.9rem;
+            vertical-align: middle;
+        }
+
+        .enade-table td a {
+            min-width: 200px;
+            flex: 1;
+        }
+        
+        .enade-table tbody tr:nth-child(even) {
+            background-color: #eee;
+        }
+
+        .btn-table {
+            background-color: var(--uninta-red);
+            color: #fff;
+            text-decoration: none;
+            padding: 0.5rem 1rem;
+            border-radius: 6px;
+            font-size: 0.85rem;
+            font-weight: 600;
+            display: inline-block;
+            transition: var(--transition);
+            text-align: center;
+            display: block; 
+            width: fit-content; 
+            margin: 0 auto;
+        }
+
+        .btn-table:hover {
+            background-color: var(--uninta-dark-red);
+            text-decoration: none;
+            color: #fff;
+        }
+
+        .course-header {
+            font-size: 1.4rem;
+            color: var(--text-dark);
+            border-bottom: 3px solid var(--uninta-red);
+            padding-bottom: 0.5rem;
+            margin-bottom: 1.5rem;
+            display: flex;
+            align-items: center;
+        }
+
+        .enade-sub-list {
+            display: grid;
+            grid-auto-rows: 1fr;
+            height: 100%;
+        }
+
+        .sub-item {
+            display: flex;
+            align-items: center; 
+            padding: 1rem;
+            border-bottom: 1px solid #e2e8f0;
+            font-size: 0.9rem;
+        }
+
+        .sub-item.links {
+            flex-direction: column;
+            gap: 1rem;
+        }
+
+        .sub-item:last-child {
+            border-bottom: none;
+        }
+
+        .files-grid {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 1rem;
+            margin-top: 1rem;
+        }
+
+        .file-card {
+            display: flex;
+            align-items: center;
+            background-color: var(--bg-card);
+            border: 1px solid #e2e8f0;
+            padding: 1rem;
+            border-radius: var(--border-radius);
+            text-decoration: none;
+            color: var(--text-dark);
+            transition: var(--transition);
+            box-shadow: 0 2px 4px rgba(0,0,0,0.02);
+        }
+
+        .file-card:hover {
+            border-color: var(--uninta-red);
+            box-shadow: 0 4px 12px rgba(179, 23, 28, 0.1);
+            transform: translateY(-2px);
+            text-decoration: none;
+        }
+
+        .file-icon {
+            background-color: #f1f5f9;
+            color: var(--uninta-blue);
+            width: 40px;
+            height: 40px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 8px;
+            margin-right: 1rem;
+            flex-shrink: 0;
+        }
+
+        .file-icon svg {
+            width: 20px;
+            height: 20px;
+        }
+
+        .file-name {
+            font-size: 0.9rem;
+            font-weight: 600;
+            line-height: 1.3;
+        }
+
+        /* ==========================================
+           PAGINAÇÃO (FOOTER DA TABELA)
+           ========================================== */
+        .pagination-container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1rem;
+            border-top: 1px solid #e2e8f0;
+            background-color: #f8fafc;
+            border-bottom-left-radius: var(--border-radius);
+            border-bottom-right-radius: var(--border-radius);
+            flex-wrap: wrap;
+            gap: 1rem;
+            
+            border-left: 1px solid #e2e8f0;
+            border-right: 1px solid #e2e8f0;
+            border-bottom: 1px solid #e2e8f0;
+            margin-top: -1px;
+        }
+
+        .pagination-info {
+            font-size: 0.9rem;
+            color: var(--text-light);
+        }
+
+        .pagination-controls {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .per-page-select {
+            padding: 0.4rem 0.5rem;
+            border-radius: 4px;
+            border: 1px solid var(--uninta-red);
+            color: var(--uninta-red);
+            background-color: transparent;
+            font-size: 0.9rem;
+            outline: none;
+            cursor: pointer;
+            font-weight: 500;
+        }
+
+        .pagination-buttons {
+            display: flex;
+            gap: 0.3rem;
+        }
+
+        .page-btn {
+            min-width: 32px;
+            height: 32px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border: 1px solid #e2e8f0;
+            background-color: #fff;
+            border-radius: 4px;
+            color: var(--text-dark);
+            cursor: pointer;
+            transition: var(--transition);
+            font-size: 0.9rem;
+        }
+
+        .page-btn:hover:not(:disabled) {
+            border-color: var(--uninta-red);
+            color: var(--uninta-red);
+        }
+
+        .page-btn.active {
+            background-color: var(--uninta-red);
+            color: #fff;
+            border-color: var(--uninta-red);
+        }
+
+        .page-btn:disabled {
+            cursor: not-allowed;
+            opacity: 0.5;
+        }
+        
+        .hidden-row {
+            display: none !important;
+        }
+
+        /* Responsividade */
+        @media (max-width: 1000px) {
+            .enade-container {
+                padding: 1.5rem;
+                margin: 1rem;
+            }
+            .pagination-container {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <h1 style="display: none;">Análise e Desenvolvimento de Sistemas (ADS)</h1>
+
+    <main class="enade-container">
+        
+        <section class="content-section">
+            <h2 class="course-header">
+                Preparação para o ENADE - ADS + GETI
+            </h2>
+
+            <div class="files-grid">
+                <h4>Analise e Desenvolvimento de Sistemas</h4>
+                <a href="https://drive.google.com/file/d/1RzN_PGmP7qilAb_lp3R9nFGmQtJ6d0eP/view?usp=drive_link" class="file-card" target="_blank">
+                    <div class="file-icon">
+                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" /></svg>
+                    </div>
+                    <div class="file-name">Prova Enade 2024</div>
+                </a>
+
+                <a href="https://drive.google.com/file/d/1vMQvwwOGBtYpWWUXsB-bH0qIAKYT8pk1/view?usp=drive_link" class="file-card" target="_blank">
+                    <div class="file-icon">
+                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" /></svg>
+                    </div>
+                    <div class="file-name">Gabarito Enade 2024</div>
+                </a>
+            </div>
+
+            <div class="files-grid">
+                <h4 style="margin-top: 1rem;">Gestão de Tecnologia da Informação</h4>
+                <a href="https://drive.google.com/file/d/1KxBdgPwd0Rk4a_F_wUmfouDIC1yKo9wp/view?usp=drive_link" class="file-card" target="_blank">
+                    <div class="file-icon">
+                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" /></svg>
+                    </div>
+                    <div class="file-name">Prova Enade 2024</div>
+                </a>
+
+                <a href="https://drive.google.com/file/d/1RWkIhVOX3-nKYJKeovLsA2zkvfICidbg/view?usp=drive_link" class="file-card" target="_blank">
+                    <div class="file-icon">
+                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" /></svg>
+                    </div>
+                    <div class="file-name">Gabarito Enade 2024</div>
+                </a>
+            </div>
+            
+            <h3 class="subtitle-blue" style="margin-top: 2.5rem; font-size: 1.1rem;">FORMAÇÃO GERAL</h3>
+            <div class="table-responsive">
+                <table class="enade-table">
+                    <thead>
+                        <tr>
+                            <th style="width: 45%;">Temática ENADE</th>
+                            <th style="width: 35%;">Disciplina</th>
+                            <th style="width: 20%;">Link do Vídeo ou Material</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>Administração e Gestão Organizacional</td>
+                            <td>Administração Contemporânea</td>
+                            <td style="display: flex; flex-direction: column; gap: 1rem; align-items: center;">
+                                <a href="https://materialdidatico.aiamis.com.br/98345f8dd3" target="_blank" class="btn-table">Acessar Material Didático</a>
+                                <a href="https://eventos.aiamis.com.br/uninta/cursos/MA==?pesquisa=responsabilidade%20social" target="_blank" class="btn-table nomediaplugin">Acessar Evento</a>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>Ética Profissional e Responsabilidade Social</td>
+                            <td>Ética</td>
+                            <td style="display: flex; flex-direction: column; gap: 1rem; align-items: center;">
+                                <a href="https://materialdidatico.aiamis.com.br/8fd46d506e" target="_blank" class="btn-table">Acessar Material Didático</a>
+                                <a href="https://eventos.aiamis.com.br/uninta/cursos/MA==?pesquisa=%20Responsabilidade%20Social" target="_blank" class="btn-table nomediaplugin">Acessar Evento</a>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>Comunicação Oral, Escrita e Interpretação de Textos</td>
+                            <td>Leitura, Interpretação e Produção Textual</td>
+                            <td style="display: flex; flex-direction: column; gap: 1rem; align-items: center;">
+                                <a href="https://materialdidatico.aiamis.com.br/c3c3044cac" target="_blank" class="btn-table">Acessar Material Didático</a>
+                                <a href="https://eventos.aiamis.com.br/uninta/cursos/MA==?pesquisa=Interpreta%C3%A7%C3%A3o%20de%20Textos" target="_blank" class="btn-table nomediaplugin">Acessar Evento</a>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>Educação Superior, Aprendizagem e Formação Acadêmica</td>
+                            <td>Introdução ao Ensino Superior</td>
+                            <td style="display: flex; flex-direction: column; gap: 1rem; align-items: center;">
+                                <a href="https://materialdidatico.aiamis.com.br/8077840ce2" target="_blank" class="btn-table">Acessar Material Didático</a>
+                                <a href="https://eventos.aiamis.com.br/uninta/cursos/MA==?pesquisa=aprendizagem" target="_blank" class="btn-table nomediaplugin">Acessar Evento</a>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>Tecnologia, Sociedade e Transformação Digital</td>
+                            <td>Informática e Sociedade</td>
+                            <td style="display: flex; flex-direction: column; gap: 1rem; align-items: center;">
+                                <a href="https://materialdidatico.aiamis.com.br/d42dac8423" target="_blank" class="btn-table">Acessar Material Didático</a>
+                                <a href="https://eventos.aiamis.com.br/uninta/cursos/MA==?pesquisa=transforma%C3%A7%C3%A3o%20digital" target="_blank" class="btn-table nomediaplugin">Acessar Evento</a>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>Empreendedorismo, Inovação e Modelos de Negócio</td>
+                            <td>Empreendedorismo e Inovação</td>
+                            <td style="display: flex; flex-direction: column; gap: 1rem; align-items: center;">
+                                <a href="https://materialdidatico.aiamis.com.br/b70e358b76" target="_blank" class="btn-table">Acessar Material Didático</a>
+                                <a href="https://eventos.aiamis.com.br/uninta/cursos/MA==?pesquisa=Empreendedorismo" target="_blank" class="btn-table nomediaplugin">Acessar Evento</a>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>Sustentabilidade e Responsabilidade Socioambiental</td>
+                            <td>Meio Ambiente e Sustentabilidade</td>
+                            <td style="display: flex; flex-direction: column; gap: 1rem; align-items: center;">
+                                <a href="https://materialdidatico.aiamis.com.br/66686149a5" target="_blank" class="btn-table">Acessar Material Didático</a>
+                                <a href="https://eventos.aiamis.com.br/uninta/cursos/MA==?pesquisa=sustentabilidade" target="_blank" class="btn-table nomediaplugin">Acessar Evento</a>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>Economia e Ambiente Organizacional</td>
+                            <td>Fundamentos da Economia</td>
+                            <td style="display: flex; flex-direction: column; gap: 1rem; align-items: center;">
+                                <a href="https://materialdidatico.aiamis.com.br/46f1cf7dfb" target="_blank" class="btn-table">Acessar Material Didático</a>
+                                <a href="https://eventos.aiamis.com.br/uninta/cursos/MA==?pesquisa=organizacional" target="_blank" class="btn-table nomediaplugin">Acessar Evento</a>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>Marketing e Estratégias Organizacionais</td>
+                            <td>Marketing Aplicado à Informática</td>
+                            <td style="display: flex; flex-direction: column; gap: 1rem; align-items: center;">
+                                <a href="https://materialdidatico.aiamis.com.br/" target="_blank" class="btn-table sem-material">Acessar Material Didático</a>
+                                <a href="https://eventos.aiamis.com.br/uninta/cursos/MA==?pesquisa=marketing" target="_blank" class="btn-table nomediaplugin">Acessar Evento</a>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>Cidadania, Direitos Humanos e Diversidade</td>
+                            <td>Cidadania e Direitos Humanos</td>
+                            <td style="display: flex; flex-direction: column; gap: 1rem; align-items: center;">
+                                <a href="https://materialdidatico.aiamis.com.br/678e6748c7" target="_blank" class="btn-table">Acessar Material Didático</a>
+                                <a href="https://eventos.aiamis.com.br/uninta/cursos/MA==?pesquisa=direitos%20humanos" target="_blank" class="btn-table nomediaplugin">Acessar Evento</a>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>Inclusão, Diversidade e Acessibilidade</td>
+                            <td>LIBRAS</td>
+                            <td style="display: flex; flex-direction: column; gap: 1rem; align-items: center;">
+                                <a href="https://materialdidatico.aiamis.com.br/3330c6dd0d" target="_blank" class="btn-table">Acessar Material Didático</a>
+                                <a href="https://eventos.aiamis.com.br/uninta/cursos/MA==?pesquisa=inclus%C3%A3o" target="_blank" class="btn-table nomediaplugin">Acessar Evento</a>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>Projetos Integradores e Extensão Universitária</td>
+                            <td style="padding: 0; height: 1px;">
+                                <div class="enade-sub-list">
+                                    <div class="sub-item">Projeto Integrador Extensionista I</div>
+                                    <div class="sub-item">Projeto Integrador Extensionista II</div>
+                                    <div class="sub-item">Projeto Integrador Extensionista III</div>
+                                    <div class="sub-item">Projeto Integrador Extensionista IV</div>
+                                </div>
+                            </td>
+                            <td style="padding: 0; height: 1px;">
+                                <div class="enade-sub-list">
+                                    <div class="sub-item links" style="flex-direction: column; gap: 0.5rem; justify-content: center;">
+                                        <a href="https://materialdidatico.aiamis.com.br/" target="_blank" class="btn-table sem-material" style="margin: 0 auto;">Acessar Material Didático</a>
+                                        <a href="http://eventos.aiamis.com.br/uninta/cursos/MA==?pesquisa=extens%C3%A3o" target="_blank" class="btn-table nomediaplugin" style="margin: 0 auto;">Acessar Evento</a>
+                                    </div>
+                                    <div class="sub-item links" style="flex-direction: column; gap: 0.5rem; justify-content: center;">
+                                        <a href="https://materialdidatico.aiamis.com.br/" target="_blank" class="btn-table sem-material" style="margin: 0 auto;">Acessar Material Didático</a>
+                                        <a href="http://eventos.aiamis.com.br/uninta/cursos/MA==?pesquisa=extens%C3%A3o" target="_blank" class="btn-table nomediaplugin" style="margin: 0 auto;">Acessar Evento</a>
+                                    </div>
+                                    <div class="sub-item links" style="flex-direction: column; gap: 0.5rem; justify-content: center;">
+                                        <a href="https://materialdidatico.aiamis.com.br/" target="_blank" class="btn-table sem-material" style="margin: 0 auto;">Acessar Material Didático</a>
+                                        <a href="http://eventos.aiamis.com.br/uninta/cursos/MA==?pesquisa=extens%C3%A3o" target="_blank" class="btn-table nomediaplugin" style="margin: 0 auto;">Acessar Evento</a>
+                                    </div>
+                                    <div class="sub-item links" style="flex-direction: column; gap: 0.5rem; justify-content: center;">
+                                        <a href="https://materialdidatico.aiamis.com.br/" target="_blank" class="btn-table sem-material" style="margin: 0 auto;">Acessar Material Didático</a>
+                                        <a href="http://eventos.aiamis.com.br/uninta/cursos/MA==?pesquisa=extens%C3%A3o" target="_blank" class="btn-table nomediaplugin" style="margin: 0 auto;">Acessar Evento</a>
+                                    </div>
+                                </div>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td colspan="3" style="font-size: 0.85rem; color: var(--text-light); text-align: center;">Observação: as associações são temáticas e indicativas; um mesmo objeto de conhecimento pode ser desenvolvido em mais de uma disciplina.</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <h3 class="subtitle-blue" style="margin-top: 3rem; font-size: 1.1rem;">COMPONENTE ESPECÍFICO - ADS</h3>
+            <div class="table-responsive">
+                <table class="enade-table">
+                    <thead>
+                        <tr>
+                            <th style="width: 45%;">Temática ENADE</th>
+                            <th style="width: 35%;">Disciplina</th>
+                            <th style="width: 20%;">Link do Vídeo ou Material</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>Algoritmos</td>
+                            <td style="padding: 0; height: 1px;">
+                                <div class="enade-sub-list">
+                                    <div class="sub-item">Lógica de Programação</div>
+                                    <div class="sub-item">Técnicas de Programação</div>
+                                </div>
+                            </td>
+                            <td style="padding: 0; height: 1px;">
+                                <div class="enade-sub-list">
+                                    <div class="sub-item links" style="flex-direction: column; gap: 0.5rem; justify-content: center;">
+                                        <a href="https://materialdidatico.aiamis.com.br/727cf6ad26" target="_blank" class="btn-table" style="margin: 0 auto;">Acessar Material Didático</a>
+                                        <a href="https://eventos.aiamis.com.br/uninta/cursos/MA==?pesquisa=l%C3%B3gica%20de%20programa%C3%A7%C3%A3o" target="_blank" class="btn-table nomediaplugin" style="margin: 0 auto;">Acessar Evento</a>
+                                    </div>
+                                    <div class="sub-item links" style="flex-direction: column; gap: 0.5rem; justify-content: center;">
+                                        <a href="https://materialdidatico.aiamis.com.br/008ed70cf9" target="_blank" class="btn-table" style="margin: 0 auto;">Acessar Material Didático</a>
+                                        <a href="https://eventos.aiamis.com.br/uninta/cursos/MA==?pesquisa=l%C3%B3gica%20de%20programa%C3%A7%C3%A3o" target="_blank" class="btn-table nomediaplugin" style="margin: 0 auto;">Acessar Evento</a>
+                                    </div>
+                                </div>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>Arquitetura de computadores</td>
+                            <td style="padding: 0; height: 1px;">
+                                <div class="enade-sub-list">
+                                    <div class="sub-item">Fundamentos das Redes de Computadores</div>
+                                    <div class="sub-item">Sistemas Operacionais</div>
+                                </div>
+                            </td>
+                            <td style="padding: 0; height: 1px;">
+                                <div class="enade-sub-list">
+                                    <div class="sub-item links" style="flex-direction: column; gap: 0.5rem; justify-content: center;">
+                                        <a href="https://materialdidatico.aiamis.com.br/c7dba2986b" target="_blank" class="btn-table" style="margin: 0 auto;">Acessar Material Didático</a>
+                                        <a href="https://eventos.aiamis.com.br/uninta/cursos/MA==?pesquisa=l%C3%B3gica%20de%20programa%C3%A7%C3%A3o" target="_blank" class="btn-table nomediaplugin" style="margin: 0 auto;">Acessar Evento</a>
+                                    </div>
+                                    <div class="sub-item links" style="flex-direction: column; gap: 0.5rem; justify-content: center;">
+                                        <a href="https://materialdidatico.aiamis.com.br/3705290869" target="_blank" class="btn-table" style="margin: 0 auto;">Acessar Material Didático</a>
+                                        <a href="https://eventos.aiamis.com.br/uninta/cursos/MA==?pesquisa=l%C3%B3gica%20de%20programa%C3%A7%C3%A3o" target="_blank" class="btn-table nomediaplugin" style="margin: 0 auto;">Acessar Evento</a>
+                                    </div>
+                                </div>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>Sistemas operacionais</td>
+                            <td style="padding: 0; height: 1px;">
+                                <div class="enade-sub-list">
+                                    <div class="sub-item">Sistemas Operacionais</div>
+                                    <div class="sub-item">Fundamentos das Redes de Computadores</div>
+                                </div>
+                            </td>
+                            <td style="padding: 0; height: 1px;">
+                                <div class="enade-sub-list">
+                                    <div class="sub-item links" style="flex-direction: column; gap: 0.5rem; justify-content: center;">
+                                        <a href="https://materialdidatico.aiamis.com.br/3705290869" target="_blank" class="btn-table" style="margin: 0 auto;">Acessar Material Didático</a>
+                                        <a href="https://eventos.aiamis.com.br/uninta/cursos/MA==?pesquisa=sistemas%20operacionais" target="_blank" class="btn-table nomediaplugin" style="margin: 0 auto;">Acessar Evento</a>
+                                    </div>
+                                    <div class="sub-item links" style="flex-direction: column; gap: 0.5rem; justify-content: center;">
+                                        <a href="https://materialdidatico.aiamis.com.br/c7dba2986b" target="_blank" class="btn-table" style="margin: 0 auto;">Acessar Material Didático</a>
+                                        <a href="https://eventos.aiamis.com.br/uninta/cursos/MA==?pesquisa=sistemas%20operacionais" target="_blank" class="btn-table nomediaplugin" style="margin: 0 auto;">Acessar Evento</a>
+                                    </div>
+                                </div>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>Banco de dados</td>
+                            <td style="padding: 0; height: 1px;">
+                                <div class="enade-sub-list">
+                                    <div class="sub-item">Fundamentos de Banco de Dados</div>
+                                    <div class="sub-item">Administração de Banco de Dados</div>
+                                </div>
+                            </td>
+                            <td style="padding: 0; height: 1px;">
+                                <div class="enade-sub-list">
+                                    <div class="sub-item links" style="flex-direction: column; gap: 0.5rem; justify-content: center;">
+                                        <a href="https://materialdidatico.aiamis.com.br/c81e2ca29a" target="_blank" class="btn-table" style="margin: 0 auto;">Acessar Material Didático</a>
+                                        <a href="https://eventos.aiamis.com.br/uninta/projetos/MA==?pesquisa=banco%20de%20dados&page=1" target="_blank" class="btn-table nomediaplugin" style="margin: 0 auto;">Acessar Evento</a>
+                                    </div>
+                                    <div class="sub-item links" style="flex-direction: column; gap: 0.5rem; justify-content: center;">
+                                        <a href="https://materialdidatico.aiamis.com.br/251250f85c" target="_blank" class="btn-table" style="margin: 0 auto;">Acessar Material Didático</a>
+                                        <a href="https://eventos.aiamis.com.br/uninta/projetos/MA==?pesquisa=banco%20de%20dados&page=1" target="_blank" class="btn-table nomediaplugin" style="margin: 0 auto;">Acessar Evento</a>
+                                    </div>
+                                </div>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>Engenharia de software</td>
+                            <td style="padding: 0; height: 1px;">
+                                <div class="enade-sub-list">
+                                    <div class="sub-item">Engenharia de Software</div>
+                                    <div class="sub-item">Gerenciamento de Projetos I</div>
+                                    <div class="sub-item">Gerenciamento de Projetos II</div>
+                                    <div class="sub-item">Matemática Discreta</div>
+                                    <div class="sub-item">Segurança da Informação</div>
+                                    <div class="sub-item">Fundamentos das Redes de Computadores</div>
+                                    <div class="sub-item">Sistemas para Internet</div>
+                                    <div class="sub-item">Metodologias Ágeis</div>
+                                    <div class="sub-item">Lógica de Programação</div>
+                                    <div class="sub-item">Fundamentos de Banco de Dados</div>
+                                </div>
+                            </td>
+                            <td style="padding: 0; height: 1px;">
+                                <div class="enade-sub-list">
+                                    <div class="sub-item links" style="flex-direction: column; gap: 0.5rem; justify-content: center;">
+                                        <a href="https://materialdidatico.aiamis.com.br/84db9060c2" target="_blank" class="btn-table" style="margin: 0 auto;">Acessar Material Didático</a>
+                                        <a href="https://eventos.aiamis.com.br/uninta/cursos/MA==?pesquisa=engenharia%20de%20software" target="_blank" class="btn-table nomediaplugin" style="margin: 0 auto;">Acessar Evento</a>
+                                    </div>
+                                    <div class="sub-item links" style="flex-direction: column; gap: 0.5rem; justify-content: center;">
+                                        <a href="https://materialdidatico.aiamis.com.br/553465ba5b" target="_blank" class="btn-table" style="margin: 0 auto;">Acessar Material Didático</a>
+                                        <a href="https://eventos.aiamis.com.br/uninta/cursos/MA==?pesquisa=engenharia%20de%20software" target="_blank" class="btn-table nomediaplugin" style="margin: 0 auto;">Acessar Evento</a>
+                                    </div>
+                                    <div class="sub-item links" style="flex-direction: column; gap: 0.5rem; justify-content: center;">
+                                        <a href="https://materialdidatico.aiamis.com.br/940942e480" target="_blank" class="btn-table" style="margin: 0 auto;">Acessar Material Didático</a>
+                                        <a href="https://eventos.aiamis.com.br/uninta/cursos/MA==?pesquisa=engenharia%20de%20software" target="_blank" class="btn-table nomediaplugin" style="margin: 0 auto;">Acessar Evento</a>
+                                    </div>
+                                    <div class="sub-item links" style="flex-direction: column; gap: 0.5rem; justify-content: center;">
+                                        <a href="https://materialdidatico.aiamis.com.br/a79b9683c4" target="_blank" class="btn-table" style="margin: 0 auto;">Acessar Material Didático</a>
+                                        <a href="https://eventos.aiamis.com.br/uninta/cursos/MA==?pesquisa=engenharia%20de%20software" target="_blank" class="btn-table nomediaplugin" style="margin: 0 auto;">Acessar Evento</a>
+                                    </div>
+                                    <div class="sub-item links" style="flex-direction: column; gap: 0.5rem; justify-content: center;">
+                                        <a href="https://materialdidatico.aiamis.com.br/034a6ff127" target="_blank" class="btn-table" style="margin: 0 auto;">Acessar Material Didático</a>
+                                        <a href="https://eventos.aiamis.com.br/uninta/cursos/MA==?pesquisa=engenharia%20de%20software" target="_blank" class="btn-table nomediaplugin" style="margin: 0 auto;">Acessar Evento</a>
+                                    </div>
+                                    <div class="sub-item links" style="flex-direction: column; gap: 0.5rem; justify-content: center;">
+                                        <a href="https://materialdidatico.aiamis.com.br/c7dba2986b" target="_blank" class="btn-table" style="margin: 0 auto;">Acessar Material Didático</a>
+                                        <a href="https://eventos.aiamis.com.br/uninta/cursos/MA==?pesquisa=engenharia%20de%20software" target="_blank" class="btn-table nomediaplugin" style="margin: 0 auto;">Acessar Evento</a>
+                                    </div>
+                                    <div class="sub-item links" style="flex-direction: column; gap: 0.5rem; justify-content: center;">
+                                        <a href="https://materialdidatico.aiamis.com.br/88095950df" target="_blank" class="btn-table" style="margin: 0 auto;">Acessar Material Didático</a>
+                                        <a href="https://eventos.aiamis.com.br/uninta/cursos/MA==?pesquisa=engenharia%20de%20software" target="_blank" class="btn-table nomediaplugin" style="margin: 0 auto;">Acessar Evento</a>
+                                    </div>
+                                    <div class="sub-item links" style="flex-direction: column; gap: 0.5rem; justify-content: center;">
+                                        <a href="https://materialdidatico.aiamis.com.br/a31770ec8f" target="_blank" class="btn-table" style="margin: 0 auto;">Acessar Material Didático</a>
+                                        <a href="https://eventos.aiamis.com.br/uninta/cursos/MA==?pesquisa=engenharia%20de%20software" target="_blank" class="btn-table nomediaplugin" style="margin: 0 auto;">Acessar Evento</a>
+                                    </div>
+                                    <div class="sub-item links" style="flex-direction: column; gap: 0.5rem; justify-content: center;">
+                                        <a href="https://materialdidatico.aiamis.com.br/727cf6ad26" target="_blank" class="btn-table" style="margin: 0 auto;">Acessar Material Didático</a>
+                                        <a href="https://eventos.aiamis.com.br/uninta/cursos/MA==?pesquisa=engenharia%20de%20software" target="_blank" class="btn-table nomediaplugin" style="margin: 0 auto;">Acessar Evento</a>
+                                    </div>
+                                    <div class="sub-item links" style="flex-direction: column; gap: 0.5rem; justify-content: center;">
+                                        <a href="https://materialdidatico.aiamis.com.br/c81e2ca29a" target="_blank" class="btn-table" style="margin: 0 auto;">Acessar Material Didático</a>
+                                        <a href="https://eventos.aiamis.com.br/uninta/cursos/MA==?pesquisa=engenharia%20de%20software" target="_blank" class="btn-table nomediaplugin" style="margin: 0 auto;">Acessar Evento</a>
+                                    </div>
+                                </div>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>Gerência de projetos</td>
+                            <td style="padding: 0; height: 1px;">
+                                <div class="enade-sub-list">
+                                    <div class="sub-item">Gerenciamento de Projetos I</div>
+                                    <div class="sub-item">Gerenciamento de Projetos II</div>
+                                    <div class="sub-item">Projeto de Gestão da Tecnologia da Informação I</div>
+                                    <div class="sub-item">Projeto de Gestão da Tecnologia da Informação II</div>
+                                </div>
+                            </td>
+                            <td style="padding: 0; height: 1px;">
+                                <div class="enade-sub-list">
+                                    <div class="sub-item links" style="flex-direction: column; gap: 0.5rem; justify-content: center;">
+                                        <a href="https://materialdidatico.aiamis.com.br/553465ba5b" target="_blank" class="btn-table" style="margin: 0 auto;">Acessar Material Didático</a>
+                                        <a href="https://eventos.aiamis.com.br/uninta/cursos/MA==?pesquisa=gest%C3%A3o%20de%20pessoas" target="_blank" class="btn-table nomediaplugin" style="margin: 0 auto;">Acessar Evento</a>
+                                    </div>
+                                    <div class="sub-item links" style="flex-direction: column; gap: 0.5rem; justify-content: center;">
+                                        <a href="https://materialdidatico.aiamis.com.br/940942e480" target="_blank" class="btn-table" style="margin: 0 auto;">Acessar Material Didático</a>
+                                        <a href="https://eventos.aiamis.com.br/uninta/cursos/MA==?pesquisa=gest%C3%A3o%20de%20pessoas" target="_blank" class="btn-table nomediaplugin" style="margin: 0 auto;">Acessar Evento</a>
+                                    </div>
+                                    <div class="sub-item links" style="flex-direction: column; gap: 0.5rem; justify-content: center;">
+                                        <a href="https://materialdidatico.aiamis.com.br/662b52fdb0" target="_blank" class="btn-table" style="margin: 0 auto;">Acessar Material Didático</a>
+                                        <a href="https://eventos.aiamis.com.br/uninta/cursos/MA==?pesquisa=gest%C3%A3o%20de%20pessoas" target="_blank" class="btn-table nomediaplugin" style="margin: 0 auto;">Acessar Evento</a>
+                                    </div>
+                                    <div class="sub-item links" style="flex-direction: column; gap: 0.5rem; justify-content: center;">
+                                        <a href="https://materialdidatico.aiamis.com.br/6345795a0c" target="_blank" class="btn-table" style="margin: 0 auto;">Acessar Material Didático</a>
+                                        <a href="https://eventos.aiamis.com.br/uninta/cursos/MA==?pesquisa=gest%C3%A3o%20de%20pessoas" target="_blank" class="btn-table nomediaplugin" style="margin: 0 auto;">Acessar Evento</a>
+                                    </div>
+                                </div>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>Gestão de pessoas</td>
+                            <td style="padding: 0; height: 1px;">
+                                <div class="enade-sub-list">
+                                    <div class="sub-item">Gestão de Pessoas</div>
+                                    <div class="sub-item">Introdução à Administração</div>
+                                    <div class="sub-item">Gerenciamento de Projetos I</div>
+                                    <div class="sub-item">Gerenciamento de Projetos II</div>
+                                    <div class="sub-item">Gestão e Governança de Tecnologia da Informação</div>
+                                </div>
+                            </td>
+                            <td style="padding: 0; height: 1px;">
+                                <div class="enade-sub-list">
+                                    <div class="sub-item links" style="flex-direction: column; gap: 0.5rem; justify-content: center;">
+                                        <a href="https://materialdidatico.aiamis.com.br/d8e90aa400" target="_blank" class="btn-table" style="margin: 0 auto;">Acessar Material Didático</a>
+                                        <a href="https://eventos.aiamis.com.br/uninta/cursos/MA==?pesquisa=gest%C3%A3o%20de%20pessoas" target="_blank" class="btn-table nomediaplugin" style="margin: 0 auto;">Acessar Evento</a>
+                                    </div>
+                                    <div class="sub-item links" style="flex-direction: column; gap: 0.5rem; justify-content: center;">
+                                        <a href="https://materialdidatico.aiamis.com.br/d97605cf48" target="_blank" class="btn-table" style="margin: 0 auto;">Acessar Material Didático</a>
+                                        <a href="https://eventos.aiamis.com.br/uninta/cursos/MA==?pesquisa=gest%C3%A3o%20de%20pessoas" target="_blank" class="btn-table nomediaplugin" style="margin: 0 auto;">Acessar Evento</a>
+                                    </div>
+                                    <div class="sub-item links" style="flex-direction: column; gap: 0.5rem; justify-content: center;">
+                                        <a href="https://materialdidatico.aiamis.com.br/553465ba5b" target="_blank" class="btn-table" style="margin: 0 auto;">Acessar Material Didático</a>
+                                        <a href="https://eventos.aiamis.com.br/uninta/cursos/MA==?pesquisa=gest%C3%A3o%20de%20pessoas" target="_blank" class="btn-table nomediaplugin" style="margin: 0 auto;">Acessar Evento</a>
+                                    </div>
+                                    <div class="sub-item links" style="flex-direction: column; gap: 0.5rem; justify-content: center;">
+                                        <a href="https://materialdidatico.aiamis.com.br/940942e480" target="_blank" class="btn-table" style="margin: 0 auto;">Acessar Material Didático</a>
+                                        <a href="https://eventos.aiamis.com.br/uninta/cursos/MA==?pesquisa=gest%C3%A3o%20de%20pessoas" target="_blank" class="btn-table nomediaplugin" style="margin: 0 auto;">Acessar Evento</a>
+                                    </div>
+                                    <div class="sub-item links" style="flex-direction: column; gap: 0.5rem; justify-content: center;">
+                                        <a href="https://materialdidatico.aiamis.com.br/e516c7a7da" target="_blank" class="btn-table" style="margin: 0 auto;">Acessar Material Didático</a>
+                                        <a href="https://eventos.aiamis.com.br/uninta/cursos/MA==?pesquisa=gest%C3%A3o%20de%20pessoas" target="_blank" class="btn-table nomediaplugin" style="margin: 0 auto;">Acessar Evento</a>
+                                    </div>
+                                </div>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>Gestão dos serviços de TI</td>
+                            <td style="padding: 0; height: 1px;">
+                                <div class="enade-sub-list">
+                                    <div class="sub-item">Projeto de Gestão da Tecnologia da Informação I</div>
+                                    <div class="sub-item">Projeto de Gestão da Tecnologia da Informação II</div>
+                                    <div class="sub-item">Estatística</div>
+                                    <div class="sub-item">Gestão de Pessoas</div>
+                                </div>
+                            </td>
+                            <td style="padding: 0; height: 1px;">
+                                <div class="enade-sub-list">
+                                    <div class="sub-item links" style="flex-direction: column; gap: 0.5rem; justify-content: center;">
+                                        <a href="https://materialdidatico.aiamis.com.br/662b52fdb0" target="_blank" class="btn-table" style="margin: 0 auto;">Acessar Material Didático</a>
+                                        <a href="https://eventos.aiamis.com.br/uninta/cursos/MA==?pesquisa=gest%C3%A3o%20da%20tecnologia%20da%20informa%C3%A7%C3%A3o" target="_blank" class="btn-table nomediaplugin" style="margin: 0 auto;">Acessar Evento</a>
+                                    </div>
+                                    <div class="sub-item links" style="flex-direction: column; gap: 0.5rem; justify-content: center;">
+                                        <a href="https://materialdidatico.aiamis.com.br/6345795a0c" target="_blank" class="btn-table" style="margin: 0 auto;">Acessar Material Didático</a>
+                                        <a href="https://eventos.aiamis.com.br/uninta/cursos/MA==?pesquisa=gest%C3%A3o%20da%20tecnologia%20da%20informa%C3%A7%C3%A3o" target="_blank" class="btn-table nomediaplugin" style="margin: 0 auto;">Acessar Evento</a>
+                                    </div>
+                                    <div class="sub-item links" style="flex-direction: column; gap: 0.5rem; justify-content: center;">
+                                        <a href="https://materialdidatico.aiamis.com.br/24aca98f9133" target="_blank" class="btn-table" style="margin: 0 auto;">Acessar Material Didático</a>
+                                        <a href="https://eventos.aiamis.com.br/uninta/cursos/MA==?pesquisa=gest%C3%A3o%20da%20tecnologia%20da%20informa%C3%A7%C3%A3o" target="_blank" class="btn-table nomediaplugin" style="margin: 0 auto;">Acessar Evento</a>
+                                    </div>
+                                    <div class="sub-item links" style="flex-direction: column; gap: 0.5rem; justify-content: center;">
+                                        <a href="https://materialdidatico.aiamis.com.br/d8e90aa400" target="_blank" class="btn-table" style="margin: 0 auto;">Acessar Material Didático</a>
+                                        <a href="https://eventos.aiamis.com.br/uninta/cursos/MA==?pesquisa=gest%C3%A3o%20da%20tecnologia%20da%20informa%C3%A7%C3%A3o" target="_blank" class="btn-table nomediaplugin" style="margin: 0 auto;">Acessar Evento</a>
+                                    </div>
+                                </div>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>Governança de tecnologia da informação</td>
+                            <td style="padding: 0; height: 1px;">
+                                <div class="enade-sub-list">
+                                    <div class="sub-item">Gestão e Governança de Tecnologia da Informação</div>
+                                    <div class="sub-item">Projeto de Gestão da Tecnologia da Informação I</div>
+                                    <div class="sub-item">Projeto de Gestão da Tecnologia da Informação II</div>
+                                </div>
+                            </td>
+                            <td style="padding: 0; height: 1px;">
+                                <div class="enade-sub-list">
+                                    <div class="sub-item links" style="flex-direction: column; gap: 0.5rem; justify-content: center;">
+                                        <a href="https://materialdidatico.aiamis.com.br/e516c7a7da" target="_blank" class="btn-table" style="margin: 0 auto;">Acessar Material Didático</a>
+                                        <a href="https://eventos.aiamis.com.br/uninta/cursos/MA==?pesquisa=planejamento%20estrat%C3%A9gico" target="_blank" class="btn-table nomediaplugin" style="margin: 0 auto;">Acessar Evento</a>
+                                    </div>
+                                    <div class="sub-item links" style="flex-direction: column; gap: 0.5rem; justify-content: center;">
+                                        <a href="https://materialdidatico.aiamis.com.br/662b52fdb0" target="_blank" class="btn-table" style="margin: 0 auto;">Acessar Material Didático</a>
+                                        <a href="https://eventos.aiamis.com.br/uninta/cursos/MA==?pesquisa=planejamento%20estrat%C3%A9gico" target="_blank" class="btn-table nomediaplugin" style="margin: 0 auto;">Acessar Evento</a>
+                                    </div>
+                                    <div class="sub-item links" style="flex-direction: column; gap: 0.5rem; justify-content: center;">
+                                        <a href="https://materialdidatico.aiamis.com.br/6345795a0c" target="_blank" class="btn-table" style="margin: 0 auto;">Acessar Material Didático</a>
+                                        <a href="https://eventos.aiamis.com.br/uninta/cursos/MA==?pesquisa=planejamento%20estrat%C3%A9gico" target="_blank" class="btn-table nomediaplugin" style="margin: 0 auto;">Acessar Evento</a>
+                                    </div>
+                                </div>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>Normas e padrões em tecnologia da informação</td>
+                            <td style="padding: 0; height: 1px;">
+                                <div class="enade-sub-list">
+                                    <div class="sub-item">Metodologias Ágeis</div>
+                                    <div class="sub-item">Lógica de Programação</div>
+                                </div>
+                            </td>
+                            <td style="padding: 0; height: 1px;">
+                                <div class="enade-sub-list">
+                                    <div class="sub-item links" style="flex-direction: column; gap: 0.5rem; justify-content: center;">
+                                        <a href="https://materialdidatico.aiamis.com.br/a31770ec8f" target="_blank" class="btn-table" style="margin: 0 auto;">Acessar Material Didático</a>
+                                        <a href="https://eventos.aiamis.com.br/uninta/cursos/MA==?pesquisa=l%C3%B3gica%20de%20programa%C3%A7%C3%A3o" target="_blank" class="btn-table nomediaplugin" style="margin: 0 auto;">Acessar Evento</a>
+                                    </div>
+                                    <div class="sub-item links" style="flex-direction: column; gap: 0.5rem; justify-content: center;">
+                                        <a href="https://materialdidatico.aiamis.com.br/727cf6ad26" target="_blank" class="btn-table" style="margin: 0 auto;">Acessar Material Didático</a>
+                                        <a href="https://eventos.aiamis.com.br/uninta/cursos/MA==?pesquisa=l%C3%B3gica%20de%20programa%C3%A7%C3%A3o" target="_blank" class="btn-table nomediaplugin" style="margin: 0 auto;">Acessar Evento</a>
+                                    </div>
+                                </div>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>Processos organizacionais</td>
+                            <td style="padding: 0; height: 1px;">
+                                <div class="enade-sub-list">
+                                    <div class="sub-item">Introdução à Administração</div>
+                                    <div class="sub-item">Análise de Projetos e Sistemas</div>
+                                    <div class="sub-item">Gestão de Pessoas</div>
+                                    <div class="sub-item">Meio ambiente e sustentabilidade</div>
+                                </div>
+                            </td>
+                            <td style="padding: 0; height: 1px;">
+                                <div class="enade-sub-list">
+                                    <div class="sub-item links" style="flex-direction: column; gap: 0.5rem; justify-content: center;">
+                                        <a href="https://materialdidatico.aiamis.com.br/d97605cf48" target="_blank" class="btn-table" style="margin: 0 auto;">Acessar Material Didático</a>
+                                        <a href="https://eventos.aiamis.com.br/uninta/cursos/MA==?pesquisa=responsabilidade%20social" target="_blank" class="btn-table nomediaplugin" style="margin: 0 auto;">Acessar Evento</a>
+                                    </div>
+                                    <div class="sub-item links" style="flex-direction: column; gap: 0.5rem; justify-content: center;">
+                                        <a href="https://materialdidatico.aiamis.com.br/10a526d973" target="_blank" class="btn-table" style="margin: 0 auto;">Acessar Material Didático</a>
+                                        <a href="https://eventos.aiamis.com.br/uninta/cursos/MA==?pesquisa=responsabilidade%20social" target="_blank" class="btn-table nomediaplugin" style="margin: 0 auto;">Acessar Evento</a>
+                                    </div>
+                                    <div class="sub-item links" style="flex-direction: column; gap: 0.5rem; justify-content: center;">
+                                        <a href="https://materialdidatico.aiamis.com.br/d8e90aa400" target="_blank" class="btn-table" style="margin: 0 auto;">Acessar Material Didático</a>
+                                        <a href="https://eventos.aiamis.com.br/uninta/cursos/MA==?pesquisa=responsabilidade%20social" target="_blank" class="btn-table nomediaplugin" style="margin: 0 auto;">Acessar Evento</a>
+                                    </div>
+                                    <div class="sub-item links" style="flex-direction: column; gap: 0.5rem; justify-content: center;">
+                                        <a href="https://materialdidatico.aiamis.com.br/66686149a5" target="_blank" class="btn-table" style="margin: 0 auto;">Acessar Material Didático</a>
+                                        <a href="https://eventos.aiamis.com.br/uninta/cursos/MA==?pesquisa=responsabilidade%20social" target="_blank" class="btn-table nomediaplugin" style="margin: 0 auto;">Acessar Evento</a>
+                                    </div>
+                                </div>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>Redes de computadores</td>
+                            <td style="padding: 0; height: 1px;">
+                                <div class="enade-sub-list">
+                                    <div class="sub-item">Fundamentos de Banco de Dados</div>
+                                    <div class="sub-item">Fundamentos das Redes de Computadores</div>
+                                    <div class="sub-item">Sistemas Operacionais</div>
+                                    <div class="sub-item">Segurança da Informação</div>
+                                </div>
+                            </td>
+                            <td style="padding: 0; height: 1px;">
+                                <div class="enade-sub-list">
+                                    <div class="sub-item links" style="flex-direction: column; gap: 0.5rem; justify-content: center;">
+                                        <a href="https://materialdidatico.aiamis.com.br/c81e2ca29a" target="_blank" class="btn-table" style="margin: 0 auto;">Acessar Material Didático</a>
+                                        <a href="https://eventos.aiamis.com.br/uninta/cursos/MA==?pesquisa=redes%20de%20computadores" target="_blank" class="btn-table nomediaplugin" style="margin: 0 auto;">Acessar Evento</a>
+                                    </div>
+                                    <div class="sub-item links" style="flex-direction: column; gap: 0.5rem; justify-content: center;">
+                                        <a href="https://materialdidatico.aiamis.com.br/c7dba2986b" target="_blank" class="btn-table" style="margin: 0 auto;">Acessar Material Didático</a>
+                                        <a href="https://eventos.aiamis.com.br/uninta/cursos/MA==?pesquisa=redes%20de%20computadores" target="_blank" class="btn-table nomediaplugin" style="margin: 0 auto;">Acessar Evento</a>
+                                    </div>
+                                    <div class="sub-item links" style="flex-direction: column; gap: 0.5rem; justify-content: center;">
+                                        <a href="https://materialdidatico.aiamis.com.br/3705290869" target="_blank" class="btn-table" style="margin: 0 auto;">Acessar Material Didático</a>
+                                        <a href="https://eventos.aiamis.com.br/uninta/cursos/MA==?pesquisa=redes%20de%20computadores" target="_blank" class="btn-table nomediaplugin" style="margin: 0 auto;">Acessar Evento</a>
+                                    </div>
+                                    <div class="sub-item links" style="flex-direction: column; gap: 0.5rem; justify-content: center;">
+                                        <a href="https://materialdidatico.aiamis.com.br/034a6ff127" target="_blank" class="btn-table" style="margin: 0 auto;">Acessar Material Didático</a>
+                                        <a href="https://eventos.aiamis.com.br/uninta/cursos/MA==?pesquisa=redes%20de%20computadores" target="_blank" class="btn-table nomediaplugin" style="margin: 0 auto;">Acessar Evento</a>
+                                    </div>
+                                </div>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>Segurança da informação</td>
+                            <td style="padding: 0; height: 1px;">
+                                <div class="enade-sub-list">
+                                    <div class="sub-item">Segurança da Informação</div>
+                                    <div class="sub-item">Fundamentos das Redes de Computadores</div>
+                                    <div class="sub-item">Administração de Banco de Dados</div>
+                                    <div class="sub-item">Sistemas Operacionais</div>
+                                    <div class="sub-item">Fundamentos de Banco de Dados</div>
+                                </div>
+                            </td>
+                            <td style="padding: 0; height: 1px;">
+                                <div class="enade-sub-list">
+                                    <div class="sub-item links" style="flex-direction: column; gap: 0.5rem; justify-content: center;">
+                                        <a href="https://materialdidatico.aiamis.com.br/034a6ff127" target="_blank" class="btn-table" style="margin: 0 auto;">Acessar Material Didático</a>
+                                        <a href="https://eventos.aiamis.com.br/uninta/cursos/MA==?pesquisa=seguran%C3%A7a%20da%20informa%C3%A7%C3%A3o" target="_blank" class="btn-table nomediaplugin" style="margin: 0 auto;">Acessar Evento</a>
+                                    </div>
+                                    <div class="sub-item links" style="flex-direction: column; gap: 0.5rem; justify-content: center;">
+                                        <a href="https://materialdidatico.aiamis.com.br/c7dba2986b" target="_blank" class="btn-table" style="margin: 0 auto;">Acessar Material Didático</a>
+                                        <a href="https://eventos.aiamis.com.br/uninta/cursos/MA==?pesquisa=seguran%C3%A7a%20da%20informa%C3%A7%C3%A3o" target="_blank" class="btn-table nomediaplugin" style="margin: 0 auto;">Acessar Evento</a>
+                                    </div>
+                                    <div class="sub-item links" style="flex-direction: column; gap: 0.5rem; justify-content: center;">
+                                        <a href="https://materialdidatico.aiamis.com.br/251250f85c" target="_blank" class="btn-table" style="margin: 0 auto;">Acessar Material Didático</a>
+                                        <a href="https://eventos.aiamis.com.br/uninta/cursos/MA==?pesquisa=seguran%C3%A7a%20da%20informa%C3%A7%C3%A3o" target="_blank" class="btn-table nomediaplugin" style="margin: 0 auto;">Acessar Evento</a>
+                                    </div>
+                                    <div class="sub-item links" style="flex-direction: column; gap: 0.5rem; justify-content: center;">
+                                        <a href="https://materialdidatico.aiamis.com.br/3705290869" target="_blank" class="btn-table" style="margin: 0 auto;">Acessar Material Didático</a>
+                                        <a href="https://eventos.aiamis.com.br/uninta/cursos/MA==?pesquisa=seguran%C3%A7a%20da%20informa%C3%A7%C3%A3o" target="_blank" class="btn-table nomediaplugin" style="margin: 0 auto;">Acessar Evento</a>
+                                    </div>
+                                    <div class="sub-item links" style="flex-direction: column; gap: 0.5rem; justify-content: center;">
+                                        <a href="https://materialdidatico.aiamis.com.br/c81e2ca29a" target="_blank" class="btn-table" style="margin: 0 auto;">Acessar Material Didático</a>
+                                        <a href="https://eventos.aiamis.com.br/uninta/cursos/MA==?pesquisa=seguran%C3%A7a%20da%20informa%C3%A7%C3%A3o" target="_blank" class="btn-table nomediaplugin" style="margin: 0 auto;">Acessar Evento</a>
+                                    </div>
+                                </div>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>Sistemas de informações gerenciais</td>
+                            <td style="padding: 0; height: 1px;">
+                                <div class="enade-sub-list">
+                                    <div class="sub-item">Sistemas para Internet</div>
+                                    <div class="sub-item">Engenharia de Software</div>
+                                    <div class="sub-item">Lógica de Programação</div>
+                                    <div class="sub-item">Matemática Discreta</div>
+                                    <div class="sub-item">Fundamentos de Banco de Dados</div>
+                                    <div class="sub-item">Administração de Banco de Dados</div>
+                                </div>
+                            </td>
+                            <td style="padding: 0; height: 1px;">
+                                <div class="enade-sub-list">
+                                    <div class="sub-item links" style="flex-direction: column; gap: 0.5rem; justify-content: center;">
+                                        <a href="https://materialdidatico.aiamis.com.br/88095950df" target="_blank" class="btn-table" style="margin: 0 auto;">Acessar Material Didático</a>
+                                        <a href="https://eventos.aiamis.com.br/uninta/cursos/MA==?pesquisa=sistemas%20para%20internet" target="_blank" class="btn-table nomediaplugin" style="margin: 0 auto;">Acessar Evento</a>
+                                    </div>
+                                    <div class="sub-item links" style="flex-direction: column; gap: 0.5rem; justify-content: center;">
+                                        <a href="https://materialdidatico.aiamis.com.br/84db9060c2" target="_blank" class="btn-table" style="margin: 0 auto;">Acessar Material Didático</a>
+                                        <a href="https://eventos.aiamis.com.br/uninta/cursos/MA==?pesquisa=sistemas%20para%20internet" target="_blank" class="btn-table nomediaplugin" style="margin: 0 auto;">Acessar Evento</a>
+                                    </div>
+                                    <div class="sub-item links" style="flex-direction: column; gap: 0.5rem; justify-content: center;">
+                                        <a href="https://materialdidatico.aiamis.com.br/727cf6ad26" target="_blank" class="btn-table" style="margin: 0 auto;">Acessar Material Didático</a>
+                                        <a href="https://eventos.aiamis.com.br/uninta/cursos/MA==?pesquisa=sistemas%20para%20internet" target="_blank" class="btn-table nomediaplugin" style="margin: 0 auto;">Acessar Evento</a>
+                                    </div>
+                                    <div class="sub-item links" style="flex-direction: column; gap: 0.5rem; justify-content: center;">
+                                        <a href="https://materialdidatico.aiamis.com.br/a79b9683c4" target="_blank" class="btn-table" style="margin: 0 auto;">Acessar Material Didático</a>
+                                        <a href="https://eventos.aiamis.com.br/uninta/cursos/MA==?pesquisa=sistemas%20para%20internet" target="_blank" class="btn-table nomediaplugin" style="margin: 0 auto;">Acessar Evento</a>
+                                    </div>
+                                    <div class="sub-item links" style="flex-direction: column; gap: 0.5rem; justify-content: center;">
+                                        <a href="https://materialdidatico.aiamis.com.br/c81e2ca29a" target="_blank" class="btn-table" style="margin: 0 auto;">Acessar Material Didático</a>
+                                        <a href="https://eventos.aiamis.com.br/uninta/cursos/MA==?pesquisa=sistemas%20para%20internet" target="_blank" class="btn-table nomediaplugin" style="margin: 0 auto;">Acessar Evento</a>
+                                    </div>
+                                    <div class="sub-item links" style="flex-direction: column; gap: 0.5rem; justify-content: center;">
+                                        <a href="https://materialdidatico.aiamis.com.br/251250f85c" target="_blank" class="btn-table" style="margin: 0 auto;">Acessar Material Didático</a>
+                                        <a href="https://eventos.aiamis.com.br/uninta/cursos/MA==?pesquisa=sistemas%20para%20internet" target="_blank" class="btn-table nomediaplugin" style="margin: 0 auto;">Acessar Evento</a>
+                                    </div>
+                                </div>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>Ética, informática e sociedade</td>
+                            <td style="padding: 0; height: 1px;">
+                                <div class="enade-sub-list">
+                                    <div class="sub-item">Ética</div>
+                                    <div class="sub-item">Informática e Sociedade</div>
+                                    <div class="sub-item">Cidadania e Direitos Humanos</div>
+                                    <div class="sub-item">Libras</div>
+                                </div>
+                            </td>
+                            <td style="padding: 0; height: 1px;">
+                                <div class="enade-sub-list">
+                                    <div class="sub-item links" style="flex-direction: column; gap: 0.5rem; justify-content: center;">
+                                        <a href="https://materialdidatico.aiamis.com.br/8fd46d506e" target="_blank" class="btn-table" style="margin: 0 auto;">Acessar Material Didático</a>
+                                        <a href="https://eventos.aiamis.com.br/uninta/cursos/MA==?pesquisa=inform%C3%A1tica%20e%20sociedade" target="_blank" class="btn-table nomediaplugin" style="margin: 0 auto;">Acessar Evento</a>
+                                    </div>
+                                    <div class="sub-item links" style="flex-direction: column; gap: 0.5rem; justify-content: center;">
+                                        <a href="https://materialdidatico.aiamis.com.br/d42dac8423" target="_blank" class="btn-table" style="margin: 0 auto;">Acessar Material Didático</a>
+                                        <a href="https://eventos.aiamis.com.br/uninta/cursos/MA==?pesquisa=inform%C3%A1tica%20e%20sociedade" target="_blank" class="btn-table nomediaplugin" style="margin: 0 auto;">Acessar Evento</a>
+                                    </div>
+                                    <div class="sub-item links" style="flex-direction: column; gap: 0.5rem; justify-content: center;">
+                                        <a href="https://materialdidatico.aiamis.com.br/678e6748c7" target="_blank" class="btn-table" style="margin: 0 auto;">Acessar Material Didático</a>
+                                        <a href="https://eventos.aiamis.com.br/uninta/cursos/MA==?pesquisa=inform%C3%A1tica%20e%20sociedade" target="_blank" class="btn-table nomediaplugin" style="margin: 0 auto;">Acessar Evento</a>
+                                    </div>
+                                    <div class="sub-item links" style="flex-direction: column; gap: 0.5rem; justify-content: center;">
+                                        <a href="https://materialdidatico.aiamis.com.br/3330c6dd0d" target="_blank" class="btn-table" style="margin: 0 auto;">Acessar Material Didático</a>
+                                        <a href="https://eventos.aiamis.com.br/uninta/cursos/MA==?pesquisa=inform%C3%A1tica%20e%20sociedade" target="_blank" class="btn-table nomediaplugin" style="margin: 0 auto;">Acessar Evento</a>
+                                    </div>
+                                </div>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td colspan="3" style="font-size: 0.85rem; color: var(--text-light); text-align: center;">Observação: as associações são temáticas e indicativas; um mesmo objeto de conhecimento pode ser desenvolvido em mais de uma disciplina.</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </section>
+    </main>
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    
+    function initPagination(table) {
+        var tbody = table.querySelector('tbody');
+        if (!tbody) return;
+
+        var rows = Array.prototype.slice.call(tbody.querySelectorAll('tr'));
+        var dataRows = rows.filter(function(row) {
+            return !row.querySelector('td[colspan]');
+        });
+        var obsRows = rows.filter(function(row) {
+            return row.querySelector('td[colspan]');
+        });
+        
+        // Ativa paginação somente se houver mais de 5 itens (para garantir o teste)
+        if (dataRows.length <= 5) return; 
+
+        var wrapper = table.parentElement;
+        wrapper.style.borderBottomLeftRadius = '0';
+        wrapper.style.borderBottomRightRadius = '0';
+
+        // Cria container principal seguro para o Moodle
+        var paginationContainer = document.createElement('div');
+        paginationContainer.className = 'pagination-container';
+
+        // Cria a info de texto
+        var infoDiv = document.createElement('div');
+        infoDiv.className = 'pagination-info';
+        
+        var startSpan = document.createElement('span');
+        startSpan.className = 'start-idx';
+        var endSpan = document.createElement('span');
+        endSpan.className = 'end-idx';
+        var totalSpan = document.createElement('span');
+        totalSpan.className = 'total-idx';
+        totalSpan.textContent = dataRows.length;
+
+        infoDiv.appendChild(document.createTextNode('Exibindo '));
+        infoDiv.appendChild(startSpan);
+        infoDiv.appendChild(document.createTextNode(' a '));
+        infoDiv.appendChild(endSpan);
+        infoDiv.appendChild(document.createTextNode(' de '));
+        infoDiv.appendChild(totalSpan);
+        infoDiv.appendChild(document.createTextNode(' resultados'));
+
+        // Cria os controles (Select e Botoes)
+        var controlsDiv = document.createElement('div');
+        controlsDiv.className = 'pagination-controls';
+
+        var selectWrapper = document.createElement('div');
+        var select = document.createElement('select');
+        select.className = 'per-page-select';
+        
+        var opt5 = document.createElement('option'); opt5.value = '5'; opt5.textContent = 'por página 5'; opt5.selected = true;
+        var opt10 = document.createElement('option'); opt10.value = '10'; opt10.textContent = 'por página 10';
+        var opt15 = document.createElement('option'); opt15.value = '15'; opt15.textContent = 'por página 15';
+        var optAll = document.createElement('option'); optAll.value = 'all'; optAll.textContent = 'Todas';
+        
+        select.appendChild(opt5);
+        select.appendChild(opt10);
+        select.appendChild(opt15);
+        select.appendChild(optAll);
+        selectWrapper.appendChild(select);
+
+        var buttonsContainer = document.createElement('div');
+        buttonsContainer.className = 'pagination-buttons';
+
+        controlsDiv.appendChild(selectWrapper);
+        controlsDiv.appendChild(buttonsContainer);
+
+        paginationContainer.appendChild(infoDiv);
+        paginationContainer.appendChild(controlsDiv);
+
+        // Insere apos o wrapper da tabela
+        wrapper.parentNode.insertBefore(paginationContainer, wrapper.nextSibling);
+
+        var currentPage = 1;
+        var rowsPerPage = 5;
+
+        function renderTable() {
+            var totalRows = dataRows.length;
+            var totalPages = rowsPerPage === 'all' ? 1 : Math.ceil(totalRows / rowsPerPage);
+            
+            if (currentPage > totalPages) currentPage = totalPages;
+            if (currentPage < 1) currentPage = 1;
+
+            var startIndex = rowsPerPage === 'all' ? 0 : (currentPage - 1) * rowsPerPage;
+            var endIndex = rowsPerPage === 'all' ? totalRows : Math.min(startIndex + rowsPerPage, totalRows);
+
+            dataRows.forEach(function(row, index) {
+                if (index >= startIndex && index < endIndex) {
+                    row.style.display = '';
+                } else {
+                    row.style.display = 'none';
+                }
+            });
+
+            obsRows.forEach(function(row) {
+                row.style.display = '';
+            });
+
+            startSpan.textContent = totalRows === 0 ? 0 : startIndex + 1;
+            endSpan.textContent = endIndex;
+
+            renderButtons(totalPages);
+        }
+
+        function renderButtons(totalPages) {
+            buttonsContainer.innerHTML = '';
+            
+            if (totalPages <= 1) return;
+
+            var prevBtn = document.createElement('button');
+            prevBtn.className = 'page-btn';
+            prevBtn.innerHTML = '&lsaquo;';
+            prevBtn.disabled = currentPage === 1;
+            prevBtn.onclick = function() { currentPage--; renderTable(); };
+            buttonsContainer.appendChild(prevBtn);
+
+            for (var i = 1; i <= totalPages; i++) {
+                var btn = document.createElement('button');
+                btn.className = 'page-btn ' + (i === currentPage ? 'active' : '');
+                btn.textContent = i;
+                
+                // Usando uma closure IIFE para garantir o escopo do i dentro do loop
+                (function(pageIndex) {
+                    btn.onclick = function() { currentPage = pageIndex; renderTable(); };
+                })(i);
+                
+                buttonsContainer.appendChild(btn);
+            }
+
+            var nextBtn = document.createElement('button');
+            nextBtn.className = 'page-btn';
+            nextBtn.innerHTML = '&rsaquo;';
+            nextBtn.disabled = currentPage === totalPages;
+            nextBtn.onclick = function() { currentPage++; renderTable(); };
+            buttonsContainer.appendChild(nextBtn);
+        }
+
+        select.addEventListener('change', function(e) {
+            var val = e.target.value;
+            rowsPerPage = val === 'all' ? 'all' : parseInt(val, 10);
+            currentPage = 1; 
+            renderTable();
+        });
+
+        renderTable();
+    }
+
+    // Aplica o construtor a todas as tabelas encontradas
+    var tables = document.querySelectorAll('.enade-table');
+    for (var j = 0; j < tables.length; j++) {
+        initPagination(tables[j]);
+    }
+});
+</script>
+</body>
+</html>

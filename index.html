@@ -11,15 +11,12 @@
 </head>
 <body>
 
-    <!-- Header com Clip-Path -->
     <header class="header">
         <div class="header__container">
-            <!-- Espaço da Logo 16:9 -->
             <div class="header__logo-box">
                 <img src="https://dirin.s3.us-east-1.amazonaws.com/Banners_AVA/HORIZONTAL.png" alt="Logo" class="header__logo-img">
             </div>
             
-            <!-- Textos à direita -->
             <div class="header__content">
                 <h1 class="header__title">Workspace</h1>
                 <p class="header__subtitle">Repositório central de páginas e projetos em desenvolvimento.</p>
@@ -28,13 +25,11 @@
     </header>
 
     <main class="main-content">
-        <!-- Scroll Horizontal de Cards -->
         <section class="carousel">
             <h2 class="carousel__title">Selecione um projeto ou página</h2>
             
             <div class="carousel__track">
                 
-                <!-- Card: Página Única -->
                 <button class="card" 
                     data-type="page" 
                     data-title="Landing Page X"
@@ -48,13 +43,12 @@
                     </div>
                 </button>
 
-                <!-- Card: Projeto com Múltiplas Páginas -->
                 <button class="card" 
                     data-type="project" 
                     data-title="Dashboard Administrativo"
                     data-pages='[
                         {"name": "Pag. Genérica", "url": "./enade2026/generica.html", "message": "Não faz parte do projeto"}, 
-                        {"name": "ADS + GETI", "url": "./enade2026/tabela-ads-geti.html", "message": "Não Produzido"}, 
+                        {"name": "ADS + GETI", "url": "./enade2026/tabela-ads-geti.html", "message": "Aguardando 1 Materiais"}, 
                         {"name": "Arq. e Urbanismo", "url": "./enade2026/tabela-arq-urbanismo.html", "message": "Aguardando 9  Materiais"}, 
                         {"name": "Educação Física", "url": "./enade2026/tabela-ed-fisica.html", "message": "Aguardando 21 Materiais"}, 
                         {"name": "Eng. Civíl", "url": "./enade2026/tabela-eng-civil.html", "message": "Não Produzido"}, 
@@ -76,7 +70,6 @@
             </div>
         </section>
 
-        <!-- Área de Visualização Dinâmica (Abre ao clicar no card) -->
         <section class="view-area" id="view-area">
             <div class="view-area__empty">
                 <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="3" y="3" width="18" height="18" rx="2" ry="2"></rect><line x1="3" y1="9" x2="21" y2="9"></line><line x1="9" y1="21" x2="9" y2="9"></line></svg>
@@ -85,7 +78,6 @@
         </section>
     </main>
 
-    <!-- Script para gerenciar a UX de abrir a View -->
     <script>
         const cards = document.querySelectorAll('.card');
         const viewArea = document.getElementById('view-area');

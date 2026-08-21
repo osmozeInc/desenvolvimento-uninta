@@ -1,0 +1,696 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sala do ENADE - Preparação (Tabela)</title>
+    
+    <style>
+        :root {
+            --uninta-red: #B3171C;
+            --uninta-dark-red: #8a1014;
+            --uninta-blue: #003366;
+            --text-dark: #333333;
+            --text-light: #555555;
+            --bg-page: #f8f9fa;
+            --bg-card: #ffffff;
+            --border-radius: 8px;
+            --transition: all 0.3s ease;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+        }
+
+        body {
+            color: var(--text-dark);
+            line-height: 1.6;
+        }
+
+        /* Container principal */
+        .enade-container {
+            max-width: 1000px;
+            margin: 0 auto 2rem auto;
+            border-radius: var(--border-radius);
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05);
+            padding: 2rem;
+            overflow: hidden;
+        }
+
+        .content-section {
+            margin: 2rem 0;
+        }
+
+        .sem-material {
+            background-color: #bbb !important;
+            cursor: not-allowed;
+        }
+
+        .table-responsive {
+            width: 100%;
+            overflow-x: auto;
+            margin-top: 1.5rem;
+            border-radius: var(--border-radius);
+            box-shadow: 0 4px 15px rgba(0,0,0,0.05);
+            border: 1px solid #e2e8f0;
+        }
+
+        .enade-table {
+            width: 100%;
+            border-collapse: collapse;
+            background-color: var(--bg-card);
+            min-width: 600px;
+        }
+
+        .enade-table th {
+            background-color: var(--uninta-red);
+            color: #ffffff;
+            text-align: left;
+            padding: 1rem;
+            font-weight: 600;
+            font-size: 0.95rem;
+            border: 1px solid rgba(255, 255, 255, 0.8);
+        }
+
+        tr {
+            border: 1px solid #ced2d8;
+        }
+
+        .enade-table td {
+            padding: 1rem;
+            border-left: 1px solid #ced2d8;
+            font-size: 0.9rem;
+            vertical-align: middle;
+        }
+
+        .enade-table td a {
+            min-width: 200px;
+            flex: 1;
+        }
+        
+        .enade-table tbody tr:nth-child(even) {
+            background-color: #eee;
+        }
+
+        .btn-table {
+            background-color: var(--uninta-red);
+            color: #fff;
+            text-decoration: none;
+            padding: 0.5rem 1rem;
+            border-radius: 6px;
+            font-size: 0.85rem;
+            font-weight: 600;
+            display: inline-block;
+            transition: var(--transition);
+            text-align: center;
+            display: block; 
+            width: fit-content; 
+            margin: 0 auto;
+            max-height: min-content;
+        }
+
+        .btn-table:hover {
+            background-color: var(--uninta-dark-red);
+            text-decoration: none;
+            color: #fff;
+        }
+
+        .course-header {
+            font-size: 1.4rem;
+            color: var(--text-dark);
+            border-bottom: 3px solid var(--uninta-red);
+            padding-bottom: 0.5rem;
+            margin-bottom: 1.5rem;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+        
+        .btn-back {
+            margin: 0;
+            padding: .6rem 1rem;
+            font-weight: 700;
+        }
+
+        .enade-sub-list {
+            display: grid;
+            grid-auto-rows: 1fr;
+            height: 100%;
+        }
+
+        .enade-sub-list div {
+            padding: 1rem;
+        }
+
+        .sub-item {
+            display: flex;
+            align-items: center; 
+            padding: 1rem;
+            border-bottom: 1px solid #e2e8f0;
+            font-size: 0.9rem;
+        }
+
+        .sub-item.links {
+            flex-direction: column;
+            gap: 1rem;
+        }
+
+        .sub-item:last-child {
+            border-bottom: none;
+        }
+
+        .files-grid {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 1rem;
+            margin-top: 1rem;
+        }
+
+        .file-card {
+            display: flex;
+            align-items: center;
+            background-color: var(--bg-card);
+            border: 1px solid #e2e8f0;
+            padding: 1rem;
+            border-radius: var(--border-radius);
+            text-decoration: none;
+            color: var(--text-dark);
+            transition: var(--transition);
+            box-shadow: 0 2px 4px rgba(0,0,0,0.02);
+        }
+
+        .file-card:hover {
+            border-color: var(--uninta-red);
+            box-shadow: 0 4px 12px rgba(179, 23, 28, 0.1);
+            transform: translateY(-2px);
+            text-decoration: none;
+        }
+
+        .file-icon {
+            background-color: #f1f5f9;
+            color: var(--uninta-blue);
+            width: 40px;
+            height: 40px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 8px;
+            margin-right: 1rem;
+            flex-shrink: 0;
+        }
+
+        .file-icon svg {
+            width: 20px;
+            height: 20px;
+        }
+
+        .file-name {
+            font-size: 0.9rem;
+            font-weight: 600;
+            line-height: 1.3;
+        }
+
+        /* ==========================================
+           PAGINAÇÃO (FOOTER DA TABELA)
+           ========================================== */
+        .pagination-container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1rem;
+            border-top: 1px solid #e2e8f0;
+            background-color: #f8fafc;
+            border-bottom-left-radius: var(--border-radius);
+            border-bottom-right-radius: var(--border-radius);
+            flex-wrap: wrap;
+            gap: 1rem;
+            
+            border-left: 1px solid #e2e8f0;
+            border-right: 1px solid #e2e8f0;
+            border-bottom: 1px solid #e2e8f0;
+            margin-top: -1px;
+        }
+
+        .pagination-info {
+            font-size: 0.9rem;
+            color: var(--text-light);
+        }
+
+        .pagination-controls {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .per-page-select {
+            padding: 0.4rem 0.5rem;
+            border-radius: 4px;
+            border: 1px solid var(--uninta-red);
+            color: var(--uninta-red);
+            background-color: transparent;
+            font-size: 0.9rem;
+            outline: none;
+            cursor: pointer;
+            font-weight: 500;
+        }
+
+        .pagination-buttons {
+            display: flex;
+            gap: 0.3rem;
+        }
+
+        .page-btn {
+            min-width: 32px;
+            height: 32px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border: 1px solid #e2e8f0;
+            background-color: #fff;
+            border-radius: 4px;
+            color: var(--text-dark);
+            cursor: pointer;
+            transition: var(--transition);
+            font-size: 0.9rem;
+        }
+
+        .page-btn:hover:not(:disabled) {
+            border-color: var(--uninta-red);
+            color: var(--uninta-red);
+        }
+
+        .page-btn.active {
+            background-color: var(--uninta-red);
+            color: #fff;
+            border-color: var(--uninta-red);
+        }
+
+        .page-btn:disabled {
+            cursor: not-allowed;
+            opacity: 0.5;
+        }
+        
+        .hidden-row {
+            display: none !important;
+        }
+
+        /* Responsividade */
+        @media (max-width: 1000px) {
+            .enade-container {
+                padding: 1.5rem;
+                margin: 1rem;
+            }
+            .pagination-container {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <h1 style="display: none;">Ciências Biológicas</h1>
+
+    <main class="enade-container">
+        
+        <section class="content-section">
+            <h2 class="course-header">
+                Preparação para o ENADE - Ciências Biológicas
+            </h2>
+
+            <h3 class="subtitle-blue" style="margin-top: 2.5rem; font-size: 1.1rem;">CONTEÚDOS GERAIS</h3>
+            <div class="table-responsive">
+                <table class="enade-table">
+                    <thead>
+                        <tr>
+                            <th style="width: 45%;">Temática ENADE</th>
+                            <th style="width: 35%;">Disciplina</th>
+                            <th style="width: 20%;">Link do Material</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>Inclusão escolar: exclusão, segregação, integração e inclusão de estudante surdo (Libras)[cite: 2].</td>
+                            <td>Didática Geral 3º Semestre[cite: 2].</td>
+                            <td style="display: flex; flex-direction: column; gap: 1rem; align-items: center;">
+                                <a href="https://materialdidatico.aiamis.com.br/" target="_blank" class="btn-table">Acessar Material Didático</a>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>Letramento científico e combate à desinformação sobre vacinação (PNI); Pedagogia de Projetos e ODS (consumo responsável)[cite: 2].</td>
+                            <td>Ensino de Ciências no Ensino Fundamental 4º Semestre[cite: 2].</td>
+                            <td style="display: flex; flex-direction: column; gap: 1rem; align-items: center;">
+                                <a href="https://materialdidatico.aiamis.com.br/" target="_blank" class="btn-table">Acessar Material Didático</a>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>Equidade de gênero na ciência (Lei nº 14.986/2024-LDB)[cite: 2].</td>
+                            <td>Sociologia 2º Semestre[cite: 2].</td>
+                            <td style="display: flex; flex-direction: column; gap: 1rem; align-items: center;">
+                                <a href="https://materialdidatico.aiamis.com.br/" target="_blank" class="btn-table">Acessar Material Didático</a>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>Cultura quilombola e Projeto Político-Pedagógico; Saberes tradicionais e conhecimento científico (Ailton Krenak); Lei nº 10.639/2003 - cinema e cultura afro-brasileira/africana; Religiões de matrizes africanas e enfrentamento ao racismo religioso; Saberes indígenas, oralidade e cooperação escola-comunidade[cite: 2].</td>
+                            <td>História da Cultura Afro-brasileira e Indígena 4º Semestre[cite: 2].</td>
+                            <td style="display: flex; flex-direction: column; gap: 1rem; align-items: center;">
+                                <a href="https://materialdidatico.aiamis.com.br/" target="_blank" class="btn-table">Acessar Material Didático</a>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>Currículo moldado (Gimeno Sacristán) e o papel mediador do professor; Teorias crítica e pós-crítica do currículo (Tomaz Tadeu da Silva); Programa Nacional do Livro e do Material Didático (PNLD); Funções do livro didático (Choppin, 2004) - função referencial; EJA e integração de saberes ao currículo (mundo do trabalho)[cite: 2].</td>
+                            <td>Currículo e Programas 3º Semestre[cite: 2].</td>
+                            <td style="display: flex; flex-direction: column; gap: 1rem; align-items: center;">
+                                <a href="https://materialdidatico.aiamis.com.br/" target="_blank" class="btn-table">Acessar Material Didático</a>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>Avaliação dialógica em metodologia de projetos; Avaliação formativa, diagnóstica e somativa; Saeb/Ideb e planejamento pedagógico orientado por dados; Avaliação da dimensão atitudinal em projeto socioambiental[cite: 2].</td>
+                            <td>Avaliação Institucional e do Ensino Aprendizagem 6º Semestre[cite: 2].</td>
+                            <td style="display: flex; flex-direction: column; gap: 1rem; align-items: center;">
+                                <a href="https://materialdidatico.aiamis.com.br/" target="_blank" class="btn-table">Acessar Material Didático</a>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>Letramento científico como competência educacional; Metodologia de pesquisa qualitativa - gênero e maternidade na ciência; Procedimento de produção de dados (entrevistas) em pesquisa qualitativa[cite: 2].</td>
+                            <td>Metodologia da Pesquisa Científica 1º Semestre[cite: 2].</td>
+                            <td style="display: flex; flex-direction: column; gap: 1rem; align-items: center;">
+                                <a href="https://materialdidatico.aiamis.com.br/" target="_blank" class="btn-table">Acessar Material Didático</a>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>Literatura (O Alienista) e Projeto de Vida - saúde mental; Perspectiva freireana e Zona de Desenvolvimento Proximal[cite: 2].</td>
+                            <td>Psicologia da Aprendizagem 5º Semestre[cite: 2].</td>
+                            <td style="display: flex; flex-direction: column; gap: 1rem; align-items: center;">
+                                <a href="https://materialdidatico.aiamis.com.br/" target="_blank" class="btn-table">Acessar Material Didático</a>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>Uso do nome social (Resolução MEC nº 1/2018); Ações afirmativas (Lei nº 12.711/2012)[cite: 2].</td>
+                            <td>Política e Legislação da Educação 2º Semestre[cite: 2].</td>
+                            <td style="display: flex; flex-direction: column; gap: 1rem; align-items: center;">
+                                <a href="https://materialdidatico.aiamis.com.br/" target="_blank" class="btn-table">Acessar Material Didático</a>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>Questões ambientais, COP30 e cultura (rap Chuva Ácida); Educação Ambiental crítica e catadores de resíduos; Racismo ambiental e racionalidade pedagógica crítica; Metodologias crítico-sociais e injustiças socioambientais; Povos Yanomami, garimpo ilegal e justiça ambiental[cite: 2].</td>
+                            <td>Meio Ambiente e Sustentabilidade 7º Semestre[cite: 2].</td>
+                            <td style="display: flex; flex-direction: column; gap: 1rem; align-items: center;">
+                                <a href="https://materialdidatico.aiamis.com.br/" target="_blank" class="btn-table">Acessar Material Didático</a>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>Estágio Supervisionado - papel do professor-supervisor[cite: 2].</td>
+                            <td>Estágio Supervisionado III - 3º Semestre[cite: 2].</td>
+                            <td style="display: flex; flex-direction: column; gap: 1rem; align-items: center;">
+                                <a href="https://materialdidatico.aiamis.com.br/" target="_blank" class="btn-table">Acessar Material Didático</a>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>Metodologias ativas e exclusão digital; Teorias de aprendizagem (behaviorismo, cognitivismo, construtivismo) e tecnologia[cite: 2].</td>
+                            <td>Mídias Digitais e Metodologias Ativas 3º Semestre[cite: 2].</td>
+                            <td style="display: flex; flex-direction: column; gap: 1rem; align-items: center;">
+                                <a href="https://materialdidatico.aiamis.com.br/" target="_blank" class="btn-table">Acessar Material Didático</a>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>Escola Nova (décadas de 1920-1930)[cite: 2].</td>
+                            <td>História da Educação 2º Semestre[cite: 2].</td>
+                            <td style="display: flex; flex-direction: column; gap: 1rem; align-items: center;">
+                                <a href="https://materialdidatico.aiamis.com.br/" target="_blank" class="btn-table">Acessar Material Didático</a>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>Questão discursiva: idadismo, Estatuto do Idoso e Direitos Humanos; Henrietta Lacks - alterização, ciência, raça e gênero; Bioética - Declaração Universal sobre Bioética e Direitos Humanos (ONU)[cite: 2].</td>
+                            <td>Ética 1º Semestre[cite: 2].</td>
+                            <td style="display: flex; flex-direction: column; gap: 1rem; align-items: center;">
+                                <a href="https://materialdidatico.aiamis.com.br/" target="_blank" class="btn-table">Acessar Material Didático</a>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <h3 class="subtitle-blue" style="margin-top: 3rem; font-size: 1.1rem;">CONTEÚDOS ESPECÍFICOS</h3>
+            <div class="table-responsive">
+                <table class="enade-table">
+                    <thead>
+                        <tr>
+                            <th style="width: 45%;">Temática ENADE</th>
+                            <th style="width: 35%;">Disciplina</th>
+                            <th style="width: 20%;">Link do Material</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>Anfíbios anuros, Lei de Crimes Ambientais (Lei nº 9.605/98) e divulgação científica; Répteis (serpentes), agrotóxicos e especismo - inclusão de estudante com deficiência[cite: 2].</td>
+                            <td>Cordados 5º Semestre[cite: 2].</td>
+                            <td style="display: flex; flex-direction: column; gap: 1rem; align-items: center;">
+                                <a href="https://materialdidatico.aiamis.com.br/" target="_blank" class="btn-table">Acessar Material Didático</a>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>IA generativa, violência obstétrica e direitos reprodutivos (BNCC); Metabolismo energético contextualizado às vivências dos estudantes; Diário energético - avaliação processual do metabolismo; Avaliação formativa orientando o planejamento (respiração celular)[cite: 2].</td>
+                            <td>Fisiologia Humana 6º Semestre[cite: 2].</td>
+                            <td style="display: flex; flex-direction: column; gap: 1rem; align-items: center;">
+                                <a href="https://materialdidatico.aiamis.com.br/" target="_blank" class="btn-table">Acessar Material Didático</a>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>Prática pedagógico-dialógica e interseccionalidade; Aplicativo de identificação taxonômica em aula de campo; Inclusão de estudante com daltonismo no uso de aplicativo; Ensino de Evolução Biológica - Modelo dos Perfis Conceituais; Proposta didática (BNCC) para temas de biotecnologia e bioética[cite: 2].</td>
+                            <td>Ensino de Biologia no Ensino Médio 6º Semestre[cite: 2].</td>
+                            <td style="display: flex; flex-direction: column; gap: 1rem; align-items: center;">
+                                <a href="https://materialdidatico.aiamis.com.br/" target="_blank" class="btn-table">Acessar Material Didático</a>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>Transgênicos: ética dialógica em debate controverso; Transgênicos: objetivos de aprendizagem em temas controversos; Transgênicos: recurso didático e autonomia do estudante[cite: 2].</td>
+                            <td>Biotecnologia 8º Semestre[cite: 2].</td>
+                            <td style="display: flex; flex-direction: column; gap: 1rem; align-items: center;">
+                                <a href="https://materialdidatico.aiamis.com.br/" target="_blank" class="btn-table">Acessar Material Didático</a>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>Genética/herança - racionalidade pedagógica crítica e inclusão; Avaliação integrando dimensões conceitual, procedimental e atitudinal (Genética); Evolução - ceticismo e dados empíricos (Perfis Conceituais); Teorias evolutivas como construções epistemológicas; Prática de ensino alinhada à seleção natural (resistência bacteriana); História da descoberta do DNA e invisibilização de Rosalind Franklin; Edição gênica (CRISPR) - metodologia investigativa; Herança ligada ao X (hemofilia) e bioética da edição genética[cite: 2].</td>
+                            <td>Fundamentos da Genética 6º Semestre[cite: 2].</td>
+                            <td style="display: flex; flex-direction: column; gap: 1rem; align-items: center;">
+                                <a href="https://materialdidatico.aiamis.com.br/" target="_blank" class="btn-table">Acessar Material Didático</a>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>Mudanças climáticas e desastres - leitura de gráficos; Abelhas sem ferrão - diálogo entre saberes tradicionais e ecologia acadêmica; Aplicativo de identificação e mapeamento de biodiversidade; Interpretação de dados de riqueza/abundância de ecossistema[cite: 2].</td>
+                            <td>Ecologia Geral 5º Semestre[cite: 2].</td>
+                            <td style="display: flex; flex-direction: column; gap: 1rem; align-items: center;">
+                                <a href="https://materialdidatico.aiamis.com.br/" target="_blank" class="btn-table">Acessar Material Didático</a>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>Protozoonoses: giardíase, toxoplasmose, leishmaniose - estudo de casos; Toxoplasmose gestacional - profilaxia e viagem a área endêmica; Toxoplasmose - inadequação de bactericida como tratamento; Toxoplasmose - hipóteses sobre via de contaminação; Epidemiologia da dengue; Malária (Plasmodium) - interpretação de série histórica[cite: 2].</td>
+                            <td>Parasitologia 8º Semestre[cite: 2].</td>
+                            <td style="display: flex; flex-direction: column; gap: 1rem; align-items: center;">
+                                <a href="https://materialdidatico.aiamis.com.br/" target="_blank" class="btn-table">Acessar Material Didático</a>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>Novo vírus gastrointestinal - crescimento exponencial em gráfico[cite: 2].</td>
+                            <td>Microbiologia Básica 5º Semestre[cite: 2].</td>
+                            <td style="display: flex; flex-direction: column; gap: 1rem; align-items: center;">
+                                <a href="https://materialdidatico.aiamis.com.br/" target="_blank" class="btn-table">Acessar Material Didático</a>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>Etnobiologia - controle biológico do ácaro verde (mandioca); Etnobiologia - diálogo de saberes no manejo de pragas (milho)[cite: 2].</td>
+                            <td>Agroecologia 7º Semestre[cite: 2].</td>
+                            <td style="display: flex; flex-direction: column; gap: 1rem; align-items: center;">
+                                <a href="https://materialdidatico.aiamis.com.br/" target="_blank" class="btn-table">Acessar Material Didático</a>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>Zoologia - taxonomia (Arachnida, Chordata, Platyhelminthes)[cite: 2].</td>
+                            <td>Invertebrados 4º Semestre[cite: 2].</td>
+                            <td style="display: flex; flex-direction: column; gap: 1rem; align-items: center;">
+                                <a href="https://materialdidatico.aiamis.com.br/" target="_blank" class="btn-table">Acessar Material Didático</a>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>Construtivismo e modelos moleculares táteis (inclusão de não vidente)[cite: 2].</td>
+                            <td>Bioquímica Geral 4º Semestre[cite: 2].</td>
+                            <td style="display: flex; flex-direction: column; gap: 1rem; align-items: center;">
+                                <a href="https://materialdidatico.aiamis.com.br/" target="_blank" class="btn-table">Acessar Material Didático</a>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>Sítio fossilífero, geolocalização e modelagem 3D; Jogo educativo (RPG) sobre conflito paleontológico[cite: 2].</td>
+                            <td>Geologia e Paleontologia 3º Semestre[cite: 2].</td>
+                            <td style="display: flex; flex-direction: column; gap: 1rem; align-items: center;">
+                                <a href="https://materialdidatico.aiamis.com.br/" target="_blank" class="btn-table">Acessar Material Didático</a>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>Etnobotânica - jurubeba (Solanum paniculatum) em rotação por estações; Bioética e propriedade intelectual do conhecimento tradicional (jurubeba)[cite: 2].</td>
+                            <td>Fanerogâmica 5º Semestre[cite: 2].</td>
+                            <td style="display: flex; flex-direction: column; gap: 1rem; align-items: center;">
+                                <a href="https://materialdidatico.aiamis.com.br/" target="_blank" class="btn-table">Acessar Material Didático</a>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </section>
+    </main>
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    function initPagination(table) {
+        var tbody = table.querySelector('tbody');
+        if (!tbody) return;
+
+        var rows = Array.prototype.slice.call(tbody.querySelectorAll('tr'));
+        var dataRows = rows.filter(function(row) {
+            return !row.querySelector('td[colspan]');
+        });
+        var obsRows = rows.filter(function(row) {
+            return row.querySelector('td[colspan]');
+        });
+        
+        if (dataRows.length <= 5) return; 
+
+        var wrapper = table.parentElement;
+        wrapper.style.borderBottomLeftRadius = '0';
+        wrapper.style.borderBottomRightRadius = '0';
+
+        var paginationContainer = document.createElement('div');
+        paginationContainer.className = 'pagination-container';
+
+        var infoDiv = document.createElement('div');
+        infoDiv.className = 'pagination-info';
+        
+        var startSpan = document.createElement('span');
+        startSpan.className = 'start-idx';
+        var endSpan = document.createElement('span');
+        endSpan.className = 'end-idx';
+        var totalSpan = document.createElement('span');
+        totalSpan.className = 'total-idx';
+        totalSpan.textContent = dataRows.length;
+
+        infoDiv.appendChild(document.createTextNode('Exibindo '));
+        infoDiv.appendChild(startSpan);
+        infoDiv.appendChild(document.createTextNode(' a '));
+        infoDiv.appendChild(endSpan);
+        infoDiv.appendChild(document.createTextNode(' de '));
+        infoDiv.appendChild(totalSpan);
+        infoDiv.appendChild(document.createTextNode(' resultados'));
+
+        var controlsDiv = document.createElement('div');
+        controlsDiv.className = 'pagination-controls';
+
+        var selectWrapper = document.createElement('div');
+        var select = document.createElement('select');
+        select.className = 'per-page-select';
+        
+        var opt5 = document.createElement('option'); opt5.value = '5'; opt5.textContent = 'por página 5'; opt5.selected = true;
+        var opt10 = document.createElement('option'); opt10.value = '10'; opt10.textContent = 'por página 10';
+        var opt15 = document.createElement('option'); opt15.value = '15'; opt15.textContent = 'por página 15';
+        var optAll = document.createElement('option'); optAll.value = 'all'; optAll.textContent = 'Todas';
+        
+        select.appendChild(opt5);
+        select.appendChild(opt10);
+        select.appendChild(opt15);
+        select.appendChild(optAll);
+        selectWrapper.appendChild(select);
+
+        var buttonsContainer = document.createElement('div');
+        buttonsContainer.className = 'pagination-buttons';
+
+        controlsDiv.appendChild(selectWrapper);
+        controlsDiv.appendChild(buttonsContainer);
+
+        paginationContainer.appendChild(infoDiv);
+        paginationContainer.appendChild(controlsDiv);
+
+        wrapper.parentNode.insertBefore(paginationContainer, wrapper.nextSibling);
+
+        var currentPage = 1;
+        var rowsPerPage = 5;
+
+        function renderTable() {
+            var totalRows = dataRows.length;
+            var totalPages = rowsPerPage === 'all' ? 1 : Math.ceil(totalRows / rowsPerPage);
+            
+            if (currentPage > totalPages) currentPage = totalPages;
+            if (currentPage < 1) currentPage = 1;
+
+            var startIndex = rowsPerPage === 'all' ? 0 : (currentPage - 1) * rowsPerPage;
+            var endIndex = rowsPerPage === 'all' ? totalRows : Math.min(startIndex + rowsPerPage, totalRows);
+
+            dataRows.forEach(function(row, index) {
+                if (index >= startIndex && index < endIndex) {
+                    row.style.display = '';
+                } else {
+                    row.style.display = 'none';
+                }
+            });
+
+            obsRows.forEach(function(row) {
+                row.style.display = '';
+            });
+
+            startSpan.textContent = totalRows === 0 ? 0 : startIndex + 1;
+            endSpan.textContent = endIndex;
+
+            renderButtons(totalPages);
+        }
+
+        function renderButtons(totalPages) {
+            buttonsContainer.innerHTML = '';
+            
+            if (totalPages <= 1) return;
+
+            var prevBtn = document.createElement('button');
+            prevBtn.className = 'page-btn';
+            prevBtn.innerHTML = '&lsaquo;';
+            prevBtn.disabled = currentPage === 1;
+            prevBtn.onclick = function() { currentPage--; renderTable(); };
+            buttonsContainer.appendChild(prevBtn);
+
+            for (var i = 1; i <= totalPages; i++) {
+                var btn = document.createElement('button');
+                btn.className = 'page-btn ' + (i === currentPage ? 'active' : '');
+                btn.textContent = i;
+                
+                (function(pageIndex) {
+                    btn.onclick = function() { currentPage = pageIndex; renderTable(); };
+                })(i);
+                
+                buttonsContainer.appendChild(btn);
+            }
+
+            var nextBtn = document.createElement('button');
+            nextBtn.className = 'page-btn';
+            nextBtn.innerHTML = '&rsaquo;';
+            nextBtn.disabled = currentPage === totalPages;
+            nextBtn.onclick = function() { currentPage++; renderTable(); };
+            buttonsContainer.appendChild(nextBtn);
+        }
+
+        select.addEventListener('change', function(e) {
+            var val = e.target.value;
+            rowsPerPage = val === 'all' ? 'all' : parseInt(val, 10);
+            currentPage = 1; 
+            renderTable();
+        });
+
+        renderTable();
+    }
+
+    var tables = document.querySelectorAll('.enade-table');
+    for (var j = 0; j < tables.length; j++) {
+        initPagination(tables[j]);
+    }
+});
+</script>
+</body>
+</html>
